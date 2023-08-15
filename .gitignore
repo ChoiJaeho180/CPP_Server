@@ -33,3 +33,7 @@
 
 
 *.pdb
+
+Server/Binary
+Server/Libraries
+./vs
