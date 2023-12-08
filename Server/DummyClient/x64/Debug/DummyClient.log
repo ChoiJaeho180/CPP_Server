@@ -1,6 +1,0 @@
-﻿  DummyClient.cpp
-C:\projects\CPP_Server\CPP_Server\Server\DummyClient\pch.h(4,46): warning C4081: 'newline'이(가) 있어야 하는데 ';'이(가) 있습니다.
-  pch.cpp
-C:\projects\CPP_Server\CPP_Server\Server\DummyClient\pch.h(4,46): warning C4081: 'newline'이(가) 있어야 하는데 ';'이(가) 있습니다.
-  코드를 생성하고 있습니다...
-  DummyClient.vcxproj -> C:\projects\CPP_Server\CPP_Server\Server\Binary\Debug\DummyClient.exe

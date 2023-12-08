@@ -34,6 +34,15 @@
 
 *.pdb
 
-Server/Binary
-Server/Libraries
-./vs
+Server/Binary/
+Server/Libraries/
+Server/.vs/
+.vs/
+Server/DummyClient/x64
+*.vsidx
+Server/GameServer/x64
+Server/GameServer/Debug
+Server/ServerCore/x64
+Server/DummyClient/x64
+Server/Libraries/Debug
+Server/.vs
