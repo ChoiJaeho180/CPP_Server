@@ -9,48 +9,41 @@
 
 using namespace std;
 
-atomic<bool> ready;
-int32 value;
+//__declspec(thread) int32 value;
+thread_local int32 LThreadId = 0;
 
-void Producer() {
-	value = 10;
+//tls(thread local storage)
+//->스레드 별로 고유한 저장 공간을 뜻함.
+//
+//tls, stack 차이
+//->각각의 스레드는 고유한 스택을 갖기 떄문에 스레드 별로 고유함.
+//->ex) 각각의 스레드가 같은 함수를 실행한다고 해도 그 함수에서 정의된 지역 변수는
+//->실제로 다른 메모리 공간에 위치한다는 의미다.
+//->그러나 정적 변수나 전역 변수의 경우에는 프로세스 내의 모든 스레드에 의해서 공유됩니다.
+//
+//1. tls 의 경우 정적, 전역 변수를 각각의 스레드에게 독립적으로 만들어 주고 싶을 떄 사용하는 것이다.
+//다시 말해, 같은 문장을 실행하고 있지만 실제로는 스레드 별로 다른 주소 공간을 상대로 작업하는 것이다.
 
-	ready.store(true, memory_order::memory_order_release);
-}
+void ThreadMain(int32 threadId) {
+	LThreadId = threadId;
 
-void Consumer() {
+	while (true) {
+		cout << "Hi! I am Thread " << LThreadId << endl;
 
-	while (ready.load(memory_order::memory_order_acquire) == false)
-		;
-
-	cout << value << endl;
+		Sleep(1000);
+	}
 }
 
 int main() {
+	vector<thread> threads;
 
-	ready = false;
-	value = 0;
+	for (int32 i = 0; i < 10; i++) {
+		int threadId = i + 1;
+		threads.push_back(thread(ThreadMain, threadId));
+	}
 
-	thread t1(Producer);
-	thread t2(Consumer);
-	t1.join();
-	t2.join();
-
-	// atomic Memory Model (정책)
-	// 1) Sequentially Consistent (seq_cst)
-	// 2) Acquire-Rleease (acquire, release, acq_rel)
-	// 3) Relaxed (relaxed)
-
-	// 1) seq_cst (가장 엄격 = 컴파일러 최적화 여지 적음 = 개발자 입장에서 직관적 = 코드 재배치가 보수적으로 일어남)
-	// -> atomic default. 
-	// -> 가시성 해결, 코드 재배치 문제 해결.
-	// 
-	// 2) acquire-release
-	// -> release 명령 이전의 메모리 명령들이, 해당 명령 이후로 재배치 되는 것을 금지.
-	// -> 그리고 acquire로 같은 변수를 읽는 쓰레드가 있다면
-	// -> release 이전의 명령들이 -> acquire 하는 순간에 관찰 가능(가시성 보장)
-	// 
-	// 3) relaxed (자유롭다. = 컴파일러 최적화 여지 많음 = 개발자 입장에서 직관적이지 않음 = 코드 재배치가 빈번히 일어날 수 있음)
-	// -> 가시성 해결 X, 코드 재배치 멋대로 가능
-	// -> 가장 기본 조건 (동일 객체에 대한 동일 관전 순서만 보장)
+	for (thread& t : threads) {
+		t.join();
+	}
 }
+	
