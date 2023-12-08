@@ -9,68 +9,40 @@
 
 using namespace std;
 
-// 문제 1. 가시성, 2. 코드 재배치.
-// 1. 가시성 : 
-// -> 각각의 코어는 메인 메모리와 별도로 각각의 레지스터와 캐쉬를 가지고 있다.
-// -> 컴파일러는 최적화 때문에 코어의 레지스터와 캐쉬를 이용한다.
-// 결론
-// -> 멀티 쓰레딩 환경에서는, 한 코어에서 값 변경을 여러 코어가 공유하도록,
-// 메인 메모리로 반영하는 작업을 적절히 수행해야 메모리 가시성을 유지할 수 있다.
+atomic<bool> flag;
 
-// 2. 코드 재배치.
-// -> 결과가 동일하다면, 컴파일러나 cpu가 코드 순서를 바꿔서 최적화를 할 수 있다.
-// -> 멀티 쓰레드 환경을 고려하지 않고 단일 쓰레드를 기준으로 고려하여 코드 순서를 바꾼다.
-
-// 
-
-int x;
-int y;
-int r1;
-int r2;
-
-// 컴파일러가 최적화 하지 말라는 키워드 volatile
-volatile bool ready;
-
-void Thread_1() {
-
-	while (!ready)
-		;
-
-	y = 1;
-	r1 = x;
-}
-
-void Thread_2() {
-	while (!ready)
-		;
-
-	x = 1;
-	r2 = y;
-}
 
 int main() {
-	int count = 0;
-	while (true) {
-		ready = false;
-		count++;
 
-		x = y = r1 = r2 = 0;
+	flag = false;
+	//flag = true;
+	flag.store(true, memory_order::memory_order_seq_cst);
 
-		thread t1(Thread_1);
-		thread t2(Thread_2);
+	//bool val = flag;
+	bool val = flag.load(memory_order::memory_order_seq_cst);
 
-		ready = true;
+	// 이전 flag 값을 prev에 넣고, flag 값을 수정.
+	{
+		// bool prev = flag;
+		// flag = true;
 
-		t1.join();
-		t2.join();
-
-		if (r1 == 0 && r2 == 0) {
-			break;
-		}
+		bool prev = flag.exchange(true);
 	}
 
-	cout << count << "번 만에 빠져나옴~" << endl;
+	// CAS (Compare-And-Swap) 조건부 수정
+	{
+		bool expected = false; // 예상 값
+		bool desired = true; // 변경 값.
+		flag.compare_exchange_strong(expected, desired);
 
-
-
+		if (flag == expected) {
+			expected = flag;
+			flag = desired;
+			return true;
+		}
+		else {
+			expected = flag;
+			return false;
+		}
+	}
 }
