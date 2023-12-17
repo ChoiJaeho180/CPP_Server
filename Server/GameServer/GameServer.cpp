@@ -11,13 +11,13 @@
 
 using namespace std;
 
-LockQueue<int32>q;
-LockStack<int32>s;
+//LockQueue<int32> q;
+LockFreeStack<int32> s;
 
 void push() {
 	while (true) {
 		int32 value = rand() % 100;
-		q.Push(value);
+		s.Push(value);
 
 		this_thread::sleep_for(10ms);
 	}
@@ -26,7 +26,7 @@ void push() {
 void pop() {
 	while (true) {
 		 int32 value;
-		 if (q.TryPop(OUT value)) {
+		 if (s.TryPop(OUT value)) {
 			 cout << value << endl;
 
 		 }
@@ -37,9 +37,10 @@ void pop() {
 int main() {
 	thread t1(push);
 	thread t2(pop);
-
+	//thread t3(pop);
 
 	t1.join();
 	t2.join();
+	//t3.join();
 }
 	
