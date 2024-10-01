@@ -20,7 +20,7 @@ void ThreadManager::Launch(function<void(void)> callback)
 	_threads.push_back(thread([=]() {
 		InitTLS();
 		callback();
-		DestroyTLS();
+		DestroyTLS(); 
 		}));
 }
 
