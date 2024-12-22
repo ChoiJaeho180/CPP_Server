@@ -7,19 +7,14 @@ class Account {
 
 class AccountManager
 {
+	USE_LOCK;
 public:
-	static AccountManager* Instance() {
-		static AccountManager instance;
-		return &instance;
-	}
+	
 
-	Account* GetAccount(int32 id) {
-		lock_guard<mutex> lg(_mutex);
-		return nullptr;
-	}
+	void AccountThenPlayer();
+	void Lock();
 
-	void ProcessLogin();
-private:
-	mutex _mutex;
 };
+
+extern AccountManager GAccountManager;
 
