@@ -11,60 +11,35 @@
 #include "AccountManager.h"
 #include "RefCounting.h"
 
-class Wraight: public RefCountable {
-public: 
-	int _hp = 150;
-	int _posX = 0;
-	int _posY = 0;
-};
 
-using WraightRef = TSharedPtr<Wraight>;
+using KnightRef = TSharedPtr<class Knight>;
+using InventoryRef = TSharedPtr<class Inventory>;
 
-
-class Missile: public RefCountable {
+class Knight : public RefCountable {
 public:
-	void SetTarget(WraightRef target) {
-		_target = target;
-	}
+	Knight() { cout << "Knight()" << endl; };
+	~Knight() { cout << "~Knight()" << endl; };
 
-	bool Update() {
-		if (_target == nullptr) {
-			return true;
-		}
-
-		int postX = _target->_posX;
-		int postY = _target->_posY;
-
-		if (_target->_hp == 0) {
-			_target->ReleaseRef();
-			_target = nullptr;
-		}
-		return false;
-	}
 
 public:
-	WraightRef _target = nullptr;
+	InventoryRef _inventory;
 };
 
-using MissileRef = TSharedPtr<Missile>;
+class Inventory : public RefCountable {
+public:
+	Inventory(KnightRef knight): _knight (**knight) { }
+
+	// 참조만 하여 Knight의 reference Count를 증가 시키지 않음.
+	Knight& _knight;
+};
 
 int main() {
-	WraightRef wraight(new Wraight());
-	wraight->ReleaseRef();
-	MissileRef missile(new Missile());
-	missile->ReleaseRef();
+	KnightRef knight1(new Knight());
+	knight1->ReleaseRef();
+	InventoryRef inven(new Inventory(knight1));
+	inven->ReleaseRef();
+	knight1->_inventory = inven;
 
-	missile->SetTarget(wraight);
-
-	wraight->_hp = 0;
-	wraight = nullptr;
-	while (true) {
-		if (missile) {
-			if (missile->Update()) {
-				missile = nullptr;
-				break;
-			}
-		}
-	}
-	missile = nullptr;
+	knight1 = nullptr;
+	inven = nullptr;
 }
