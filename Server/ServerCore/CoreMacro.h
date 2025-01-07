@@ -16,8 +16,8 @@
 * Memory
 -------------------------------------------------------------*/
 #ifdef _DEBUG
-#define dalloc(size)			StompAllocator::Alloc(size)
-#define drelease(ptr)			StompAllocator::Release(ptr)
+#define dalloc(size)			PoolAllocator::Alloc(size)
+#define drelease(ptr)			PoolAllocator::Release(ptr)
 #else
 #define dalloc(size)			BaseAllocator::Alloc(size)
 #define drelease(ptr)			BaseAllocator::Release(ptr)
