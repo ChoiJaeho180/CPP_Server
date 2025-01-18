@@ -1,6 +1,13 @@
 #pragma once
 
-struct MemoryHeader {
+enum
+{
+	SLIST_ALIGNMENT = 16
+};
+
+DECLSPEC_ALIGN(SLIST_ALIGNMENT)
+struct MemoryHeader : public SLIST_ENTRY
+{
 	//[memoryHeader][Data]
 
 	MemoryHeader(int32 size): allocSize(size) {}
@@ -23,6 +30,8 @@ struct MemoryHeader {
 };
 
 // 특정 범위 별로 분류하여 MemoryPool에 담음.
+
+DECLSPEC_ALIGN(SLIST_ALIGNMENT)
 class MemoryPool
 {
 public:
@@ -32,10 +41,8 @@ public:
 	void				Push(MemoryHeader* ptr);
 	MemoryHeader*		Pop();
 private:
+	SLIST_HEADER _header;
 	int32 _allocSize = 0;
 	atomic<int32> _allocCount = 0;
-
-	USE_LOCK;
-	queue<MemoryHeader*> _queue;
 };
 

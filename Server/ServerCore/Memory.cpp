@@ -53,7 +53,7 @@ void* MemoryManager::Allocate(int32 size)
 	const int32 allocSize = size + sizeof(MemoryHeader);
 
 	if (allocSize > MAX_ALLOC_SIZE) {
-		header = reinterpret_cast<MemoryHeader*>(::malloc(allocSize));
+		header = reinterpret_cast<MemoryHeader*>(::_aligned_malloc(allocSize, SLIST_ALIGNMENT));
 	}
 	else {
 		header = _poolTable[allocSize]->Pop();
@@ -68,7 +68,7 @@ void MemoryManager::Release(void* ptr)
 	MemoryHeader* header = MemoryHeader::DetachHeader(ptr);
 	const int32 allocSize = header->allocSize;
 	if (allocSize > MAX_ALLOC_SIZE) {
-		::free(header);
+		::_aligned_free(header);
 	}
 	else {
 		_poolTable[allocSize]->Push(header);
