@@ -18,6 +18,9 @@
     <ClCompile Include="AccountManager.cpp" />
     <ClCompile Include="UserManager.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="LockFreeStack.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -27,5 +30,8 @@
     <ClInclude Include="UserManager.h" />
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="PlayerManager.h" />
+    <ClInclude Include="LockFreeStack.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
