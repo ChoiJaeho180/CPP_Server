@@ -19,10 +19,29 @@ public:
 	int32 _hp = rand() % 1000;
 };
 
-int main() {
-	
+class Monster {
+public:
+	int64 _id = 0;
+};
 
-	for (int32 i = 0; i < 3; i++) {
+int main() { 
+
+	Knight* knights[100];
+	for (int32 i = 0; i < 100; i++) {
+		Knight* k = ObjectPool<Knight>::Pop();
+		knights[i] = k;
+	}
+
+	for (int32 i = 0; i < 100; i++) {
+		ObjectPool<Knight>::Push(knights[i]);
+		knights[i] = nullptr;
+	}
+
+	shared_ptr<Knight> ptr = ObjectPool<Knight>::MakeShared();
+	shared_ptr<Knight> ptr2 = MakeShared<Knight>();
+
+
+	/*for (int32 i = 0; i < 3; i++) {
 		GThreadManager->Launch([]() 
 			{
 				while (true) {
@@ -35,5 +54,5 @@ int main() {
 			});
 	}
 
-	GThreadManager->Join();
+	GThreadManager->Join();*/
 }

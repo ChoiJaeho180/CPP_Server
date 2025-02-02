@@ -50,16 +50,18 @@ MemoryManager::~MemoryManager()
 void* MemoryManager::Allocate(int32 size)
 {
 	MemoryHeader* header = nullptr;
+#ifdef _STOMP
+	header = reinterpret_cast<MemoryHeader*>(StompAllocator::Alloc(size));
+#else
 	const int32 allocSize = size + sizeof(MemoryHeader);
-
 	if (allocSize > MAX_ALLOC_SIZE) {
 		header = reinterpret_cast<MemoryHeader*>(::_aligned_malloc(allocSize, SLIST_ALIGNMENT));
 	}
 	else {
 		header = _poolTable[allocSize]->Pop();
 	}
+#endif
 
-	
 	return MemoryHeader::attachHeader(header,size);
 }
 
@@ -67,10 +69,15 @@ void MemoryManager::Release(void* ptr)
 {
 	MemoryHeader* header = MemoryHeader::DetachHeader(ptr);
 	const int32 allocSize = header->allocSize;
+
+#ifdef  _STOMP
+	StompAllocator::Release(ptr);
+#else
 	if (allocSize > MAX_ALLOC_SIZE) {
 		::_aligned_free(header);
-	}
+}
 	else {
 		_poolTable[allocSize]->Push(header);
 	}
+#endif
 }

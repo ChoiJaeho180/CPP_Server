@@ -15,15 +15,15 @@
 /*-------------------------------------------------------------
 * Memory
 -------------------------------------------------------------*/
-#ifdef _DEBUG
-#define dalloc(size)			PoolAllocator::Alloc(size)
-#define drelease(ptr)			PoolAllocator::Release(ptr)
-#else
-#define dalloc(size)			BaseAllocator::Alloc(size)
-#define drelease(ptr)			BaseAllocator::Release(ptr)
-#endif
-
-
+//#ifdef _DEBUG
+//#define dalloc(size)			PoolAllocator::Alloc(size)
+//#define drelease(ptr)			PoolAllocator::Release(ptr)
+//#else
+//#define dalloc(size)			BaseAllocator::Alloc(size)
+//#define drelease(ptr)			BaseAllocator::Release(ptr)
+//#endif
+//
+//
 
 /*-------------------------------------------------------------
 * CRASH
