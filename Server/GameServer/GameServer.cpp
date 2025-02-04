@@ -3,95 +3,68 @@
 #include "CorePch.h"
 #include "AccountManager.h"
 #include "UserManager.h"
-#include <windows.h>
+
 #include <atomic>
 #include "ThreadManager.h"
-#include "GameServer.h"
-#include "PlayerManager.h"
-#include "AccountManager.h"
-#include "RefCounting.h"
-#include "Memory.h"
-#include "Allocator.h"
-#include "LockFreeStack.h"
 
-using TL = TypeList<class Player, class Mage, class Knight, class Archer>;
-class Player {
-public:
-	Player() {
-		INIT_TL(Player);
-	}
-	virtual ~Player() {}
 
-	DECLARE_TL;
-};
+#pragma comment(lib, "ws2_32.lib")
 
-class Knight: public Player {
-public:
-	int32 _hp = rand() % 1000;
-	Knight() {
-		INIT_TL(Knight);
+
+int main()
+{
+	WSAData wsaData;
+	if ((WSAStartup(MAKEWORD(2, 2), &wsaData)) != 0) {
+		return 0;
 	}
 
-};
-
-class Mage : public Player {
-public:
-	Mage() {
-		INIT_TL(Mage);
-	}
-};
-
-class Archer : public Player {
-public:
-
-	Archer() {
-		INIT_TL(Archer);
-	}
-};
-
-
-int main() { 
-	Player* p1 = new Knight();
-	Player* p2 = new Mage();
-
-	Knight* k1 = dynamic_cast<Knight*>(p1);
-	// static_cast
-	//	-> mage 객체도 knight로 형 변환이 가능하여 메모리 오염이 생길 수 있음
-	// dynamic_cast
-	//  -> 형 변환이 되지 않을 경우 nullptr를 반환 
-	//  -> 속도가 느림
-
-
-	TypeList<Mage, Knight>::Head whoAmI;
-	TypeList<Mage, Knight>::Tail whoAmTail;
-	
-	int32 len1 = Length<TypeList<Mage, Knight, Archer>>::value;
-
-	bool canConvert = Conversion<Player, Knight>::exists;
-	bool canConvert2 = Conversion<Knight, Player>::exists;
-
-	TypeConversion<TL> test;
-	auto a = test.s_convert[0];
-	auto b = test.s_convert[1];
-	{
-		Player* player = new Player();
-		bool canCast = CanCast<Knight*>(player);
-		Knight* knight = TypeCast<Knight*>(player);
-		delete player;
+	// AF_INET : IPv4
+	// SOCK_STREAM : TCP
+	SOCKET listenSocket = ::socket(AF_INET, SOCK_STREAM, 0);
+	if (listenSocket == INVALID_SOCKET) {
+		int32  errCode = ::WSAGetLastError();
+		cout << "Socket ErrorCode :" << errCode << endl;
+		return 0;
 	}
 
-	{
-		shared_ptr<Knight> knight = MakeShared<Knight>();
-		shared_ptr<Player> player = TypeCast<Player>(knight);
+	// 나의 주소는? (IP주소 + port) -> xx아파트 yy호
+	SOCKADDR_IN serverAddr; //IPv4
+	::memset(&serverAddr, 0, sizeof(serverAddr));
+
+	serverAddr.sin_family = AF_INET;
+	serverAddr.sin_addr.s_addr = ::htonl(INADDR_ANY);
+	serverAddr.sin_port = ::htons(7777); // host to network short
+
+	// 안내원 폰 개통 : 식당의 대표 전화
+	if (::bind(listenSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr))) {
+		int32  errCode = ::WSAGetLastError();
+		cout << "Socket ErrorCode :" << errCode << endl;
+		return 0;
 	}
 
-	/*for (int32 i = 0; i < 3; i++) {
-		GThreadManager->Launch([]() 
-			{
-				while (true) {
-				}
-			});
+	// 영업 시작
+	if (::listen(listenSocket, 10)) {
+		int32  errCode = ::WSAGetLastError();
+		cout << "Socket ErrorCode :" << errCode << endl;
+		return 0;
 	}
 
-	GThreadManager->Join();*/
+	while (true) {
+		SOCKADDR_IN clientAddr; //IPv4
+		::memset(&clientAddr, 0, sizeof(clientAddr));
+		int32 len = sizeof(clientAddr);
+		SOCKET clientSocket = ::accept(listenSocket, (SOCKADDR*)&clientAddr, &len);
+		if (clientSocket == INVALID_SOCKET) {
+			int32  errCode = ::WSAGetLastError();
+			cout << "Socket ErrorCode :" << errCode << endl;
+			return 0;
+		}
+
+		// 손님 입장
+		char ipAddress[16];
+		::inet_ntop(AF_INET, &clientAddr, ipAddress, sizeof(ipAddress));
+		cout << "Client Connected! IP = " << ipAddress << endl;
+	}
+	//윈속 종료
+	::WSACleanup();
 }

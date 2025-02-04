@@ -6,4 +6,8 @@
 #pragma comment(lib, "Release\\ServerCore.lib");
 #endif
 
+#include <winsock2.h>
+#include <mswsock.h>
+#include <ws2tcpip.h>
+
 #include "CorePch.h"
