@@ -12,6 +12,7 @@ int main()
 	if ((WSAStartup(MAKEWORD(2, 2), &wsaData)) != 0) {
 		return 0;
 	}
+
 	// AF_INET : IPv4
 	// SOCK_STREAM : TCP
 	SOCKET clientSocket = ::socket(AF_INET, SOCK_STREAM, 0);
@@ -37,6 +38,26 @@ int main()
 	cout << "connected To Server!" << endl;
 
 	while (true) {
+		char buff[100] = "hellow world!";
+
+		int32 result = ::send(clientSocket, buff, sizeof(buff), 0);
+		if (result == SOCKET_ERROR) {
+			int32  errCode = ::WSAGetLastError();
+			cout << "Socket ErrorCode :" << errCode << endl;
+			return 0;
+		}
+		cout << "send Data! len :" << sizeof(buff) << endl;
+		
+		char receiveBuff[1000] = { 0 };
+		int32 receiveLen = ::recv(clientSocket, receiveBuff, sizeof(receiveBuff), 0);
+		if (0 > receiveLen) {
+			int32  errCode = ::WSAGetLastError();
+			cout << "Socket ErrorCode :" << errCode << endl;
+			return 0;
+		}
+		cout << "receive Data! Data : " << receiveBuff << endl;
+		cout << "receive Data! len : " << sizeof(receiveLen) << endl;
+
 		this_thread::sleep_for(1s);
 	}
 	

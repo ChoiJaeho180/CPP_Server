@@ -64,6 +64,29 @@ int main()
 		char ipAddress[16];
 		::inet_ntop(AF_INET, &clientAddr, ipAddress, sizeof(ipAddress));
 		cout << "Client Connected! IP = " << ipAddress << endl;
+
+		while (true) {
+			char buff[1000];
+
+			this_thread::sleep_for(1s);
+
+			int32 receiveLen = ::recv(clientSocket, buff, sizeof(buff), 0);
+			if (0 > receiveLen) {
+				int32  errCode = ::WSAGetLastError();
+				cout << "Socket ErrorCode :" << errCode << endl;
+				return 0;
+			}
+			cout << "receive Data! Data : " << buff << endl;
+			cout << "receive Data! len : " << receiveLen << endl;
+
+			int32 result = ::send(clientSocket, buff, receiveLen, 0);
+			if (result == SOCKET_ERROR) {
+				int32  errCode = ::WSAGetLastError();
+				cout << "Socket ErrorCode :" << errCode << endl;
+				return 0;
+			}
+
+		}
 	}
 	//윈속 종료
 	::WSACleanup();
