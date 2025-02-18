@@ -10,7 +10,13 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
-
+const int32 BUF_SIZE = 1000;
+struct Session {
+	SOCKET socket = INVALID_SOCKET;
+	char recvBuffer[BUF_SIZE] = {};
+	int32 recvBytes = 0;
+	int32 sendBytes = 0;
+};
 int main()
 {
 	WSAData wsaData;
@@ -18,76 +24,109 @@ int main()
 		return 0;
 	}
 
-	// AF_INET : IPv4
-	// SOCK_STREAM : TCP
 	SOCKET listenSocket = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (listenSocket == INVALID_SOCKET) {
-		int32  errCode = ::WSAGetLastError();
-		cout << "Socket ErrorCode :" << errCode << endl;
+		return 0;
+	}
+	
+	u_long on = 1;
+	if (::ioctlsocket(listenSocket, FIONBIO, &on) == INVALID_SOCKET) {
 		return 0;
 	}
 
-	// 나의 주소는? (IP주소 + port) -> xx아파트 yy호
-	SOCKADDR_IN serverAddr; //IPv4
+	SOCKADDR_IN serverAddr;
 	::memset(&serverAddr, 0, sizeof(serverAddr));
-
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_addr.s_addr = ::htonl(INADDR_ANY);
-	serverAddr.sin_port = ::htons(7777); // host to network short
+	serverAddr.sin_port = ::htons(7777);
 
-	// 안내원 폰 개통 : 식당의 대표 전화
-	if (::bind(listenSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr))) {
-		int32  errCode = ::WSAGetLastError();
-		cout << "Socket ErrorCode :" << errCode << endl;
+	if (::bind(listenSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
 		return 0;
 	}
 
-	// 영업 시작
-	if (::listen(listenSocket, 10)) {
-		int32  errCode = ::WSAGetLastError();
-		cout << "Socket ErrorCode :" << errCode << endl;
+	if (::listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
 		return 0;
 	}
 
+	cout << "Accept" << endl;
+
+	// Select 모델 = (select 함수가 핵심이 됨)
+	// 소켓 함수 호출이 성공할 시점을 미리 알 수 있다.
+	// 기존 문제 상황)
+	// 수신 버퍼에 데이터가 없는데, read 하거나
+	// 송신 버퍼에 데이터가 꽉 찼는데, write 할때
+	// - 블로킹 소켓 : 조건이 만족되지 않아서 블로킹되는 상황 예방
+	// - 논 블로킹 소켓 : 조건이 만족하지 않아서 불필요하게 반복 체크하는 상황 예방.
+	
+	// socket set
+	// 1) 읽기, 쓰기, 예외 관찰 대상 등록
+	// 2) select(readSet, writeSet, exceptSet)
+	vector<Session> sessions;
+	sessions.reserve(100);
+	
+	fd_set reads;
+	fd_set writes;
 	while (true) {
-		SOCKADDR_IN clientAddr; //IPv4
-		::memset(&clientAddr, 0, sizeof(clientAddr));
-		int32 len = sizeof(clientAddr);
-		SOCKET clientSocket = ::accept(listenSocket, (SOCKADDR*)&clientAddr, &len);
-		if (clientSocket == INVALID_SOCKET) {
-			int32  errCode = ::WSAGetLastError();
-			cout << "Socket ErrorCode :" << errCode << endl;
-			return 0;
+		// 매 틱마다 초기화하는 이유
+		// select 함수 호출 시 입출력 가능한 소켓만 남도록 변경되기 때문.
+		FD_ZERO(&reads);
+		FD_ZERO(&writes);
+
+		//ListenSocket 등록
+		FD_SET(listenSocket, &reads);
+		// 소켓 등록
+		for (Session& s : sessions) {
+			if (s.recvBytes <= s.sendBytes) {
+				FD_SET(s.socket, &reads);
+			}
+			else {
+				FD_SET(s.socket, &writes);
+			}
 		}
 
-		// 손님 입장
-		char ipAddress[16];
-		::inet_ntop(AF_INET, &clientAddr, ipAddress, sizeof(ipAddress));
-		cout << "Client Connected! IP = " << ipAddress << endl;
 
-		while (true) {
-			char buff[1000];
+		int retVal = ::select(0, &reads, &writes, nullptr, nullptr);
+		if (retVal == SOCKET_ERROR) {
+			break;
+		}
 
-			this_thread::sleep_for(1s);
-
-			int32 receiveLen = ::recv(clientSocket, buff, sizeof(buff), 0);
-			if (0 > receiveLen) {
-				int32  errCode = ::WSAGetLastError();
-				cout << "Socket ErrorCode :" << errCode << endl;
-				return 0;
+		//Listener 소켓 체크.
+		if (FD_ISSET(listenSocket, &reads)) {
+			SOCKADDR_IN clientAddr;
+			int32 addrLen = sizeof(clientAddr);
+			SOCKET clientSocket = ::accept(listenSocket, (SOCKADDR*)&clientAddr, &addrLen);
+			if (clientSocket != INVALID_SOCKET) {
+				cout << "Client Connected" << endl;
+				sessions.push_back(Session{ clientSocket });
 			}
-			cout << "receive Data! Data : " << buff << endl;
-			cout << "receive Data! len : " << receiveLen << endl;
+		}
 
-			int32 result = ::send(clientSocket, buff, receiveLen, 0);
-			if (result == SOCKET_ERROR) {
-				int32  errCode = ::WSAGetLastError();
-				cout << "Socket ErrorCode :" << errCode << endl;
-				return 0;
+		for (Session& s : sessions) {
+			// read
+			if (FD_ISSET(s.socket, &reads)) {
+				int32 recvLen = ::recv(s.socket, s.recvBuffer, BUF_SIZE, 0);
+				if (recvLen <= 0) {
+					// TODO : sessions 제거
+					continue;
+				}
+				s.recvBytes = recvLen;
 			}
 
+			if (FD_ISSET(s.socket, &writes)) {
+				int32 sendLen = ::send(s.socket, &s.recvBuffer[s.sendBytes], s.recvBytes - s.sendBytes, 0);
+				if (sendLen == SOCKET_ERROR) {
+					// TODO : sessions 제거
+					continue;
+				}
+				s.sendBytes += sendLen;
+				if (s.sendBytes == s.recvBytes) {
+					s.sendBytes = 0;
+					s.recvBytes = 0;
+				}
+			}
 		}
 	}
+	
 	//윈속 종료
 	::WSACleanup();
 }

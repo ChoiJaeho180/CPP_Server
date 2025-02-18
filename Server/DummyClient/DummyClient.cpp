@@ -13,54 +13,75 @@ int main()
 		return 0;
 	}
 
-	// AF_INET : IPv4
-	// SOCK_STREAM : TCP
 	SOCKET clientSocket = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (clientSocket == INVALID_SOCKET) {
-		int32  errCode = ::WSAGetLastError();
-		cout << "Socket ErrorCode :" << errCode << endl;
 		return 0;
 	}
 
-	SOCKADDR_IN serverAddr; //IPv4
+	u_long on = 1;
+	if (::ioctlsocket(clientSocket, FIONBIO, &on) == INVALID_SOCKET) {
+		return 0;
+	}
+
+	SOCKADDR_IN serverAddr;
 	::memset(&serverAddr, 0, sizeof(serverAddr));
-	
 	serverAddr.sin_family = AF_INET;
 	::inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
-	serverAddr.sin_port = ::htons(7777); // host to network short
-
-	if (::connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr))) {
-		int32  errCode = ::WSAGetLastError();
-		cout << "Socket ErrorCode :" << errCode << endl;
-		return 0;
-	}
-
-	cout << "connected To Server!" << endl;
+	serverAddr.sin_port = ::htons(7777);
 
 	while (true) {
-		char buff[100] = "hellow world!";
+		if (::connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
+			if (::WSAGetLastError() == WSAEWOULDBLOCK) {
+				continue;
+			}
 
-		int32 result = ::send(clientSocket, buff, sizeof(buff), 0);
-		if (result == SOCKET_ERROR) {
-			int32  errCode = ::WSAGetLastError();
-			cout << "Socket ErrorCode :" << errCode << endl;
-			return 0;
+			// 이미 연결된 상태라면 break;
+			if (::WSAGetLastError() == WSAEISCONN) {
+				break;
+			}
+
+			// error
+			break;
 		}
-		cout << "send Data! len :" << sizeof(buff) << endl;
-		
-		char receiveBuff[1000] = { 0 };
-		int32 receiveLen = ::recv(clientSocket, receiveBuff, sizeof(receiveBuff), 0);
-		if (0 > receiveLen) {
-			int32  errCode = ::WSAGetLastError();
-			cout << "Socket ErrorCode :" << errCode << endl;
-			return 0;
+	}
+
+	cout << "Connected to Server" << endl;
+	char sendBuff[100] = "Hello World!";
+	while (true) {
+		if (::send(clientSocket, sendBuff, sizeof(sendBuff), 0) == SOCKET_ERROR) {
+			if (::WSAGetLastError() == WSAEWOULDBLOCK) {
+				continue;
+			}
+
+			// error
+			break;
 		}
-		cout << "receive Data! Data : " << receiveBuff << endl;
-		cout << "receive Data! len : " << sizeof(receiveLen) << endl;
+
+		cout << "Send Data! Len = " << sizeof(sendBuff) << endl;
+
+		while (true) {
+			char recvBuffer[1000];
+			int32 recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
+			if (recvLen == SOCKET_ERROR) {
+				if (::WSAGetLastError() == WSAEWOULDBLOCK) {
+					continue;
+				}
+
+				// error
+				break;
+			}
+			else if (recvLen == 0) {
+				// 연결 끊김
+				break;
+			}
+			
+			cout << "Recv Data Len = " << recvLen << endl;
+			break;
+		}
 
 		this_thread::sleep_for(1s);
+
 	}
-	
 	// 소켓 리소스 반환
 	::closesocket(clientSocket);
 
