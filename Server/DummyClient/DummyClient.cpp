@@ -59,16 +59,16 @@ int main()
 
 		DWORD sendLen = 0;
 		DWORD flags = 0;
-		//if (::WSASend(clientSocket, &wsaBuf, 1, &sendLen, flags, &overlapped, nullptr) == SOCKET_ERROR) {
-		//	if (::WSAGetLastError() == WSA_IO_PENDING) {
-		//		::WSAWaitForMultipleEvents(1, &wsaEvent, TRUE, WSA_INFINITE, FALSE);
-		//		::WSAGetOverlappedResult(clientSocket, &overlapped, &sendLen, FALSE, &flags);
-		//	}
-		//	else {
-		//		// TODO : 문제 있는 상황
-		//		break;
-		//	}
-		//}
+		if (::WSASend(clientSocket, &wsaBuf, 1, &sendLen, flags, &overlapped, nullptr) == SOCKET_ERROR) {
+			if (::WSAGetLastError() == WSA_IO_PENDING) {
+				::WSAWaitForMultipleEvents(1, &wsaEvent, TRUE, WSA_INFINITE, FALSE);
+				::WSAGetOverlappedResult(clientSocket, &overlapped, &sendLen, FALSE, &flags);
+			}
+			else {
+				// TODO : 문제 있는 상황
+				break;
+			}
+		}
 		
 	
 		cout << "Send Data! Len = " << sizeof(sendBuff) << endl;
