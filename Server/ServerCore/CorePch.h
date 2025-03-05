@@ -11,7 +11,11 @@
 
 using namespace std;
 
-#include "Lock.h"
-#include"ObjectPool.h"
-#include "TypeCast.h"
+#include <winsock2.h>
+#include <mswsock.h>
+#include <ws2tcpip.h>
 
+#include "Lock.h"
+#include "ObjectPool.h"
+#include "TypeCast.h"
+#include "Memory.h"
