@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "SocketUtils.h"
 #include "ThreadManager.h"
+#include "Types.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 

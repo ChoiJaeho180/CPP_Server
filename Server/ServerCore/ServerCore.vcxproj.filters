@@ -72,6 +72,12 @@
     <ClInclude Include="NetAddress.h">
       <Filter>NetWork</Filter>
     </ClInclude>
+    <ClInclude Include="IocpCore.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpEvent.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -114,6 +120,12 @@
       <Filter>NetWork</Filter>
     </ClCompile>
     <ClCompile Include="NetAddress.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpCore.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpEvent.cpp">
       <Filter>NetWork</Filter>
     </ClCompile>
   </ItemGroup>
