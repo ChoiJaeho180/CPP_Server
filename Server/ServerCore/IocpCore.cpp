@@ -27,7 +27,7 @@ bool IocpCore::Dispatch(int32 timeoutMs)
 	DWORD numOfBytes = 0;
 	IocpObject* iocpObject = nullptr;
 	IocpEvent* iocpEvent = nullptr;
-	if (::GetQueuedCompletionStatus(_iocpHandle, OUT & numOfBytes, OUT reinterpret_cast<PULONG_PTR>(iocpObject),OUT reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), timeoutMs)) {
+	if (::GetQueuedCompletionStatus(_iocpHandle, OUT & numOfBytes, OUT reinterpret_cast<PULONG_PTR>(&iocpObject),OUT reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), timeoutMs)) {
 		iocpObject->Dispatch(iocpEvent, numOfBytes);
 	}
 	else {

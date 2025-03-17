@@ -2,6 +2,7 @@
 #include "Listener.h"
 #include "SocketUtils.h"
 #include "IocpEvent.h"
+#include "Session.h"
 
 Listener::~Listener()
 {
@@ -59,13 +60,52 @@ HANDLE Listener::GetHandle()
 
 void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
+	ASSERT_CRASH(iocpEvent->GetType() == EventType::Accept);
+	
+	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);
+	ProcessAccept(acceptEvent);
+
 }
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	SocketUtils::AcceptEx(_socket,)
+	Session* session = xnew<Session>();
+	acceptEvent->Init();
+	acceptEvent->SetSession(session);
+
+	DWORD byteReceived = 0;
+	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer, 0,
+		sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
+		OUT & byteReceived, static_cast<LPOVERLAPPED>(acceptEvent))) {
+		const int32 err = ::WSAGetLastError();
+		if (err != WSA_IO_PENDING) {
+			// 
+			RegisterAccept(acceptEvent);
+		}
+	}
 }
 
 void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 {
+	Session* session = acceptEvent->GetSession();
+
+	if (SocketUtils::SetUpdateAcceptSocket(session->GetSocket(), _socket) == false) {
+		RegisterAccept(acceptEvent);
+		return;
+	}
+
+	SOCKADDR_IN sockAddress;
+	int32 sizeofSockAddress = sizeof(SOCKADDR_IN);
+	if (SOCKET_ERROR == ::getpeername(session->GetSocket(), reinterpret_cast<SOCKADDR*>(&sockAddress), &sizeofSockAddress)) {
+		RegisterAccept(acceptEvent);
+		return;
+	}
+
+	session->SetNetAddress((NetAddress)sockAddress);
+
+	cout << "Client Connect" << endl;
+
+
+
+	RegisterAccept(acceptEvent);
 }
