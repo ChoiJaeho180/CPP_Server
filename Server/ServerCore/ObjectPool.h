@@ -28,9 +28,9 @@ public:
 		s_pool.Push(MemoryHeader::DetachHeader(obj));
 #endif
 	}
-
-	static shared_ptr<Type> MakeShared() {
-		shared_ptr<Type> sptr = { Pop(), Push };
+	template<typename... Args>
+	static shared_ptr<Type> MakeShared(Args&&... args) {
+		shared_ptr<Type> sptr = { Pop(forward<Args(args)...>), Push};
 		return sptr;
 	}
 

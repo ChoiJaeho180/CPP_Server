@@ -3,6 +3,7 @@
 #include "SocketUtils.h"
 #include "IocpEvent.h"
 #include "Session.h"
+#include "Service.h"
 
 Listener::~Listener()
 {
@@ -12,13 +13,18 @@ Listener::~Listener()
 	}
 }
 
-bool Listener::StartAccept(NetAddress netAddress)
+bool Listener::StartAccept(ServerServiceRef service)
 {
+	_service = service;
+	if (_service == nullptr) {
+		return false;
+	}
+
 	_socket = SocketUtils::CreateSocket();
 	if (_socket == INVALID_SOCKET) {
 		return false;
 	}
-	if (GIocpCore.Register(this) == false) {
+	if (_service->GetIocpCore()->Register(shared_from_this()) == false) {
 		return false;
 	}
 	
@@ -30,7 +36,7 @@ bool Listener::StartAccept(NetAddress netAddress)
 		return false;
 	}
 
-	if (SocketUtils::Bind(_socket, netAddress) == false) {
+	if (SocketUtils::Bind(_socket, _service->GetNetAddress()) == false) {
 		return false;
 	}
 
@@ -38,9 +44,12 @@ bool Listener::StartAccept(NetAddress netAddress)
 		return false;
 	}
 	
-	const int32 acceptCount = 1;
+
+	// 서버가 시작할 때 RegisterAccept()를 호출해서, 클라이언트 연결을 받을 준비를 미리 해둬야함.
+	const int32 acceptCount = _service->GetMaxSessionCount();
 	for (int32 i = 0; i < acceptCount; i++) {
 		AcceptEvent* acceptEvent = xnew<AcceptEvent>();
+		acceptEvent->owner = shared_from_this(); 
 		_acceptEvents.push_back(acceptEvent);
 		RegisterAccept(acceptEvent);
 	}
@@ -60,7 +69,7 @@ HANDLE Listener::GetHandle()
 
 void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
-	ASSERT_CRASH(iocpEvent->GetType() == EventType::Accept);
+	ASSERT_CRASH(iocpEvent->eventType == EventType::Accept);
 	
 	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);
 	ProcessAccept(acceptEvent);
@@ -69,9 +78,10 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	Session* session = xnew<Session>();
+	
+	SessionRef session = _service->CreateSession(); // 
 	acceptEvent->Init();
-	acceptEvent->SetSession(session);
+	acceptEvent->session = session;
 
 	DWORD byteReceived = 0;
 	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer, 0,
@@ -87,7 +97,7 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 
 void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 {
-	Session* session = acceptEvent->GetSession();
+	SessionRef session = acceptEvent->session;
 
 	if (SocketUtils::SetUpdateAcceptSocket(session->GetSocket(), _socket) == false) {
 		RegisterAccept(acceptEvent);

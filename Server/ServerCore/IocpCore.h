@@ -3,7 +3,8 @@
 /*--------------
     IocpObject
 ---------------*/
-class IocpObject {
+class IocpObject : public enable_shared_from_this<IocpObject>
+{
 public:
     virtual HANDLE GetHandle() abstract;
     virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) abstract;
@@ -21,7 +22,7 @@ public:
 
     HANDLE GetHandle() { return _iocpHandle; }
 
-    bool Register(class IocpObject* iocpObject);
+    bool Register(IocpObjectRef iocpObject);
 
     // 워커 스레드들이 Iocp의 일감을 관찰하는 함수
     bool Dispatch(int32 timeOutMs = INFINITE);
@@ -29,4 +30,3 @@ private:
     HANDLE _iocpHandle;
 };
 
-extern IocpCore GIocpCore;

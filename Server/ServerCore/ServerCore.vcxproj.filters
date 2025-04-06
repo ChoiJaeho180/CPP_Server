@@ -78,6 +78,15 @@
     <ClInclude Include="IocpEvent.h">
       <Filter>NetWork</Filter>
     </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -126,6 +135,15 @@
       <Filter>NetWork</Filter>
     </ClCompile>
     <ClCompile Include="IocpEvent.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Service.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Listener.cpp">
       <Filter>NetWork</Filter>
     </ClCompile>
   </ItemGroup>
