@@ -16,7 +16,10 @@ public:
 	Session();
 	virtual ~Session();
 public:
+	/*외부에서 사용*/
+	void					Send(BYTE* buffer, int32 len);
 	void					Disconnect(const WCHAR* cause);
+
 	shared_ptr<Service>		GetService() { return _service.lock(); }
 	void					SetService(shared_ptr<Service>service) { _service = service; }
 public:
@@ -34,11 +37,11 @@ private:
 	/*전송 관련*/
 	void					RegisterConnect();
 	void					RegisterRecv();
-	void					RegisterSend();
+	void					RegisterSend(SendEvent* sendEvent);
 
 	void					ProcessConnect();
 	void					ProcessRecv(int32 numOfBytes);
-	void					ProcessSend(int32 numOfBytes);
+	void					ProcessSend(SendEvent* sendEvent, int32 numOfBytes);
 	void					HandleError(int32 errorCode);
 protected:
 	/* 컨텐츠 코드에서 오버로딩*/
@@ -48,7 +51,7 @@ protected:
 	virtual void			OnDisconnected(){}
 public:
 	// temp
-	char			_recvBuffer[1000];
+	BYTE			_recvBuffer[1000];
 
 private:
 	weak_ptr<Service> _service;
