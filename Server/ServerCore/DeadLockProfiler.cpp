@@ -103,12 +103,12 @@ void DeadLockProfiler::Dfs(int32 here)
 		}
 
 		// 순방향 아니고, Dfs(there)가 아직 종료하지 않았다면, there는 here의 선조이다(역방향 간선)
-		if (_finished[here] == false) {
+		if (_finished[there] == false) {
 			printf("%s -> %s\n", _idToName[here], _idToName[there]);
 
 			int32 now = here;
 			while (true) {
-				printf("%s -> %s\n", _idToName[now], _idToName[now]);
+				printf("%s -> %s\n", _idToName[_parent[now]], _idToName[now]);
 				now = _parent[now];
 				if (now == there) {
 					break;
