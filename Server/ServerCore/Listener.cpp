@@ -84,7 +84,7 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 	acceptEvent->session = session;
 
 	DWORD byteReceived = 0;
-	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer, 0,
+	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer.WritePos(), 0,
 		sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
 		OUT & byteReceived, static_cast<LPOVERLAPPED>(acceptEvent))) {
 		const int32 err = ::WSAGetLastError();
