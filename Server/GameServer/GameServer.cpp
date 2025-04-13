@@ -4,6 +4,7 @@
 #include "Types.h"
 #include "Service.h"
 #include "Session.h"
+#include "GameSession.h"
 #pragma comment(lib, "Ws2_32.lib")
 
 // 현재 서버의 동작 방식 
@@ -17,21 +18,7 @@
 //5. thread 생성하여 이벤트 감지
 //6. 이벤트 감지된 경우 iocpObject Dispatch로 처리
 
-class GameSession : public Session {
-public:
-	~GameSession() {
-		cout << "~GameSession" << endl;
-	}
-	virtual int32 OnRecv(BYTE* buffer, int32 len) override {
-		cout << "OnRecv Len = " << len << endl;
-		Send(buffer, len);
-		return len;
-	}
 
-	virtual void OnSend( int32 len) override {
-		cout << "OnSend Len = " << len << endl;
-	}
-};
 
 int main()
 {

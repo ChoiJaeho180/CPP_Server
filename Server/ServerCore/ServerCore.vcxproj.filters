@@ -90,6 +90,9 @@
     <ClInclude Include="ReceiveBuffer.h">
       <Filter>NetWork</Filter>
     </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -150,6 +153,9 @@
       <Filter>NetWork</Filter>
     </ClCompile>
     <ClCompile Include="ReceiveBuffer.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SendBuffer.cpp">
       <Filter>NetWork</Filter>
     </ClCompile>
   </ItemGroup>
