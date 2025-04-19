@@ -5,6 +5,7 @@
 #include "Service.h"
 #include "Session.h"
 #include "GameSession.h"
+#include "GameSessionManager.h"
 #pragma comment(lib, "Ws2_32.lib")
 
 // 현재 서버의 동작 방식 
@@ -39,5 +40,23 @@ int main()
 			
 		});
 	}
+
+	char sendData[] = "Hello world!";
+
+	while (true) {
+		SendBufferRef sendBuffRef = GSendBufferManager->Open(4096);
+		BYTE* buffer = sendBuffRef->Buffer();
+
+		((PacketHeader*)buffer)->size = sizeof(PacketHeader) + sizeof(sendData);
+		((PacketHeader*)buffer)->id = 1; // 1 : Hello Msg
+
+		::memcpy(&buffer[4], sendData, sizeof(sendData));
+		sendBuffRef->Close(sizeof(PacketHeader) + sizeof(sendData));
+
+		GSessionManager.Broadcast(sendBuffRef);
+
+		this_thread::sleep_for(250ms);
+	}
+
 	GThreadManager->Join();
 }
