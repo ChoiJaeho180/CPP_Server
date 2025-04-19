@@ -23,7 +23,7 @@ private:
 // 엄청 큰 메모리를 미리 할당하여 SendBuffer에 필요한 만큼 메모리를 반환
 class SendBufferChunk : public enable_shared_from_this<SendBufferChunk> {
 	enum {
-		SEND_BUFFER_CHUNK_SIZE = 40
+		SEND_BUFFER_CHUNK_SIZE = 6000
 	};
 public:
 	SendBufferChunk();
