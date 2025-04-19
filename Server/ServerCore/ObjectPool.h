@@ -23,14 +23,14 @@ public:
 	static void Push(Type* obj) {
 		obj->~Type();
 #ifdef  _STOMP 
-		StompAllocator::Release(MemoryHeader::DetachHEader(obj));
+		StompAllocator::Release(MemoryHeader::DetachHeader(obj));
 #else
 		s_pool.Push(MemoryHeader::DetachHeader(obj));
 #endif
 	}
 	template<typename... Args>
 	static shared_ptr<Type> MakeShared(Args&&... args) {
-		shared_ptr<Type> sptr = { Pop(forward<Args(args)...>), Push};
+		shared_ptr<Type> sptr = { Pop(forward<Args>(args)...), Push};
 		return sptr;
 	}
 

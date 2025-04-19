@@ -10,6 +10,7 @@
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
+#include <array>
 
 using namespace std;
 
@@ -46,3 +47,6 @@ using HashMap = unordered_map<Key, Type, Hasher, KeyEq, StlAllocator<pair<const 
 
 template<typename Key,  typename Hasher = hash<Key>, typename KeyEq = equal_to<Key>>
 using HashSet = unordered_map<Key,  Hasher, KeyEq, StlAllocator<Key>>;
+
+template<typename Type, uint32 Size>
+using Array = array<Type, Size>;

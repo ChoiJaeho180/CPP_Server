@@ -1,9 +1,9 @@
 #pragma once
 
 #ifdef _DEBUG
-#pragma comment(lib, "Debug\\ServerCore.lib");
+#pragma comment(lib, "Debug\\ServerCore.lib")
 #else
-#pragma comment(lib, "Release\\ServerCore.lib");
+#pragma comment(lib, "Release\\ServerCore.lib")
 #endif
 
 #include <winsock2.h>

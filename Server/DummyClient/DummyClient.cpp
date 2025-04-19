@@ -16,9 +16,11 @@ public:
 	virtual void OnConnected() override
 	{
 		cout << "Connected To Server" << endl;
-		SendBufferRef sendBuffer = MakeShared<SendBuffer>(4096);
-		sendBuffer->CopyData(sendData, sizeof(sendData));
-		Send(sendBuffer);
+		SendBufferRef sendBuffRef = GSendBufferManager->Open(4096);
+		::memcpy(sendBuffRef->Buffer(), sendData, sizeof(sendData));
+		sendBuffRef->Close(sizeof(sendData));
+		
+		Send(sendBuffRef);
 	}
 
 	virtual void OnDisconnected() override
@@ -30,9 +32,10 @@ public:
 		cout << "OnRecv Len = " << len << endl;
 		this_thread::sleep_for(1s);
 
-		SendBufferRef sendBuffer = MakeShared<SendBuffer>(4096);
-		sendBuffer->CopyData(sendData, sizeof(sendData));
-		Send(sendBuffer);
+		SendBufferRef sendBuffRef = GSendBufferManager->Open(4096);
+		::memcpy(sendBuffRef->Buffer(), sendData, sizeof(sendData));
+		sendBuffRef->Close(sizeof(sendData));
+		Send(sendBuffRef);
 
 		return len;
 	}
