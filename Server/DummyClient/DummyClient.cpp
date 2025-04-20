@@ -3,6 +3,7 @@
 #include "Service.h"
 #include "Session.h"
 #include "ThreadManager.h"
+#include "BufferReader.h"
 #pragma comment(lib, "ws2_32.lib")
 
 char sendData[] = "Hello world!";
@@ -23,11 +24,21 @@ public:
 	}
 
 	virtual int32 OnRecvPacket(BYTE* buffer, int32 len) override {
-		PacketHeader header = *(reinterpret_cast<PacketHeader*>(&buffer[0]));
-		//cout << "Pakcet Id : " << header.id << "Size : " << header.size << endl;
+		BufferReader reader(buffer, len);
+		reader.Read(buffer);
 
-		char recvBuffer[4096];
-		::memcpy(recvBuffer, &buffer[4], header.size - sizeof(PacketHeader));
+		PacketHeader header;
+		reader >> header;
+
+		uint64 id;
+		uint32 hp;
+		uint16 attack;
+		reader >> id >> hp >> attack;
+
+		cout << " Id : " << id << "hp : " << hp << "att :" << attack << endl;
+
+		char recvBuffer[4096] = {0};
+		reader.Read(recvBuffer, header.size - sizeof(PacketHeader) - 8 - 4 - 2);
 		cout << recvBuffer << endl;
 
 		return len;

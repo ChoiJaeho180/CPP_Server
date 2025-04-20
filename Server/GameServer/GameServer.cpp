@@ -6,6 +6,8 @@
 #include "Session.h"
 #include "GameSession.h"
 #include "GameSessionManager.h"
+#include "BufferWriter.h"
+
 #pragma comment(lib, "Ws2_32.lib")
 
 // 현재 서버의 동작 방식 
@@ -45,13 +47,17 @@ int main()
 
 	while (true) {
 		SendBufferRef sendBuffRef = GSendBufferManager->Open(4096);
-		BYTE* buffer = sendBuffRef->Buffer();
+		BufferWriter bw(sendBuffRef->Buffer(), sendBuffRef->AllocSize());
+		
+		PacketHeader* header = bw.Reserve<PacketHeader>();
 
-		((PacketHeader*)buffer)->size = sizeof(PacketHeader) + sizeof(sendData);
-		((PacketHeader*)buffer)->id = 1; // 1 : Hello Msg
+		bw << (uint64)1001 << (uint32)100 << (uint16)10;
+		bw.Write(sendData, sizeof(sendData));
 
-		::memcpy(&buffer[4], sendData, sizeof(sendData));
-		sendBuffRef->Close(sizeof(PacketHeader) + sizeof(sendData));
+		header->size = bw.WriteSize();
+		header->id = 1; // 1 : Hello Msg
+
+		sendBuffRef->Close(bw.WriteSize());
 
 		GSessionManager.Broadcast(sendBuffRef);
 
