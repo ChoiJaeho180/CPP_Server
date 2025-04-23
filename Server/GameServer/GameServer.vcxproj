@@ -167,6 +167,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="ServerPacketHandler.cpp" />
     <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="LockFreeStack.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerManager.h" />
+    <ClInclude Include="ServerPacketHandler.h" />
     <ClInclude Include="UserManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
