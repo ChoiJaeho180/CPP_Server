@@ -8,6 +8,7 @@
 #include "GameSessionManager.h"
 #include "BufferWriter.h"
 #include "ServerPacketHandler.h"
+#include <tchar.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -22,10 +23,15 @@
 //5. thread 생성하여 이벤트 감지
 //6. 이벤트 감지된 경우 iocpObject Dispatch로 처리
 
+// 패킷 직렬화
+// 
 
 
 int main()
 {
+
+	
+
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(NetAddress(L"127.0.0.1", 7777)),
 		MakeShared<IocpCore>(),
@@ -44,12 +50,34 @@ int main()
 		});
 	}
 
-	char sendData[] = "Hello world!";
+	char sendData[] = "가";
+	char sendData2[] = u8"가";
+	WCHAR sendData3[] = L"가";
+	TCHAR sendData4[] = _T("가");
 
 	while (true) {
-		vector<BuffData> buffs{ BuffData{100, 1.5f}, BuffData{200, 2.3f }, BuffData{ 300, 0.7f } };
-		SendBufferRef sendBuffRef = ServerPacketHandler::Make_S_TEST(1001, 100, 10, buffs);
-		GSessionManager.Broadcast(sendBuffRef);
+		PKT_S_TEST_WRITE packet = PKT_S_TEST_WRITE(1001, 100, 10);
+		PKT_S_TEST_WRITE::BuffsList buffsList = packet.ReserveBuffsList(3);
+		buffsList[0] = { 100, 1.5f };
+		buffsList[1] = { 200, 2.5f };
+		buffsList[2] = { 300, 3.5f };
+
+		PKT_S_TEST_WRITE::BuffsVictimsList victims0 = packet.ReserveBuffsVictimsList(&buffsList[0], 3);
+		victims0[0] = 0;
+		victims0[1] = 1000;
+		victims0[2] = 2000;
+
+		PKT_S_TEST_WRITE::BuffsVictimsList victims1 = packet.ReserveBuffsVictimsList(&buffsList[1], 3);
+		victims1[0] = 1;
+		
+
+		PKT_S_TEST_WRITE::BuffsVictimsList victims2 = packet.ReserveBuffsVictimsList(&buffsList[2], 3);
+		victims2[1] = 1011100;
+		victims2[2] = 20222200;
+
+
+		SendBufferRef sendBufferRef = packet.CloseAndReturn();
+		GSessionManager.Broadcast(sendBufferRef);
 
 		this_thread::sleep_for(250ms);
 	}
