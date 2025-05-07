@@ -9,6 +9,7 @@
 #include "BufferWriter.h"
 #include "ServerPacketHandler.h"
 #include <tchar.h>
+#include "Protocol.pb.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -56,27 +57,26 @@ int main()
 	TCHAR sendData4[] = _T("가");
 
 	while (true) {
-		PKT_S_TEST_WRITE packet = PKT_S_TEST_WRITE(1001, 100, 10);
-		PKT_S_TEST_WRITE::BuffsList buffsList = packet.ReserveBuffsList(3);
-		buffsList[0] = { 100, 1.5f };
-		buffsList[1] = { 200, 2.5f };
-		buffsList[2] = { 300, 3.5f };
-
-		PKT_S_TEST_WRITE::BuffsVictimsList victims0 = packet.ReserveBuffsVictimsList(&buffsList[0], 3);
-		victims0[0] = 0;
-		victims0[1] = 1000;
-		victims0[2] = 2000;
-
-		PKT_S_TEST_WRITE::BuffsVictimsList victims1 = packet.ReserveBuffsVictimsList(&buffsList[1], 3);
-		victims1[0] = 1;
+		Protocol::S_TEST pkt;
+		pkt.set_id(1000);
+		pkt.set_hp(100);
+		pkt.set_attack(10);
 		
-
-		PKT_S_TEST_WRITE::BuffsVictimsList victims2 = packet.ReserveBuffsVictimsList(&buffsList[2], 3);
-		victims2[1] = 1011100;
-		victims2[2] = 20222200;
-
-
-		SendBufferRef sendBufferRef = packet.CloseAndReturn();
+		{
+			Protocol::BuffData* data = pkt.add_buffs();
+			data->set_buffid(100);
+			data->set_remaintime(10.f);
+			data->add_victims(10);
+		}
+		
+		{
+			Protocol::BuffData* data = pkt.add_buffs();
+			data->set_buffid(500);
+			data->set_remaintime(50.f);
+			data->add_victims(50);
+			data->add_victims(500);
+		}
+		SendBufferRef sendBufferRef = ServerPacketHandler::MakeSendBuffer(pkt);
 		GSessionManager.Broadcast(sendBufferRef);
 
 		this_thread::sleep_for(250ms);

@@ -1,0 +1,17 @@
+syntax = "proto3"; // version
+package Protocol; // namespace
+
+message BuffData
+{
+	uint64 buffId = 1;
+	float remainTime = 2;
+	repeated uint64 victims = 3;
+}
+
+message S_TEST
+{
+	uint64 id = 1; // = 1 -> 첫 번째 위치. 초기값 아님
+	uint32 hp = 2;
+	uint32 attack = 3;
+	repeated BuffData buffs = 4; // repeated -> 가변데이터
+}
