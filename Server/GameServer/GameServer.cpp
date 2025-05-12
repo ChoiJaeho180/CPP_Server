@@ -7,7 +7,7 @@
 #include "GameSession.h"
 #include "GameSessionManager.h"
 #include "BufferWriter.h"
-#include "ServerPacketHandler.h"
+#include "ClientPacketHandler.h"
 #include <tchar.h>
 #include "Protocol.pb.h"
 
@@ -30,8 +30,7 @@
 
 int main()
 {
-
-	
+	ClientPacketHandler::Init();
 
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(NetAddress(L"127.0.0.1", 7777)),
@@ -39,7 +38,6 @@ int main()
 		MakeShared<GameSession>,
 		100
 	);
-
 	ASSERT_CRASH(service->Start());
 	
 	for (int i = 0; i < 5; i++) {
@@ -76,7 +74,7 @@ int main()
 			data->add_victims(50);
 			data->add_victims(500);
 		}
-		SendBufferRef sendBufferRef = ServerPacketHandler::MakeSendBuffer(pkt);
+		SendBufferRef sendBufferRef = ClientPacketHandler::MakeSendBuffer(pkt);
 		GSessionManager.Broadcast(sendBufferRef);
 
 		this_thread::sleep_for(250ms);

@@ -4,7 +4,7 @@
 #include "Session.h"
 #include "ThreadManager.h"
 #include "BufferReader.h"
-#include "ClientPacketHandler.h"
+#include "ServerPacketHandler.h"
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -26,7 +26,10 @@ public:
 	}
 
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override {
-		ClientPacketHandler::HandlePacket(buffer, len);
+		PacketSessionRef sessionRef = GetPacketSessionRef();
+		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+
+		ServerPacketHandler::HandlePacket(sessionRef, buffer, len);
 		
 	}
 
@@ -37,6 +40,8 @@ public:
 
 int main()
 {
+	ServerPacketHandler::Init();
+
 	this_thread::sleep_for(1s);
 
 	ClientServiceRef service = MakeShared<ClientService>(
