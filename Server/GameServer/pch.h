@@ -14,3 +14,6 @@
 #include <ws2tcpip.h>
 
 #include "CorePch.h"
+#include "Enum.pb.h"
+
+using ClientSessionRef		= shared_ptr<class ClientSession>;

@@ -16,7 +16,7 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
 
 
 {%- for pkt in parser.recv_pkt %}
-bool Handle_{{pkt.name}}(PacketSessionRef& sessionRef, Protocol::{{pkt.name}}& pkt);
+bool Handle_{{pkt.name}}(PacketSessionRef& session, Protocol::{{pkt.name}}& pkt);
 {%- endfor %}
 
 class {{output}}
@@ -29,7 +29,7 @@ public:
 		}
 
 {%- for pkt in parser.recv_pkt %}
-		GPacketHandler[PKT_{{pkt.name}}] = [](PacketSessionRef& sessionRef, BYTE* buffer, int32 len) {return HandlePacket<Protocol::{{pkt.name}}>(Handle_{{pkt.name}}, sessionRef, buffer, len); };
+		GPacketHandler[PKT_{{pkt.name}}] = [](PacketSessionRef& session, BYTE* buffer, int32 len) {return HandlePacket<Protocol::{{pkt.name}}>(Handle_{{pkt.name}}, session, buffer, len); };
 {%- endfor %}
 	}
 
@@ -59,16 +59,16 @@ private:
 		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
 		const uint16 packetSize = dataSize + sizeof(PacketHeader);
 
-		SendBufferRef sendBufferRef = GSendBufferManager->Open(packetSize);
+		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
 
-		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBufferRef->Buffer());
+		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
 		header->id = pktId;
 		header->size = packetSize;
 
 		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
 
-		sendBufferRef->Close(packetSize);
-		return sendBufferRef;
+		sendBuffer->Close(packetSize);
+		return sendBuffer;
 	}
 
 };

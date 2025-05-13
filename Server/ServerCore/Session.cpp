@@ -13,7 +13,7 @@ Session::~Session()
     SocketUtils::Close(_socket);
 }
 
-void Session::Send(SendBufferRef sendBuffer)
+void Session::Send(SendBufferRef sendBufferRef)
 {
     
     if (IsConnected() == false) {
@@ -23,7 +23,9 @@ void Session::Send(SendBufferRef sendBuffer)
     bool registerSend = false;
     {
         WRITE_LOCK;
-        _sendQueue.push(sendBuffer);
+        _sendQueue.push(sendBufferRef);
+        cout << "sendQueue push : " << _sendQueue.size() << endl;
+            
         // 현재 RegisterSend가 걸리지 않은 상태라면, 걸어준다.
         if (_sendRegistered.exchange(true) == false) {
             registerSend = true;
@@ -108,6 +110,7 @@ bool Session::RegisterConnect()
             return false;
         }
     }
+
     return true;
 }
 
@@ -165,10 +168,8 @@ void Session::RegisterSend()
         int32 writeSize = 0;
         while (_sendQueue.empty() == false) {
             SendBufferRef sendBuffer = _sendQueue.front();
-
             writeSize += sendBuffer->WriteSize();
             // todo. 일정량 이상 보낼 경우 끊어주는 처리 필요.
-
 
             _sendQueue.pop();
             _sendEvent.sendBuffers.push_back(sendBuffer);
@@ -178,14 +179,12 @@ void Session::RegisterSend()
     // Scatter-Gather : 흩어져 있는 데이터들을 모아서 한번에 보낸다.
     Vector<WSABUF> wsaBufs;
     wsaBufs.reserve(_sendEvent.sendBuffers.size());
-    for (SendBufferRef sendBuffer : _sendEvent.sendBuffers) {
+    for (SendBufferRef sendBufferRef : _sendEvent.sendBuffers) {
         WSABUF wsaBuf;
-        wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
-        wsaBuf.len = static_cast<ULONG>(sendBuffer->WriteSize());
+        wsaBuf.buf = reinterpret_cast<char*>(sendBufferRef->Buffer());
+        wsaBuf.len = static_cast<ULONG>(sendBufferRef->WriteSize());
         wsaBufs.push_back(wsaBuf);
     }
-
-   
 
     DWORD numOfBytes = 0;
     if (SOCKET_ERROR == ::WSASend(_socket, wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT & numOfBytes, 0, &_sendEvent, nullptr)) {
@@ -198,7 +197,6 @@ void Session::RegisterSend()
             _sendRegistered.store(false);
         }
     }
-
 }
 
 void Session::ProcessConnect()

@@ -4,26 +4,32 @@ package Protocol; // namespace
 import "Enum.proto";
 import "Struct.proto";
 
-message C_TEST 
-{
-	uint64 id = 1;
+message C_LOGIN {
+
 }
 
-message C_MOVE
-{
-	uint64 id = 1;
-	uint32 pos = 2;
+message S_LOGIN {
+	bool success = 1;
+	repeated Player players = 2; // 아이디 발급 전
 }
 
-message S_TEST
-{
-	uint64 id = 1; // = 1 -> 첫 번째 위치. 초기값 아님
-	uint32 hp = 2;
-	uint32 attack = 3;
-	repeated BuffData buffs = 4; // repeated -> 가변데이터
+message C_ENTER_GAME {
+	uint64 playerIndex = 1;
 }
 
-message S_LOGIN
-{
+message S_ENTER_GAME {
+	bool success = 1;
+	string msg = 2;
+	// todo. 내 정보 
 
+	// todo. 현재 필드에 있는 유저 정보 
+}
+
+message C_CHAT {
+	string msg = 1;
+}
+
+message S_CHAT {
+	uint64 playerId = 1;
+	string msg = 2;
 }

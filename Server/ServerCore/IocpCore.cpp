@@ -30,7 +30,8 @@ bool IocpCore::Dispatch(int32 timeoutMs)
 	else {
 		int32 errCode = ::WSAGetLastError();
 		switch (errCode)
-		{case WAIT_TIMEOUT:
+		{
+		case WAIT_TIMEOUT:
 			return false;
 		default:
 			// TODO ·Î±× Âï±â

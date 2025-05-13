@@ -24,10 +24,7 @@
     <ClCompile Include="LockFreeStack.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="GameSession.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSessionManager.cpp">
+    <ClCompile Include="ClientSessionManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="ClientPacketHandler.cpp">
@@ -39,8 +36,11 @@
     <ClCompile Include="Struct.pb.cc">
       <Filter>Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="..\DummyClient\Protocol.pb.cc">
+    <ClCompile Include="Protocol.pb.cc">
       <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,10 +54,7 @@
     <ClInclude Include="LockFreeStack.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="GameSession.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSessionManager.h">
+    <ClInclude Include="ClientSessionManager.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="ClientPacketHandler.h">
@@ -69,8 +66,11 @@
     <ClInclude Include="Struct.pb.h">
       <Filter>Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="..\DummyClient\Protocol.pb.h">
+    <ClInclude Include="Protocol.pb.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSession.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +81,6 @@
       <Filter>Protocol</Filter>
     </None>
     <None Include="..\Common\Protobuf\bin\Struct.proto">
-      <Filter>Protocol</Filter>
-    </None>
-    <None Include="..\Common\Protobuf\bin\GenPackets.bat">
       <Filter>Protocol</Filter>
     </None>
   </ItemGroup>

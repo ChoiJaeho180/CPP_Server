@@ -4,8 +4,8 @@
 #include "Types.h"
 #include "Service.h"
 #include "Session.h"
-#include "GameSession.h"
-#include "GameSessionManager.h"
+#include "ClientSession.h"
+#include "ClientSessionManager.h"
 #include "BufferWriter.h"
 #include "ClientPacketHandler.h"
 #include <tchar.h>
@@ -35,7 +35,7 @@ int main()
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(NetAddress(L"127.0.0.1", 7777)),
 		MakeShared<IocpCore>(),
-		MakeShared<GameSession>,
+		MakeShared<ClientSession>,
 		100
 	);
 	ASSERT_CRASH(service->Start());
@@ -47,37 +47,6 @@ int main()
 			}
 			
 		});
-	}
-
-	char sendData[] = "가";
-	char sendData2[] = u8"가";
-	WCHAR sendData3[] = L"가";
-	TCHAR sendData4[] = _T("가");
-
-	while (true) {
-		Protocol::S_TEST pkt;
-		pkt.set_id(1000);
-		pkt.set_hp(100);
-		pkt.set_attack(10);
-		
-		{
-			Protocol::BuffData* data = pkt.add_buffs();
-			data->set_buffid(100);
-			data->set_remaintime(10.f);
-			data->add_victims(10);
-		}
-		
-		{
-			Protocol::BuffData* data = pkt.add_buffs();
-			data->set_buffid(500);
-			data->set_remaintime(50.f);
-			data->add_victims(50);
-			data->add_victims(500);
-		}
-		SendBufferRef sendBufferRef = ClientPacketHandler::MakeSendBuffer(pkt);
-		GSessionManager.Broadcast(sendBufferRef);
-
-		this_thread::sleep_for(250ms);
 	}
 
 	GThreadManager->Join();

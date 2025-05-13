@@ -18,6 +18,11 @@ public:
 
 	virtual void OnConnected() override
 	{
+		// 인증 서버에 로그인 과정을 거쳐야하지만 스킵
+		Protocol::C_LOGIN pkt;
+		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
+		Send(sendBuffer);
+		
 	}
 
 	virtual void OnDisconnected() override
@@ -26,11 +31,16 @@ public:
 	}
 
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override {
-		PacketSessionRef sessionRef = GetPacketSessionRef();
+
+		std::cout << "ThreadId : " << LThreadId << std::endl;
+		/*PacketSessionRef session = GetPacketSessionRef();
 		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
 
-		ServerPacketHandler::HandlePacket(sessionRef, buffer, len);
-		
+		ServerPacketHandler::HandlePacket(session, buffer, len);*/
+
+		/*Protocol::C_LOGIN pkt;
+		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
+		Send(sendBuffer);*/
 	}
 
 	virtual void OnSend(int32 len) override {
@@ -52,13 +62,13 @@ int main()
 
 	ASSERT_CRASH(service->Start());
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 5; i++) {
 		GThreadManager->Launch([=]() {
+
 			while (true) {
 				service->GetIocpCore()->Dispatch();
 			}
-
-			});
+		});
 	}
 	GThreadManager->Join();
 }
