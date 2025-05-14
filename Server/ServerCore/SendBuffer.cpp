@@ -65,8 +65,6 @@ SendBufferRef SendBufferManager::Open(uint32 size)
 		LSendBufferChunk->Reset();
 	}
 
-	std::cout << "ThreadId : " <<LThreadId << std::endl;
-	std::cout << "FREE : " << LSendBufferChunk->FreeSize() << std::endl;
 	std::cout << endl;
 
 	return LSendBufferChunk->Open(size);
@@ -74,8 +72,6 @@ SendBufferRef SendBufferManager::Open(uint32 size)
 
 SendBufferChunkRef SendBufferManager::Pop()
 {
-
-	cout << "Pop SENDBUFFERCHUNK" << endl;
 	{
 		WRITE_LOCK;
 		if (_sendBufferChunks.empty() == false) {
