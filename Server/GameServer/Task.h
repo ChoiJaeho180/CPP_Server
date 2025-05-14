@@ -1,20 +1,60 @@
 #pragma once
+#include <functional>
+
+
+// ÇÔ¼öÀÚ
+
+
 class ITask
 {
 public:
 	virtual void Execute() {}
 };
 
-class HealTask : public ITask 
+template<typename Ret, typename ... Args>
+class FuncTask  : public ITask
 {
+	using FuncType = Ret(*)(Args ...);
 public:
-	virtual void Excute() {
-		
+	FuncTask(FuncType func, Args ...args) : _func(func), _tuple(args ...) {
+
 	}
-public:
-	uint64 _target = 0;
-	uint32 _healValue = 0;
+
+	Ret operator()(Args ...args) {
+		std::apply(_func, _tuple);
+	}
+
+	virtual void Execute() override {
+		std::apply(_func, _tuple); // c++17
+	}
+
+private:
+	FuncType _func;
+	std::tuple<Args ...> _tuple;
 };
+
+template<typename T, typename Ret, typename ... Args>
+class MemberTask : public ITask
+{
+	using FuncType = Ret(T::*)(Args ...);
+public:
+	MemberTask(T* obj, FuncType func, Args... args) : _obj(obj), _func(func), _tuple(args ...) {
+
+	}
+
+
+	virtual void Execute() override {
+		std::apply([this](Args... args) { (_obj->*_func)(args...); }, _tuple); // c++17
+	}
+
+private:
+	T*						_obj;
+	FuncType				_func;
+	std::tuple<Args ...>	_tuple;
+};
+
+
+
 
 using TaskRef = shared_ptr<ITask>;
 

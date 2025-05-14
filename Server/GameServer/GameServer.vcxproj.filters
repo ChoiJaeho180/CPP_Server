@@ -48,7 +48,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameContents</Filter>
     </ClCompile>
-    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="Task.cpp">
+      <Filter>GameContents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -82,7 +84,9 @@
     <ClInclude Include="Player.h">
       <Filter>GameContents</Filter>
     </ClInclude>
-    <ClInclude Include="Task.h" />
+    <ClInclude Include="Task.h">
+      <Filter>GameContents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Protocol.proto">
