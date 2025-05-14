@@ -10,6 +10,7 @@
 #include "ClientPacketHandler.h"
 #include <tchar.h>
 #include "Protocol.pb.h"
+#include "Room.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -29,6 +30,12 @@
 
 int main()
 {
+
+	// TEST TASK 
+
+
+
+	// TASk
 	ClientPacketHandler::Init();
 
 	ServerServiceRef service = MakeShared<ServerService>(
@@ -47,5 +54,11 @@ int main()
 		});
 	}
 
+	while (true) {
+
+		GRoom.FlushTask();
+
+		this_thread::sleep_for(1s);
+	}
 	GThreadManager->Join();
 }

@@ -24,9 +24,6 @@
     <ClCompile Include="AccountManager.cpp" />
     <ClCompile Include="UserManager.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
-    <ClCompile Include="LockFreeStack.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="ClientSessionManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -51,6 +48,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameContents</Filter>
     </ClCompile>
+    <ClCompile Include="Task.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -60,9 +58,6 @@
     <ClInclude Include="UserManager.h" />
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="PlayerManager.h" />
-    <ClInclude Include="LockFreeStack.h">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="ClientSessionManager.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -87,6 +82,7 @@
     <ClInclude Include="Player.h">
       <Filter>GameContents</Filter>
     </ClInclude>
+    <ClInclude Include="Task.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Protocol.proto">

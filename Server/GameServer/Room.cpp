@@ -6,10 +6,8 @@
 
 Room GRoom;
 
-void Room::EnterRoom(PlayerRef player)
+void Room::Enter(PlayerRef player)
 {
-    WRITE_LOCK;
-    
     uint64 playerId = player->PlayerId();
     ASSERT_CRASH(_players.find(playerId) == _players.end());
 
@@ -19,10 +17,8 @@ void Room::EnterRoom(PlayerRef player)
     }
 }
 
-void Room::LeaveRoom(PlayerRef player)
+void Room::Leave(PlayerRef player)
 {
-    WRITE_LOCK;
-
     uint64 playerId = player->PlayerId();
     ASSERT_CRASH(_players.find(playerId) != _players.end());
 
@@ -32,11 +28,22 @@ void Room::LeaveRoom(PlayerRef player)
 
 void Room::BroadCast(SendBufferRef sendBuffer)
 {
-    WRITE_LOCK;
     for (auto& player : _players) {
         if (auto locked = player.second.get()->ownerSession().lock()) {
             locked->Send(sendBuffer);
         }
+    }
+}
+
+void Room::FlushTask()
+{
+    while (true) {
+        TaskRef task = _tasks.Pop();
+        if (task == nullptr) {
+            break;
+        }
+
+        task->Execute();
     }
 }
 
