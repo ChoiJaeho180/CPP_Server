@@ -2,13 +2,16 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 #include "ClientPacketHandler.h"
+#include "Room.h"
+#include "Player.h"
+#include <algorithm>
 
 ClientSession::ClientSession() {
 
 }
 
 ClientSession::~ClientSession() {
-	cout << "~GameSession" << endl;
+	cout << "~ClientSession" << endl;
 }
 
 void ClientSession::OnConnected()
@@ -19,6 +22,10 @@ void ClientSession::OnConnected()
 void ClientSession::OnDisconnected()
 {
 	GSessionManager.Remove(static_pointer_cast<ClientSession>(shared_from_this()));
+	GRoom.LeaveRoom(GetPlayer(0));
+	for (auto& player : _players) {
+		player = nullptr;
+	}
 }
 
 void ClientSession::OnRecvPacket(BYTE* buffer, int32 len) {
@@ -32,3 +39,4 @@ void ClientSession::OnRecvPacket(BYTE* buffer, int32 len) {
 void ClientSession::OnSend(int32 len) {
 
 }
+

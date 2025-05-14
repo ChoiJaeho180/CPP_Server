@@ -27,7 +27,6 @@
 // 패킷 직렬화
 // 
 
-
 int main()
 {
 	ClientPacketHandler::Init();
@@ -45,7 +44,6 @@ int main()
 			while (true) {
 				service->GetIocpCore()->Dispatch();
 			}
-			
 		});
 	}
 

@@ -5,12 +5,12 @@ import "Enum.proto";
 import "Struct.proto";
 
 message C_LOGIN {
-
+	string name = 1;
 }
 
 message S_LOGIN {
 	bool success = 1;
-	repeated Player players = 2; // 아이디 발급 전
+	repeated PlayerInfo players = 2; // 아이디 발급 전
 }
 
 message C_ENTER_GAME {

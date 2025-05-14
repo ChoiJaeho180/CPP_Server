@@ -3,10 +3,9 @@ package Protocol; // namespace
 
 import "Enum.proto";
 
-message Player
+message PlayerInfo
 {
 	uint64 id = 1;
 	string name = 2;
 	PlayerType playerType = 3;
-
 }

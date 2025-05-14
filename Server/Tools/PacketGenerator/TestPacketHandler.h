@@ -53,16 +53,16 @@ private:
 		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
 		const uint16 packetSize = dataSize + sizeof(PacketHeader);
 
-		SendBufferRef sendBufferRef = GSendBufferManager->Open(packetSize);
+		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
 
-		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBufferRef->Buffer());
+		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
 		header->id = pktId;
 		header->size = packetSize;
 
 		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
 
-		sendBufferRef->Close(packetSize);
-		return sendBufferRef;
+		sendBuffer->Close(packetSize);
+		return sendBuffer;
 	}
 
 };

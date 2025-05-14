@@ -20,9 +20,9 @@ public:
 	{
 		// 인증 서버에 로그인 과정을 거쳐야하지만 스킵
 		Protocol::C_LOGIN pkt;
+		pkt.set_name("DanGyeol");
 		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
 		Send(sendBuffer);
-		
 	}
 
 	virtual void OnDisconnected() override
@@ -31,16 +31,9 @@ public:
 	}
 
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override {
-
 		std::cout << "ThreadId : " << LThreadId << std::endl;
-		/*PacketSessionRef session = GetPacketSessionRef();
-		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
-
-		ServerPacketHandler::HandlePacket(session, buffer, len);*/
-
-		/*Protocol::C_LOGIN pkt;
-		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
-		Send(sendBuffer);*/
+		PacketSessionRef session = GetPacketSessionRef();
+		ServerPacketHandler::HandlePacket(session,buffer, len);
 	}
 
 	virtual void OnSend(int32 len) override {
@@ -58,7 +51,7 @@ int main()
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
 		MakeShared<ServerSession>,
-		1);
+		3);
 
 	ASSERT_CRASH(service->Start());
 
@@ -69,6 +62,14 @@ int main()
 				service->GetIocpCore()->Dispatch();
 			}
 		});
+	}
+
+	Protocol::C_CHAT chatPkt;
+	chatPkt.set_msg("!!!ewqewe");
+	SendBufferRef sendBuffer = ServerPacketHandler::MakeSendBuffer(chatPkt);
+	while (true) {
+		service->BroadCast(sendBuffer);
+		this_thread::sleep_for(1000ms);
 	}
 	GThreadManager->Join();
 }

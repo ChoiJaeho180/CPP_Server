@@ -11,6 +11,7 @@ enum class ServiceType : uint8 {
 
 using SessionFactory = function<SessionRef(void)>;
 
+
 class Service : public enable_shared_from_this<Service>
 {
 public:
@@ -29,6 +30,7 @@ public:
 	int32				GetMaxSessionCount() { return _maxSessionCount; }
 	
 	IocpCoreRef&		GetIocpCore() { return _iocpCore; }
+	void				BroadCast(SendBufferRef sendBuffer);
 public:
 	ServiceType			GetServiceType() { return _type; }
 	NetAddress			GetNetAddress() { return _netAddress; }
@@ -52,6 +54,7 @@ public:
 	virtual ~ClientService() {}
 
 	virtual bool		Start() override;
+
 };
 
 class ServerService : public Service

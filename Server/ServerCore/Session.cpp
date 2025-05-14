@@ -179,10 +179,10 @@ void Session::RegisterSend()
     // Scatter-Gather : 흩어져 있는 데이터들을 모아서 한번에 보낸다.
     Vector<WSABUF> wsaBufs;
     wsaBufs.reserve(_sendEvent.sendBuffers.size());
-    for (SendBufferRef sendBufferRef : _sendEvent.sendBuffers) {
+    for (SendBufferRef sendBuffer : _sendEvent.sendBuffers) {
         WSABUF wsaBuf;
-        wsaBuf.buf = reinterpret_cast<char*>(sendBufferRef->Buffer());
-        wsaBuf.len = static_cast<ULONG>(sendBufferRef->WriteSize());
+        wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
+        wsaBuf.len = static_cast<ULONG>(sendBuffer->WriteSize());
         wsaBufs.push_back(wsaBuf);
     }
 

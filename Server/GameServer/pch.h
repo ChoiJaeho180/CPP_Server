@@ -17,3 +17,4 @@
 #include "Enum.pb.h"
 
 using ClientSessionRef		= shared_ptr<class ClientSession>;
+using PlayerRef				= shared_ptr<class Player>;
