@@ -182,7 +182,6 @@
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Task.cpp" />
     <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +197,6 @@
     <ClInclude Include="Protocol.pb.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Struct.pb.h" />
-    <ClInclude Include="Task.h" />
     <ClInclude Include="UserManager.h" />
   </ItemGroup>
   <ItemGroup>

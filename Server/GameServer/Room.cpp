@@ -4,7 +4,7 @@
 #include "ClientPacketHandler.h"
 #include "ClientSession.h"
 
-Room GRoom;
+shared_ptr<Room> GRoom = MakeShared<Room>();
 
 void Room::Enter(PlayerRef player)
 {
@@ -35,15 +35,4 @@ void Room::BroadCast(SendBufferRef sendBuffer)
     }
 }
 
-void Room::FlushTask()
-{
-    while (true) {
-        TaskRef task = _tasks.Pop();
-        if (task == nullptr) {
-            break;
-        }
-
-        task->Execute();
-    }
-}
 

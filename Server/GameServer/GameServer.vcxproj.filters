@@ -48,9 +48,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameContents</Filter>
     </ClCompile>
-    <ClCompile Include="Task.cpp">
-      <Filter>GameContents</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -82,9 +79,6 @@
       <Filter>GameContents</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameContents</Filter>
-    </ClInclude>
-    <ClInclude Include="Task.h">
       <Filter>GameContents</Filter>
     </ClInclude>
   </ItemGroup>

@@ -175,6 +175,9 @@
     <ClInclude Include="Service.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="SocketUtils.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="LockQueue.h" />
+    <ClInclude Include="TaskQueue.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="TypeCast.h" />
     <ClInclude Include="Types.h" />
@@ -207,14 +210,17 @@
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="SocketUtils.cpp" />
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="LockQueue.cpp" />
+    <ClCompile Include="TaskQueue.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
-   <ItemGroup>
+  <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Enum.proto" />
     <None Include="..\Common\Protobuf\bin\Protocol.proto" />
     <None Include="..\Common\Protobuf\bin\Struct.proto" />
   </ItemGroup>
-   <ItemGroup>
+  <ItemGroup>
     <UpToDateCheckInput Include="..\Common\Protobuf\bin\Enum.proto" />
     <UpToDateCheckInput Include="..\Common\Protobuf\bin\Protocol.proto" />
     <UpToDateCheckInput Include="..\Common\Protobuf\bin\Struct.proto" />
@@ -222,5 +228,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
- 
 </Project>

@@ -11,6 +11,7 @@
 #include <tchar.h>
 #include "Protocol.pb.h"
 #include "Room.h"
+#include "Player.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -24,30 +25,12 @@
 //->클라이언트가 연결 이벤트를 감지할 수 있도록 accepEx 미리 호출
 //5. thread 생성하여 이벤트 감지
 //6. 이벤트 감지된 경우 iocpObject Dispatch로 처리
-class Knight {
-public:
-	void test(int32 b) {};
-};
-void HealByValue(int64 target, int32 value) {
-	cout << target << " 한테 힐을 " << value << "만큼 줌" << endl;
-}
 
 int main()
 {
-
 	// TEST TASK 
-	{
-		FuncTask<void, int64, int32> task(HealByValue, 100, 40);
-		task.Execute();
-	}
-
-	{
-		Knight k1;
-		MemberTask task(&k1, &Knight::test, 10);
-		task.Execute();
-	}
-
-	// TASk
+	
+	// TASK
 	ClientPacketHandler::Init();
 
 	ServerServiceRef service = MakeShared<ServerService>(
@@ -56,6 +39,7 @@ int main()
 		MakeShared<ClientSession>,
 		100
 	);
+
 	ASSERT_CRASH(service->Start());
 	
 	for (int i = 0; i < 5; i++) {
@@ -66,11 +50,5 @@ int main()
 		});
 	}
 
-	while (true) {
-
-		GRoom.FlushTask();
-
-		this_thread::sleep_for(1s);
-	}
 	GThreadManager->Join();
 }

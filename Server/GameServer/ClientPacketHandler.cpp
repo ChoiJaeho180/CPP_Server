@@ -56,9 +56,8 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	// todo. validation
 	PlayerRef player = clientSession->GetPlayer(index);
 
-	//GRoom.PushTask(MakeShared<EnterTask>(GRoom, player));
-	GRoom.PushTask(&Room::Enter, player);
-
+	GRoom->DoAsync(&Room::Enter, player);
+	
 	Protocol::S_ENTER_GAME enterGamePkt;
 	enterGamePkt.set_success(true);
 	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePkt);
@@ -73,7 +72,7 @@ bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)
 	chatPkt.set_msg(pkt.msg());
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
-	GRoom.PushTask(&Room::BroadCast, sendBuffer);
+	GRoom->DoAsync(&Room::BroadCast, sendBuffer);
 
 	return false;
 }

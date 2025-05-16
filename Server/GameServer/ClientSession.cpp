@@ -23,7 +23,7 @@ void ClientSession::OnDisconnected()
 {
 	GSessionManager.Remove(static_pointer_cast<ClientSession>(shared_from_this()));
 
-	GRoom.PushTask(&Room::Leave, GetPlayer(0));
+	//GRoom.PushTask(&Room::Leave, GetPlayer(0));
 
 	for (auto& player : _players) {
 		player = nullptr;
