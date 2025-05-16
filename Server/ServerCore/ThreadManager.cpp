@@ -43,3 +43,18 @@ void ThreadManager::InitTLS()
 void ThreadManager::DestroyTLS()
 {
 }
+
+void ThreadManager::ProcessGlobalQueue()
+{
+	while (true) {
+		uint64 now = GetTickCount64();
+		if (now > LEndTickCount) {
+			break;
+		}
+		TaskQueueRef taskQueue = GGlobalQueue->Pop();
+		if (taskQueue == nullptr) {
+			break;
+		}
+		taskQueue->Execute();
+	}
+}

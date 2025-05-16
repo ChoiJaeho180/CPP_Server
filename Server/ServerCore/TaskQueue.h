@@ -16,7 +16,11 @@ public:
 	}
 
 private:
+
+	// 락 없이도 단일 객체의 직렬성 보장 + 멀티스레드 안전 + 빠른 반응성
 	void						Push(TaskRef&& task);
+public:
+
 	void						Execute();
 protected:
 	LockQueue<TaskRef>		_tasks;

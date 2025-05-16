@@ -111,6 +111,9 @@
     <ClInclude Include="TaskQueue.h">
       <Filter>Task</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalQueue.h">
+      <Filter>Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -189,6 +192,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="TaskQueue.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalQueue.cpp">
       <Filter>Task</Filter>
     </ClCompile>
   </ItemGroup>

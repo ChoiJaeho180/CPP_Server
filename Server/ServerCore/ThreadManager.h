@@ -13,6 +13,7 @@ public:
 
 	static void InitTLS();
 	static void DestroyTLS();
+	static void ProcessGlobalQueue();
 private:
 	Mutex _lock;
 	vector<thread> _threads;

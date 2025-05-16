@@ -15,16 +15,25 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-// 현재 서버의 동작 방식 
-//1. iocp 핸들 생성
-//2. tcp 소켓 생성
-//3. iocp 핸들에 tcp 소켓 이벤트 감지
-//4. tcp 소켓 설정하여 클라이언트 연결을 할 수 있도록 설정.
-//		-> bind
-//		-> listen
-//->클라이언트가 연결 이벤트를 감지할 수 있도록 accepEx 미리 호출
-//5. thread 생성하여 이벤트 감지
-//6. 이벤트 감지된 경우 iocpObject Dispatch로 처리
+enum {
+	// TODO. 런타임에 경과를 지켜보고 보정하도록 수정
+	WORKER_TICK = 64
+};
+void DoWokerJob(ServerServiceRef& service) {
+
+	while (true) {
+		
+		LEndTickCount = ::GetTickCount64() + WORKER_TICK;
+
+		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
+		service->GetIocpCore()->Dispatch(10);
+
+		// 글로벌 큐 
+		GThreadManager->ProcessGlobalQueue();
+	}
+	
+}
+
 
 int main()
 {
@@ -43,12 +52,12 @@ int main()
 	ASSERT_CRASH(service->Start());
 	
 	for (int i = 0; i < 5; i++) {
-		GThreadManager->Launch([=]() {
-			while (true) {
-				service->GetIocpCore()->Dispatch();
-			}
+		GThreadManager->Launch([&service]() {
+			DoWokerJob(service);
 		});
 	}
+	
+	DoWokerJob(service);
 
 	GThreadManager->Join();
 }

@@ -22,3 +22,4 @@ using namespace std;
 #include "SendBuffer.h"
 #include "Session.h"
 #include "TaskQueue.h"
+#include "GlobalQueue.h"
