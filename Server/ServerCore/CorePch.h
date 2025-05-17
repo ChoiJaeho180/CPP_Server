@@ -24,3 +24,4 @@ using namespace std;
 #include "TaskQueue.h"
 #include "GlobalQueue.h"
 #include "TaskTimer.h"
+#include "DBConnectionPool.h"

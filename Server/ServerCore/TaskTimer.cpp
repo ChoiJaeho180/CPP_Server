@@ -15,6 +15,9 @@ void TaskTimer::Reserve(uint64 tickAfter, weak_ptr<TaskQueue> owner, TaskRef tas
 
 void TaskTimer::Distribute(uint64 now)
 {
+	// 한번에 1스레드만 통과
+	// 이유 : 극악이지만 렉 때문에 늦게 실행될게 먼저 실행될 수 있음.
+
 	if (_distributing.exchange(true) == true) {
 		return;
 	}

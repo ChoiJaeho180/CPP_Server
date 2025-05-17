@@ -32,7 +32,7 @@ void TaskQueue::Execute()
 		_tasks.PopAll(OUT tasks);
 
 		const uint32 taskCount = static_cast<uint32>(tasks.size());
-		for (int i = 0; i < taskCount; i++) {
+		for (uint32 i = 0; i < taskCount; i++) {
 			tasks[i]->Execute();
 		}
 
