@@ -179,6 +179,7 @@
     <ClInclude Include="Task.h" />
     <ClInclude Include="LockQueue.h" />
     <ClInclude Include="TaskQueue.h" />
+    <ClInclude Include="TaskTimer.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="TypeCast.h" />
     <ClInclude Include="Types.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="LockQueue.cpp" />
     <ClCompile Include="TaskQueue.cpp" />
+    <ClCompile Include="TaskTimer.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>

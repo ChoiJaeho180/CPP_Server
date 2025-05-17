@@ -23,7 +23,6 @@ void Room::Leave(PlayerRef player)
     ASSERT_CRASH(_players.find(playerId) != _players.end());
 
     _players.erase(playerId);
-
 }
 
 void Room::BroadCast(SendBufferRef sendBuffer)

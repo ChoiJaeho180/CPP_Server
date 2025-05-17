@@ -28,17 +28,21 @@ void DoWokerJob(ServerServiceRef& service) {
 		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
 		service->GetIocpCore()->Dispatch(10);
 
+		// 예약된 task 처리
+		ThreadManager::ProcessReservedTasks();
+
 		// 글로벌 큐 
-		GThreadManager->ProcessGlobalQueue();
+		ThreadManager::ProcessGlobalQueue();
 	}
-	
 }
 
 
 int main()
 {
 	// TEST TASK 
-	
+	GRoom->DoTimer(1000, []() {cout << "1000!!!!" << endl; });
+	GRoom->DoTimer(2000, []() {cout << "2000!!!!" << endl; });
+	GRoom->DoTimer(3000, []() {cout << "3000!!!" << endl; });
 	// TASK
 	ClientPacketHandler::Init();
 

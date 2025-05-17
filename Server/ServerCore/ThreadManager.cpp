@@ -47,7 +47,7 @@ void ThreadManager::DestroyTLS()
 void ThreadManager::ProcessGlobalQueue()
 {
 	while (true) {
-		uint64 now = GetTickCount64();
+		uint64 now = ::GetTickCount64();
 		if (now > LEndTickCount) {
 			break;
 		}
@@ -57,4 +57,10 @@ void ThreadManager::ProcessGlobalQueue()
 		}
 		taskQueue->Execute();
 	}
+}
+
+void ThreadManager::ProcessReservedTasks()
+{
+	uint64 now = ::GetTickCount64();
+	GTaskTimer->Distribute(now);
 }

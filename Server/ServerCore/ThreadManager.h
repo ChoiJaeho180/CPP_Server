@@ -8,14 +8,15 @@ public:
 	ThreadManager();
 	~ThreadManager();
 	
-	void		Launch(function<void(void)> callback);
-	void		Join();
+	void						Launch(function<void(void)> callback);
+	void						Join();
 
-	static void InitTLS();
-	static void DestroyTLS();
-	static void ProcessGlobalQueue();
+	static void					InitTLS();
+	static void					DestroyTLS();
+	static void					ProcessGlobalQueue();
+	static void					ProcessReservedTasks();
 private:
-	Mutex _lock;
-	vector<thread> _threads;
+	Mutex				_lock;
+	vector<thread>		_threads;
 };
 

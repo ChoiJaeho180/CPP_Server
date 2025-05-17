@@ -12,6 +12,7 @@ DeadLockProfiler*			GDeadLockProfiler = nullptr;
 MemoryManager*				GMemoryManager = nullptr;
 SendBufferManager*			GSendBufferManager = nullptr;
 GlobalQueue*				GGlobalQueue = nullptr;
+TaskTimer*					GTaskTimer = nullptr;
 
 class CoreGlobal
 {
@@ -22,6 +23,7 @@ public:
 		GMemoryManager = new MemoryManager();
 		GSendBufferManager = new SendBufferManager();
 		GGlobalQueue = new GlobalQueue();
+		GTaskTimer = new TaskTimer();
 
 		SocketUtils::Init();
 	}
@@ -31,6 +33,7 @@ public:
 		delete GMemoryManager;
 		delete GSendBufferManager;
 		delete GGlobalQueue;
+		delete GTaskTimer;
 
 		SocketUtils::Clear();
 	}

@@ -2,7 +2,7 @@
 #include "TaskQueue.h"
 
 
-void TaskQueue::Push(TaskRef&& task)
+void TaskQueue::Push(TaskRef task, bool bPushOnly)
 {
 	const uint32 prevCount = _taskCount.fetch_add(1);
 	_tasks.Push(task); // WRITE_LOCK;
@@ -13,7 +13,7 @@ void TaskQueue::Push(TaskRef&& task)
 	// → 중첩된 Execute() 호출 방지 + 분산 처리 유도
 	if (prevCount == 0) {
 		// 이미 실행중인 TaskQueue가 없으면 실행
-		if (LCurrentTaskQueue == nullptr) {
+		if (LCurrentTaskQueue == nullptr && bPushOnly == false) {
 			Execute();
 		}
 		else {

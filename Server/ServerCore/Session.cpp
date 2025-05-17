@@ -218,7 +218,6 @@ void Session::ProcessDisconnect()
     _disconnectEvent.owner = nullptr;
     OnDisconnected();
     GetService()->ReleaseSession(GetSessionRef());
-
 }
 
 void Session::ProcessRecv(int32 numOfBytes)

@@ -1,21 +1,30 @@
 #pragma once
 #include "Session.h"
 
+class Room;
+
 class ClientSession : public PacketSession {
 public:
 	ClientSession();
 	~ClientSession();
 
-	virtual void OnConnected() override;
-	virtual void OnDisconnected() override;
+	virtual void				OnConnected() override;
+	virtual void				OnDisconnected() override;
 
 
-	virtual void OnRecvPacket(BYTE* buffer, int32 len) override;
-	virtual void OnSend(int32 len) override;
+	virtual void				OnRecvPacket(BYTE* buffer, int32 len) override;
+	virtual void				OnSend(int32 len) override;
 
 public:
-	void AddPlayer(PlayerRef player) { _players.push_back(player); }
-	PlayerRef GetPlayer(uint64 playerIndex) { return _players[playerIndex]; }
+	void						AddPlayer(PlayerRef player) { _players.push_back(player); }
+	PlayerRef					GetPlayer(uint64 playerIndex) { return _players[playerIndex]; }
+
+	void						SetCurPlayer(PlayerRef player) { _curPlayer = player; }
+	PlayerRef					GetCurPlayer() { return _curPlayer; }
+
+	void						SetRoom(weak_ptr<Room> room) { _room = room; }
 private:
-	Vector<PlayerRef> _players;
+	PlayerRef				_curPlayer;
+	Vector<PlayerRef>		_players;
+	weak_ptr<Room>			_room;
 };
