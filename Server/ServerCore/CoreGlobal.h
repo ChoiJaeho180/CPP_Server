@@ -7,3 +7,4 @@ extern class SendBufferManager*		GSendBufferManager;
 extern class GlobalQueue*			GGlobalQueue;
 extern class TaskTimer*				GTaskTimer;
 extern class DBConnectionPool*		GDBConnectionPool;
+extern class ConsoleLog*			GConsoleLogger;

@@ -41,7 +41,7 @@ public:
 	Vector<XmlNode>		FindChildren(const WCHAR* key);
 
 private:
-	XmlNodeType* _node = nullptr;
+	XmlNodeType*		_node = nullptr;
 };
 
 /*---------------
@@ -51,7 +51,7 @@ private:
 class XmlParser
 {
 public:
-	bool ParseFromFile(const WCHAR* path, OUT XmlNode& root);
+	bool							ParseFromFile(const WCHAR* path, OUT XmlNode& root);
 
 private:
 	shared_ptr<XmlDocumentType>		_document = nullptr;

@@ -14,6 +14,7 @@ SendBufferManager*			GSendBufferManager = nullptr;
 GlobalQueue*				GGlobalQueue = nullptr;
 TaskTimer*					GTaskTimer = nullptr;
 DBConnectionPool*			GDBConnectionPool = nullptr;
+ConsoleLog*					GConsoleLogger = nullptr;
 
 class CoreGlobal
 {
@@ -26,6 +27,7 @@ public:
 		GGlobalQueue = new GlobalQueue();
 		GTaskTimer = new TaskTimer();
 		GDBConnectionPool = new DBConnectionPool();
+		GConsoleLogger = new ConsoleLog();
 
 		SocketUtils::Init();
 	}
@@ -37,6 +39,7 @@ public:
 		delete GGlobalQueue;
 		delete GTaskTimer;
 		delete GDBConnectionPool;
+		delete GConsoleLogger;
 
 		SocketUtils::Clear();
 	}

@@ -25,3 +25,4 @@ using namespace std;
 #include "GlobalQueue.h"
 #include "TaskTimer.h"
 #include "DBConnectionPool.h"
+#include "ConsoleLog.h"
