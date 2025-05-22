@@ -15,6 +15,7 @@
 #include "DBBind.h"
 #include "XmlParser.h"
 #include "DBSynchronizer.h"
+#include "GenProcedures.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -52,6 +53,38 @@ int main()
 	DBSynchronizer dbSync(*dbConn);
 	dbSync.Synchronize(L"GameDB.xml");
 
+	{
+		SP::InsertGold inserGold(*dbConn);
+		inserGold.In_Gold(100);
+		inserGold.In_Name(L"asd");
+		inserGold.In_CreateDate(TIMESTAMP_STRUCT{ 2020,6,8 });
+		inserGold.Execute();
+	}
+
+	{
+		SP::GetGold getGold(*dbConn);
+		getGold.In_Gold(100);
+
+		int32 id = 0;
+		int32 gold = 0;
+		WCHAR name[100];
+		TIMESTAMP_STRUCT date;
+
+		getGold.Out_Id(OUT id);
+
+		getGold.Out_Gold(OUT gold);
+
+		getGold.Out_CreateDate(OUT date);
+
+		getGold.Out_Name(OUT name);
+
+		getGold.Execute();
+		while (getGold.Fetch()) {
+			GConsoleLogger->WriteStdOut(Color::BLUE,
+				L"ID[%d] Gold[%d] Name[%s]\n", id, gold, name
+				);
+		}
+	}
 	ClientPacketHandler::Init();
 
 	ServerServiceRef service = MakeShared<ServerService>(
