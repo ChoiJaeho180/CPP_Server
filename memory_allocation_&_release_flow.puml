@@ -1,0 +1,37 @@
+@startuml
+actor Client
+
+Client -> MemoryManager : Allocate(size)
+MemoryManager -> MemoryManager : allocSize = size + header
+MemoryManager -> MemoryManager : is allocSize > MAX_ALLOC_SIZE?
+
+alt Large alloc
+    MemoryManager -> OS : _aligned_malloc(allocSize, alignment)
+    OS --> MemoryManager : ptr
+else Pool alloc
+    MemoryManager -> MemoryPool : Pop()
+    MemoryPool -> SLIST : InterlockedPopEntrySList
+    alt empty
+        MemoryPool -> OS : _aligned_malloc()
+        OS --> MemoryPool : ptr
+    else
+        SLIST --> MemoryPool : reused memory
+    end
+    MemoryPool --> MemoryManager : memory
+end
+MemoryManager --> Client : usable memory
+
+== Later ==
+
+Client -> MemoryManager : Release(ptr)
+MemoryManager -> MemoryManager : DetachHeader(ptr)
+MemoryManager -> MemoryManager : is allocSize > MAX_ALLOC_SIZE?
+
+alt Large free
+    MemoryManager -> OS : _aligned_free(header)
+else Pool free
+    MemoryManager -> MemoryPool : Push(header)
+    MemoryPool -> SLIST : InterlockedPushEntrySList
+end
+
+@enduml

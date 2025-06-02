@@ -30,10 +30,9 @@ void Lock::WriteLock(const char* name)
 			}
 		}
 
-		const int64 curTick = ::GetTickCount64();
-		/*if (curTick - beginTick >= ACQUIRE_TIMEOUT_TICK) {
+		if (::GetTickCount64() - beginTick >= ACQUIRE_TIMEOUT_TICK) {
 			CRASH("LOCK_TIMEOUT");
-		}*/
+		}
 
 		this_thread::yield();
 	}
@@ -71,7 +70,7 @@ void Lock::ReadLock(const char* name)
 		return;
 	}
 
-	// 아무도 소유학 ㅗ있지 않을 떄 경합해서 공유 카운트를 올린다.
+	// 아무도 소유하고 있지 않을 때 경합해서 공유 카운트를 올린다.
 	const int64 beginTick = ::GetTickCount64();
 	while (true) {
 		for (uint32 spinCount = 0; spinCount < MAX_SPIN_COUNT; spinCount++) {
@@ -97,11 +96,9 @@ void Lock::ReadUnlock(const char* name)
 	GDeadLockProfiler->PopLock(name);
 #endif
 
-
 	// fetch_sub은 빼기 전의 값을 반환
 	// 0이 반환된 경우 문제가 있는 상황.
 	if ((this->_lockFlag.fetch_sub(1) & READ_COUNT_MASK) == 0) {
 		CRASH("MULTIPLX_UNLOCK");
 	}
-
 }

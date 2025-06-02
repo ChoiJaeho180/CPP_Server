@@ -1,0 +1,24 @@
+@startuml
+title SendBuffer Allocation Flow
+
+actor User
+User -> SendBufferManager : Open(size)
+
+alt LSendBufferChunk is null
+    SendBufferManager -> SendBufferManager : Pop()
+    SendBufferManager -> SendBufferChunk : Reset()
+end
+
+alt Not enough space
+    SendBufferManager -> SendBufferManager : Pop()
+    SendBufferManager -> SendBufferChunk : Reset()
+end
+
+SendBufferManager -> SendBufferChunk : Open(size)
+SendBufferChunk -> "ObjectPool<SendBuffer>" : MakeShared(...)
+
+"ObjectPool<SendBuffer>" --> SendBufferChunk : SendBufferRef
+SendBufferChunk --> SendBufferManager : SendBufferRef
+SendBufferManager --> User : SendBufferRef
+
+@enduml

@@ -40,10 +40,6 @@ void DoWokerJob(ServerServiceRef& service) {
 	}
 }
 
-class Test {
-	int a;
-	long long int b;
-};
 int main()
 {
 	/*GRoom->DoTimer(1000, []() {cout << "1000!!!!" << endl; });
@@ -51,6 +47,7 @@ int main()
 	GRoom->DoTimer(3000, []() {cout << "3000!!!" << endl; });*/
 	
 	CoreGlobal coreGlobal;
+
 
 	/*ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=Yes;"));
 	DBConnection* dbConn = GDBConnectionPool->Pop();
