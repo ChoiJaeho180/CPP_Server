@@ -262,15 +262,21 @@ void Session::ProcessSend(int32 numOfBytes)
     // 컨텐츠 코드에서 재정의
     OnSend(numOfBytes);
 
-    WRITE_LOCK;
-
-    if (_sendQueue.empty()) {
-        _sendRegistered.store(false);
+    bool registerSend;
+    {
+        WRITE_LOCK;
+        if (_sendQueue.empty()) {
+            _sendRegistered.store(false);
+            registerSend = false;
+        }
+        else {
+            registerSend = true;
+        }
     }
-    else {
+
+    if (registerSend == true) {
         RegisterSend();
     }
-
 }
 
 void Session::HandleError(int32 errorCode)
