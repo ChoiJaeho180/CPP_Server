@@ -15,7 +15,12 @@ IocpCore::~IocpCore()
 
 bool IocpCore::Register(IocpObjectRef iocpObject)
 {
-	return ::CreateIoCompletionPort(iocpObject->GetHandle(),_iocpHandle,0, 0);
+	HANDLE handle = ::CreateIoCompletionPort(iocpObject->GetHandle(),_iocpHandle,0, 0);
+	if (handle == NULL) {
+		DWORD error = GetLastError();
+		std::cout << "CreateIoCompletionPort failed: " << error << std::endl;
+	}
+	return handle;
 }
 
 bool IocpCore::Dispatch(int32 timeoutMs)

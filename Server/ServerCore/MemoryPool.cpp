@@ -17,7 +17,6 @@ void MemoryPool::Push(MemoryHeader* ptr)
 {
     ptr->allocSize = 0;
 
-
     ::InterlockedPushEntrySList(&_header, static_cast<PSLIST_ENTRY>(ptr));
    
     _useCount.fetch_sub(1);
@@ -27,8 +26,6 @@ void MemoryPool::Push(MemoryHeader* ptr)
 MemoryHeader* MemoryPool::Pop()
 {
     MemoryHeader* memory = static_cast<MemoryHeader*>(::InterlockedPopEntrySList(&_header));
-
-
     if (memory == nullptr) {
         memory = reinterpret_cast<MemoryHeader*>(::_aligned_malloc(_allocSize, SLIST_ALIGNMENT));
     }

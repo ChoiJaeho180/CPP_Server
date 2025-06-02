@@ -43,6 +43,7 @@ public:
 
 int main()
 {
+	CoreGlobal core;
 	ServerPacketHandler::Init();
 
 	this_thread::sleep_for(1s);

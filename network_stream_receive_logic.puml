@@ -1,0 +1,44 @@
+@startuml
+/'
+1. Worker Thread가 IOCP에서 이벤트를 확인한다.
+2. ReceiveBuffer에 수신한 바이트 수만큼 writePos를 증가시킨다.
+3. 수신된 데이터가 최소한 Header 크기 이상인지 검사한다. 
+   아니라면 다음 수신을 기다린다. (break)
+   Header가 도착했다면, Header 안의 size 필드를 확인하여 전체 패킷 길이(= header + payload)가 도착했는지 검사한다. 
+   아니라면 다음 수신을 기다린다. (break)
+   전체 패킷이 도착한 경우, 해당 패킷의 type에 따라 packetHandler를 호출한다.
+4. 패킷 처리가 끝나면, OnRead로 읽은 바이트 수만큼 readPos를 이동시킨다.
+5. recvBuffer.Clean()을 호출하여, 
+   readPos == writePos이면 버퍼를 초기화하고
+   FreeSize() < bufferSize이면 memcpy로 앞쪽으로 당겨준다.
+6. 수신 처리가 끝나면 WSARecv를 재등록하여 다음 수신 이벤트를 기다린다.
+'/
+title IOCP 기반 수신 로직과 패킷 처리 과정 정리
+
+participant WorkerThread
+participant "ClientSession" as Session
+participant "ReceiveBuffer" as Buffer
+participant "PacketHandler" as handler
+
+== IOCP 이벤트 수신 ==
+WorkerThread -> Session : ProcessRecv(numOfBytes)
+Session -> Buffer : OnWrite(numOfBytes)
+
+loop   패킷 처리 루프
+    Session -> Session : Check header size
+    alt not enough header
+        Session --> Session : break
+    end
+    Session -> Session : Check full packet size
+    alt not enough full packet
+        Session --> Session : break
+    end
+    Session -> handler : OnRecvPacket(packet)
+end
+
+Session -> Buffer : OnRead(processLen)
+
+Session -> Buffer : Clean()
+Session -> Session : RegisterRecv()
+
+@enduml

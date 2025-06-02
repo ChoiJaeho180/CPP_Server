@@ -1,0 +1,27 @@
+@startuml
+title 소켓 준비 및 Accept 등록 흐름 (IOCP 기반)
+participant Main
+participant Listener
+participant IocpCore
+participant IOCP
+participant OS
+
+== 소켓 준비 및 IOCP 등록 ==
+
+Main -> Listener : StartAccept()
+Listener -> OS : CreateSocket()
+Listener -> IocpCore : Register(listener)
+IocpCore -> IOCP : CreateIoCompletionPort(listener.socket, iocpHandle)
+
+== 서버 Listen 시작 ==
+
+Listener -> OS : Bind()
+Listener -> OS : Listen()
+
+== Accept 이벤트 등록 ==
+
+loop 
+    Listener -> IOCP : AcceptEx (RegisterAccept)
+end
+
+@enduml

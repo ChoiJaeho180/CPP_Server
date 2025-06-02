@@ -6,6 +6,7 @@ MemoryManager::MemoryManager()
 {
 	int size = 0;
 	int tableIndex = 0;
+
 	for (size = 32; size <= 1024; size += 32) {
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
@@ -60,6 +61,7 @@ void* MemoryManager::Allocate(int32 size)
 	else {
 		header = _poolTable[allocSize]->Pop();
 	}
+
 #endif
 
 	return MemoryHeader::attachHeader(header, allocSize);

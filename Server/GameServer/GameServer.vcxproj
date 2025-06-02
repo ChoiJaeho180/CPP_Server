@@ -164,7 +164,6 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AccountManager.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -178,19 +177,15 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AccountManager.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameServer.h" />
@@ -198,12 +193,9 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     <ClInclude Include="GenProcedures.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Protocol.pb.h" />
-    <ClInclude Include="Room.h" />
     <ClInclude Include="Struct.pb.h" />
-    <ClInclude Include="UserManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Procedures\GenProcedures.bat" />

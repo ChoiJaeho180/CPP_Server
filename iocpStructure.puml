@@ -1,0 +1,17 @@
+@startuml iocpStructure
+abstract class IocpObject {
+    + virtual HANDLE GetHandle() abstract;
+    + virtual void Dispatch() abstract;
+}
+
+class Listener
+
+class Session 
+class PacketSession
+class ClientSession
+
+IocpObject <|.. Listener
+IocpObject <|.. Session 
+Session <|-- PacketSession
+PacketSession <|-- ClientSession
+@enduml

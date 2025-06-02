@@ -1,0 +1,25 @@
+
+@startuml
+title 클라이언트 입장 처리 흐름 (IOCP 기반)
+
+participant "Worker Thread" as Worker
+participant IOCP
+participant Listener
+participant Session
+participant Service
+
+== 클라이언트 연결 요청 감지 ==
+IOCP -> Worker : Accept 이벤트 발생 (AcceptEvent)
+
+Worker -> Listener : ProcessAccept(acceptEvent)
+Listener -> Session : ProcessConnect()
+
+== 연결 처리 및 수신 등록 ==
+Session -> Session : _connected = true
+Session -> Service : AddSession(this)
+Session -> Session : OnConnected() 호출
+Session -> Session : RegisterRecv()
+
+Session -> IOCP : WSARecv 등록 (수신 이벤트 대기)
+
+@enduml

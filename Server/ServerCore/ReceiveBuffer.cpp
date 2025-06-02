@@ -36,8 +36,8 @@ bool ReceiveBuffer::OnRead(int32 numOfBytes)
 	if (numOfBytes > DataSize()) {
 		return false;
 	}
-	_readPos += numOfBytes;
 
+	_readPos += numOfBytes;
 	return true;
 }
 
@@ -46,7 +46,7 @@ bool ReceiveBuffer::OnWrite(int32 numOfBytes)
 	if (numOfBytes > FreeSize()) {
 		return false;
 	}
-	_writePos += numOfBytes;
 
+	_writePos += numOfBytes;
 	return true;
 }

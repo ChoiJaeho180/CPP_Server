@@ -16,31 +16,27 @@ TaskTimer*					GTaskTimer = nullptr;
 DBConnectionPool*			GDBConnectionPool = nullptr;
 ConsoleLog*					GConsoleLogger = nullptr;
 
-class CoreGlobal
-{
-public:
-	CoreGlobal() {
-		GThreadManager = new ThreadManager();
-		GDeadLockProfiler = new DeadLockProfiler();
-		GMemoryManager = new MemoryManager();
-		GSendBufferManager = new SendBufferManager();
-		GGlobalQueue = new GlobalQueue();
-		GTaskTimer = new TaskTimer();
-		GDBConnectionPool = new DBConnectionPool();
-		GConsoleLogger = new ConsoleLog();
+CoreGlobal::CoreGlobal() {
+	GThreadManager = new ThreadManager();
+	GMemoryManager = new MemoryManager();
+	GDeadLockProfiler = new DeadLockProfiler();
+	GSendBufferManager = new SendBufferManager();
+	GGlobalQueue = new GlobalQueue();
+	GTaskTimer = new TaskTimer();
+	GDBConnectionPool = new DBConnectionPool();
+	GConsoleLogger = new ConsoleLog();
 
-		SocketUtils::Init();
-	}
-	~CoreGlobal() {
-		delete GThreadManager;
-		delete GDeadLockProfiler;
-		delete GMemoryManager;
-		delete GSendBufferManager;
-		delete GGlobalQueue;
-		delete GTaskTimer;
-		delete GDBConnectionPool;
-		delete GConsoleLogger;
+	SocketUtils::Init();
+}
+CoreGlobal::~CoreGlobal() {
+	delete GThreadManager;
+	delete GDeadLockProfiler;
+	delete GMemoryManager;
+	delete GSendBufferManager;
+	delete GGlobalQueue;
+	delete GTaskTimer;
+	delete GDBConnectionPool;
+	delete GConsoleLogger;
 
-		SocketUtils::Clear();
-	}
-} GCoreGlobal;
+	SocketUtils::Clear();
+}

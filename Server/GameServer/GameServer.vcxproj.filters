@@ -24,9 +24,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="AccountManager.cpp" />
-    <ClCompile Include="UserManager.cpp" />
-    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="ClientSessionManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
     <ClCompile Include="ClientSession.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Room.cpp">
-      <Filter>GameContents</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameContents</Filter>
     </ClCompile>
@@ -56,10 +50,7 @@
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="AccountManager.h" />
-    <ClInclude Include="UserManager.h" />
     <ClInclude Include="GameServer.h" />
-    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="ClientSessionManager.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -77,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="ClientSession.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>GameContents</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GameContents</Filter>

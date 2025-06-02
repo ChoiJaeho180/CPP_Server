@@ -8,3 +8,10 @@ extern class GlobalQueue*			GGlobalQueue;
 extern class TaskTimer*				GTaskTimer;
 extern class DBConnectionPool*		GDBConnectionPool;
 extern class ConsoleLog*			GConsoleLogger;
+
+class CoreGlobal 
+{
+public:
+	CoreGlobal();
+	~CoreGlobal();
+};

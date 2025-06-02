@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "ClientSession.h"
-#include "ClientSessionManager.h"
-#include "ClientPacketHandler.h"
-#include "Room.h"
-#include "Player.h"
 #include <algorithm>
-
+#include "ClientPacketHandler.h"
+#include "Player.h"
+#include "ClientSessionManager.h"
 ClientSession::ClientSession() {
 
 }
@@ -16,18 +14,12 @@ ClientSession::~ClientSession() {
 
 void ClientSession::OnConnected()
 {
-	GSessionManager.Add(static_pointer_cast<ClientSession>(shared_from_this()));
+	ClientSessionManager::GetInstance().Add(static_pointer_cast<ClientSession>(shared_from_this()));
 }
 
 void ClientSession::OnDisconnected()
 {
-	GSessionManager.Remove(static_pointer_cast<ClientSession>(shared_from_this()));
-
-	if (_curPlayer) {
-		if (auto room = _room.lock()) {
-			room->DoAsync(&Room::Leave, _curPlayer);
-		}
-	}
+	ClientSessionManager::GetInstance().Remove(static_pointer_cast<ClientSession>(shared_from_this()));
 
 	_curPlayer = nullptr;
 	_players.clear();

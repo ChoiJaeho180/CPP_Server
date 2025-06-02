@@ -2,7 +2,6 @@
 #include "ClientPacketHandler.h"
 #include "ClientSession.h"
 #include "Player.h"
-#include "Room.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -55,11 +54,9 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	uint64 index = pkt.playerindex();
 	// todo. validation
 
-	clientSession->SetRoom(GRoom);
 	PlayerRef curPlayer = clientSession->GetPlayer(index);
 	clientSession->SetCurPlayer(curPlayer);
 
-	GRoom->DoAsync(&Room::Enter, curPlayer);
 	
 	Protocol::S_ENTER_GAME enterGamePkt;
 	enterGamePkt.set_success(true);
@@ -75,8 +72,7 @@ bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)
 	chatPkt.set_msg(pkt.msg());
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
-	GRoom->DoAsync(&Room::BroadCast, sendBuffer);
-
+	cout << "pkt : " << pkt.msg() << endl;
 	return false;
 }
 

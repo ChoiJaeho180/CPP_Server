@@ -22,9 +22,7 @@ public:
 	void						SetCurPlayer(PlayerRef player) { _curPlayer = player; }
 	PlayerRef					GetCurPlayer() { return _curPlayer; }
 
-	void						SetRoom(weak_ptr<Room> room) { _room = room; }
 private:
 	PlayerRef				_curPlayer;
 	Vector<PlayerRef>		_players;
-	weak_ptr<Room>			_room;
 };

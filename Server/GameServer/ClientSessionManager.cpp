@@ -2,7 +2,6 @@
 #include "ClientSessionManager.h"
 #include "ClientSession.h"
 
-ClientSessionManager GSessionManager;
 
 void ClientSessionManager::Add(ClientSessionRef session)
 {

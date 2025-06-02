@@ -73,12 +73,10 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 	
 	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);
 	ProcessAccept(acceptEvent);
-
 }
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	
 	SessionRef session = _service->CreateSession(); // 
 	acceptEvent->Init();
 	acceptEvent->session = session;
@@ -113,8 +111,6 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 	session->SetNetAddress((NetAddress)sockAddress);
 	session->ProcessConnect();
 	cout << "Client Connect" << endl;
-
-
 
 	RegisterAccept(acceptEvent);
 }
