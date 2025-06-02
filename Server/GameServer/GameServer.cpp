@@ -16,7 +16,8 @@
 #include "DBSynchronizer.h"
 #include "GenProcedures.h"
 #include "CoreGlobal.h"
-
+#include <chrono>
+using namespace std::chrono_literals;
 #pragma comment(lib, "Ws2_32.lib")
 
 enum {
@@ -54,13 +55,7 @@ int main()
 	DBSynchronizer dbSync(*dbConn);
 	dbSync.Synchronize(L"GameDB.xml");
 
-	{
-		SP::InsertGold inserGold(*dbConn);
-		inserGold.In_Gold(100);
-		inserGold.In_Name(L"asd");
-		inserGold.In_CreateDate(TIMESTAMP_STRUCT{ 2020,6,8 });
-		inserGold.Execute();
-	}
+	
 
 	{
 		SP::GetGold getGold(*dbConn);

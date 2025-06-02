@@ -15,5 +15,6 @@ private:
 	string							_name;
 	Protocol::PlayerType			_type = Protocol::PlayerType::PLAYER_TYPE_NONE;
 	weak_ptr<ClientSession>			_ownerSession; 
+
 };
 

@@ -28,7 +28,7 @@ void ClientSession::OnDisconnected()
 void ClientSession::OnRecvPacket(BYTE* buffer, int32 len) {
 	PacketSessionRef session = GetPacketSessionRef();
 	PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
-	// todo. packetId 措开 眉农
+	// todo. packetId 锟诫开 眉农
 	ClientPacketHandler::HandlePacket(session, buffer, len);
 }
 

@@ -46,3 +46,4 @@ Server/ServerCore/x64
 Server/DummyClient/x64
 Server/Libraries/Debug
 Server/.vs
+Server/Tools/PacketGenerator/__pycache__

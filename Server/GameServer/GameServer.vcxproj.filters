@@ -89,6 +89,9 @@
     <None Include="..\Common\Procedures\GenProcedures.bat">
       <Filter>DB</Filter>
     </None>
+    <None Include="..\Common\Protobuf\bin\GenPackets.bat">
+      <Filter>Protocol</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="GameDB.xml">

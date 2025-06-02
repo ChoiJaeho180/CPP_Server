@@ -14,8 +14,8 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 {
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
 	
-	// DB¿¡¼­ ÇÃ·¹ÀÌ Á¤º¸¸¦ ±Ü¾î¿Â´Ù
-	// ClientSession¿¡ ÇÃ·¹ÀÌ Á¤º¸¸¦ ÀúÀå (¸Þ¸ð¸®)
+	// DBï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¾ï¿½Â´ï¿½
+	// ClientSessionï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Þ¸ï¿½)
 
 	static Atomic<uint64> playerIdGen = 1;
 	Protocol::S_LOGIN sLoginPkt;
@@ -70,6 +70,7 @@ bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)
 {
 	Protocol::S_CHAT chatPkt;
 	chatPkt.set_msg(pkt.msg());
+
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
 	cout << "pkt : " << pkt.msg() << endl;
