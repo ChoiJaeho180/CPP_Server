@@ -3,9 +3,17 @@ package Protocol; // namespace
 
 import "Enum.proto";
 
+message LocationYaw 
+{
+	float x = 1;
+	float y = 2;
+	float z = 3;
+	float yaw = 4;
+}
 message PlayerInfo
 {
 	uint64 id = 1;
 	string name = 2;
 	PlayerType playerType = 3;
+	LocationYaw locationYaw = 4;
 }

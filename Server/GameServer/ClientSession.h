@@ -23,6 +23,6 @@ public:
 	PlayerRef					GetCurPlayer() { return _curPlayer; }
 
 private:
-	PlayerRef				_curPlayer;
+	atomic<PlayerRef>		_curPlayer;
 	Vector<PlayerRef>		_players;
 };

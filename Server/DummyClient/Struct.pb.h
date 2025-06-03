@@ -46,16 +46,201 @@ struct TableStruct_Struct_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Struct_2eproto;
 namespace Protocol {
+class LocationYaw;
+struct LocationYawDefaultTypeInternal;
+extern LocationYawDefaultTypeInternal _LocationYaw_default_instance_;
 class PlayerInfo;
 struct PlayerInfoDefaultTypeInternal;
 extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::LocationYaw* Arena::CreateMaybeMessage<::Protocol::LocationYaw>(Arena*);
 template<> ::Protocol::PlayerInfo* Arena::CreateMaybeMessage<::Protocol::PlayerInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
 // ===================================================================
+
+class LocationYaw final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.LocationYaw) */ {
+ public:
+  inline LocationYaw() : LocationYaw(nullptr) {}
+  ~LocationYaw() override;
+  explicit PROTOBUF_CONSTEXPR LocationYaw(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  LocationYaw(const LocationYaw& from);
+  LocationYaw(LocationYaw&& from) noexcept
+    : LocationYaw() {
+    *this = ::std::move(from);
+  }
+
+  inline LocationYaw& operator=(const LocationYaw& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LocationYaw& operator=(LocationYaw&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LocationYaw& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LocationYaw* internal_default_instance() {
+    return reinterpret_cast<const LocationYaw*>(
+               &_LocationYaw_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(LocationYaw& a, LocationYaw& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LocationYaw* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LocationYaw* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LocationYaw* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LocationYaw>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const LocationYaw& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const LocationYaw& from) {
+    LocationYaw::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LocationYaw* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.LocationYaw";
+  }
+  protected:
+  explicit LocationYaw(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kXFieldNumber = 1,
+    kYFieldNumber = 2,
+    kZFieldNumber = 3,
+    kYawFieldNumber = 4,
+  };
+  // float x = 1;
+  void clear_x();
+  float x() const;
+  void set_x(float value);
+  private:
+  float _internal_x() const;
+  void _internal_set_x(float value);
+  public:
+
+  // float y = 2;
+  void clear_y();
+  float y() const;
+  void set_y(float value);
+  private:
+  float _internal_y() const;
+  void _internal_set_y(float value);
+  public:
+
+  // float z = 3;
+  void clear_z();
+  float z() const;
+  void set_z(float value);
+  private:
+  float _internal_z() const;
+  void _internal_set_z(float value);
+  public:
+
+  // float yaw = 4;
+  void clear_yaw();
+  float yaw() const;
+  void set_yaw(float value);
+  private:
+  float _internal_yaw() const;
+  void _internal_set_yaw(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.LocationYaw)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    float x_;
+    float y_;
+    float z_;
+    float yaw_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Struct_2eproto;
+};
+// -------------------------------------------------------------------
 
 class PlayerInfo final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.PlayerInfo) */ {
@@ -105,7 +290,7 @@ class PlayerInfo final :
                &_PlayerInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(PlayerInfo& a, PlayerInfo& b) {
     a.Swap(&b);
@@ -179,6 +364,7 @@ class PlayerInfo final :
 
   enum : int {
     kNameFieldNumber = 2,
+    kLocationYawFieldNumber = 4,
     kIdFieldNumber = 1,
     kPlayerTypeFieldNumber = 3,
   };
@@ -195,6 +381,24 @@ class PlayerInfo final :
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
   std::string* _internal_mutable_name();
   public:
+
+  // .Protocol.LocationYaw locationYaw = 4;
+  bool has_locationyaw() const;
+  private:
+  bool _internal_has_locationyaw() const;
+  public:
+  void clear_locationyaw();
+  const ::Protocol::LocationYaw& locationyaw() const;
+  PROTOBUF_NODISCARD ::Protocol::LocationYaw* release_locationyaw();
+  ::Protocol::LocationYaw* mutable_locationyaw();
+  void set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw);
+  private:
+  const ::Protocol::LocationYaw& _internal_locationyaw() const;
+  ::Protocol::LocationYaw* _internal_mutable_locationyaw();
+  public:
+  void unsafe_arena_set_allocated_locationyaw(
+      ::Protocol::LocationYaw* locationyaw);
+  ::Protocol::LocationYaw* unsafe_arena_release_locationyaw();
 
   // uint64 id = 1;
   void clear_id();
@@ -223,6 +427,7 @@ class PlayerInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::Protocol::LocationYaw* locationyaw_;
     uint64_t id_;
     int playertype_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -239,6 +444,90 @@ class PlayerInfo final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// LocationYaw
+
+// float x = 1;
+inline void LocationYaw::clear_x() {
+  _impl_.x_ = 0;
+}
+inline float LocationYaw::_internal_x() const {
+  return _impl_.x_;
+}
+inline float LocationYaw::x() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.x)
+  return _internal_x();
+}
+inline void LocationYaw::_internal_set_x(float value) {
+  
+  _impl_.x_ = value;
+}
+inline void LocationYaw::set_x(float value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.x)
+}
+
+// float y = 2;
+inline void LocationYaw::clear_y() {
+  _impl_.y_ = 0;
+}
+inline float LocationYaw::_internal_y() const {
+  return _impl_.y_;
+}
+inline float LocationYaw::y() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.y)
+  return _internal_y();
+}
+inline void LocationYaw::_internal_set_y(float value) {
+  
+  _impl_.y_ = value;
+}
+inline void LocationYaw::set_y(float value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.y)
+}
+
+// float z = 3;
+inline void LocationYaw::clear_z() {
+  _impl_.z_ = 0;
+}
+inline float LocationYaw::_internal_z() const {
+  return _impl_.z_;
+}
+inline float LocationYaw::z() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.z)
+  return _internal_z();
+}
+inline void LocationYaw::_internal_set_z(float value) {
+  
+  _impl_.z_ = value;
+}
+inline void LocationYaw::set_z(float value) {
+  _internal_set_z(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.z)
+}
+
+// float yaw = 4;
+inline void LocationYaw::clear_yaw() {
+  _impl_.yaw_ = 0;
+}
+inline float LocationYaw::_internal_yaw() const {
+  return _impl_.yaw_;
+}
+inline float LocationYaw::yaw() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.yaw)
+  return _internal_yaw();
+}
+inline void LocationYaw::_internal_set_yaw(float value) {
+  
+  _impl_.yaw_ = value;
+}
+inline void LocationYaw::set_yaw(float value) {
+  _internal_set_yaw(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.yaw)
+}
+
+// -------------------------------------------------------------------
+
 // PlayerInfo
 
 // uint64 id = 1;
@@ -331,9 +620,101 @@ inline void PlayerInfo::set_playertype(::Protocol::PlayerType value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.playerType)
 }
 
+// .Protocol.LocationYaw locationYaw = 4;
+inline bool PlayerInfo::_internal_has_locationyaw() const {
+  return this != internal_default_instance() && _impl_.locationyaw_ != nullptr;
+}
+inline bool PlayerInfo::has_locationyaw() const {
+  return _internal_has_locationyaw();
+}
+inline void PlayerInfo::clear_locationyaw() {
+  if (GetArenaForAllocation() == nullptr && _impl_.locationyaw_ != nullptr) {
+    delete _impl_.locationyaw_;
+  }
+  _impl_.locationyaw_ = nullptr;
+}
+inline const ::Protocol::LocationYaw& PlayerInfo::_internal_locationyaw() const {
+  const ::Protocol::LocationYaw* p = _impl_.locationyaw_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::LocationYaw&>(
+      ::Protocol::_LocationYaw_default_instance_);
+}
+inline const ::Protocol::LocationYaw& PlayerInfo::locationyaw() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.locationYaw)
+  return _internal_locationyaw();
+}
+inline void PlayerInfo::unsafe_arena_set_allocated_locationyaw(
+    ::Protocol::LocationYaw* locationyaw) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locationyaw_);
+  }
+  _impl_.locationyaw_ = locationyaw;
+  if (locationyaw) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.PlayerInfo.locationYaw)
+}
+inline ::Protocol::LocationYaw* PlayerInfo::release_locationyaw() {
+  
+  ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
+  _impl_.locationyaw_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::LocationYaw* PlayerInfo::unsafe_arena_release_locationyaw() {
+  // @@protoc_insertion_point(field_release:Protocol.PlayerInfo.locationYaw)
+  
+  ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
+  _impl_.locationyaw_ = nullptr;
+  return temp;
+}
+inline ::Protocol::LocationYaw* PlayerInfo::_internal_mutable_locationyaw() {
+  
+  if (_impl_.locationyaw_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::LocationYaw>(GetArenaForAllocation());
+    _impl_.locationyaw_ = p;
+  }
+  return _impl_.locationyaw_;
+}
+inline ::Protocol::LocationYaw* PlayerInfo::mutable_locationyaw() {
+  ::Protocol::LocationYaw* _msg = _internal_mutable_locationyaw();
+  // @@protoc_insertion_point(field_mutable:Protocol.PlayerInfo.locationYaw)
+  return _msg;
+}
+inline void PlayerInfo::set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.locationyaw_;
+  }
+  if (locationyaw) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(locationyaw);
+    if (message_arena != submessage_arena) {
+      locationyaw = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, locationyaw, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.locationyaw_ = locationyaw;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerInfo.locationYaw)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

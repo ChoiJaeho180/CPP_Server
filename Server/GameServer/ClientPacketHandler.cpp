@@ -2,6 +2,8 @@
 #include "ClientPacketHandler.h"
 #include "ClientSession.h"
 #include "Player.h"
+#include "ObjectUtils.h"
+#include "Room.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -12,58 +14,50 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 
 bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 {
+	// TODO. DB에서 account 정보를 긁어온다.
+	// TODO. 인증 서버 개발 시 인증 서버에서 redis에 인증 관련 토큰을 저장하고
+	//  여기서 검증을 한다.
+
+
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
 	
 	// DB���� �÷��� ������ �ܾ�´�
 	// ClientSession�� �÷��� ������ ���� (�޸�)
 
 	static Atomic<uint64> playerIdGen = 1;
-	Protocol::S_LOGIN sLoginPkt;
-	sLoginPkt.set_success(true);
 
-
-	{
-		PlayerRef player = MakeShared<Player>(playerIdGen++, pkt.name(), Protocol::PlayerType::PLAYER_TYPE_NONE, clientSession);
-		clientSession->AddPlayer(player);
-
-		Protocol::PlayerInfo* playerInfo = sLoginPkt.add_players();
-		playerInfo->set_id(player->PlayerId());
-		playerInfo->set_name(player->Name());
-		playerInfo->set_playertype(player->PlayerType());
-	}
+	PlayerRef player = MakeShared<Player>(pkt.name(), Protocol::PlayerType::PLAYER_TYPE_NONE, clientSession);
+	clientSession->AddPlayer(player);
 
 	{
-		PlayerRef player = MakeShared<Player>(playerIdGen++, pkt.name(), Protocol::PlayerType::PLAYER_TYPE_KNIGHT, clientSession);
-		clientSession->AddPlayer(player);
+		Protocol::S_LOGIN sLoginPkt;
 
-		Protocol::PlayerInfo* playerInfo = sLoginPkt.add_players();
-		playerInfo->set_id(player->PlayerId());
-		playerInfo->set_name(player->Name());
-		playerInfo->set_playertype(player->PlayerType());
+		sLoginPkt.set_success(true);
+
+		SEND_PACKET(sLoginPkt);
 	}
-	
-
-	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(sLoginPkt);
-	clientSession->Send(sendBuffer);
 	return true;
 }
 
 bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
-	uint64 index = pkt.playerindex();
-	// todo. validation
+	PlayerRef curPlayer = ObjectUtils::CreatePlayer(clientSession);
 
-	PlayerRef curPlayer = clientSession->GetPlayer(index);
-	clientSession->SetCurPlayer(curPlayer);
-
+	Room::GetInstance().ProcessEnterLocked(curPlayer);
 	
-	Protocol::S_ENTER_GAME enterGamePkt;
-	enterGamePkt.set_success(true);
-	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePkt);
-	curPlayer->ownerSession().lock()->Send(sendBuffer);
-
+	
 	return true;
+}
+
+bool Handle_C_LEAVE_GAME(PacketSessionRef& session, Protocol::C_LEAVE_GAME& pkt)
+{
+	return false;
+}
+
+bool Handle_C_SPAWN(PacketSessionRef& session, Protocol::C_SPAWN& pkt)
+{
+	return false;
 }
 
 bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)

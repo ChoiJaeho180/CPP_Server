@@ -15,6 +15,12 @@
 
 #include "CorePch.h"
 #include "Enum.pb.h"
+#include "MathUtils.h"
+#include "Protocol.pb.h"
 
 using ClientSessionRef		= shared_ptr<class ClientSession>;
 using PlayerRef				= shared_ptr<class Player>;
+
+#define SEND_PACKET(pkt)													\
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);	\
+	session->Send(sendBuffer);												\

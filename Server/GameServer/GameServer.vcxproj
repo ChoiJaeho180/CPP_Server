@@ -134,7 +134,7 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -170,6 +170,8 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     </ClCompile>
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="ClientSessionManager.cpp" />
+    <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="ObjectUtils.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -181,6 +183,7 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     <ClCompile Include="Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -191,10 +194,13 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="ClientSessionManager.h" />
     <ClInclude Include="GenProcedures.h" />
+    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="ObjectUtils.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Protocol.pb.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="Struct.pb.h" />
   </ItemGroup>
   <ItemGroup>
