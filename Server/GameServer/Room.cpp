@@ -19,7 +19,7 @@ bool Room::ProcessEnterLocked(PlayerRef player)
 	WRITE_LOCK;
 
 	bool success = Enter(player);
-	if (success == false) {
+	if (!success) {
 		return false;
 	}
 
@@ -27,7 +27,7 @@ bool Room::ProcessEnterLocked(PlayerRef player)
 		Protocol::LocationYaw* locationYaw = new Protocol::LocationYaw();
 		locationYaw->set_x(MathUtils::rand(0.f, 500.f));
 		locationYaw->set_y(MathUtils::rand(0.f, 500.f));
-		locationYaw->set_z(MathUtils::rand(0.f, 500.f));
+		locationYaw->set_z(100.f);
 		locationYaw->set_yaw(MathUtils::rand(0.f, 100.f));
 
 		Protocol::PlayerInfo& curPlayerInfo = player->GetPlayerInfo();
@@ -72,19 +72,87 @@ bool Room::ProcessEnterLocked(PlayerRef player)
 	return true;
 }
 
+
+bool Room::ProcessLeaveLocked(PlayerRef player)
+{
+	WRITE_LOCK;
+
+	const uint64 playerId = player->GetPlayerInfo().id();
+	bool success = Leave(playerId);
+	if (!success) {
+		return false;
+	}
+
+	{
+		Protocol::S_LEAVE_GAME leavGamePkt;
+
+		if (auto session = player->OwnerSession().lock()) {
+			SEND_PACKET(leavGamePkt);
+		}
+	}
+
+	{
+		Protocol::S_DESPAWN despawnPkt;
+		despawnPkt.add_ids(playerId);
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(despawnPkt);
+		Broadcast(sendBuffer, playerId);
+	}
+
+	return true;
+}
+
+void Room::ProcessMovePlayerLocked(Protocol::C_MOVE& pkt)
+{
+	WRITE_LOCK;
+
+	const uint64 id = pkt.player().id();
+	if (_players.find(id) == _players.end()) {
+		return;
+	}
+
+	// todo. 스피드 핵 검사
+
+
+	PlayerRef& player = _players[id];
+	player->GetPlayerInfo().CopyFrom(pkt.player());
+
+	{
+		Protocol::S_MOVE movePkt;
+		{
+			Protocol::PlayerInfo* info = movePkt.mutable_player();
+			info->CopyFrom(pkt.player());
+		}
+
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(movePkt);
+		Broadcast(sendBuffer, id);
+	}
+
+}
 bool Room::Enter(PlayerRef player)
 {
 	if (_players.find(player->GetPlayerInfo().id()) != _players.end()) {
 		std::cout << "duplicate entered player" << std::endl;
 		return false;
 	}
-	
+
 	_players.insert(make_pair(player->GetPlayerInfo().id(), player));
 	return true;
 }
 
-void Room::Leave(uint64 playerId)
+bool Room::Leave(uint64 playerId)
 {
+	if (_players.find(playerId) == _players.end()) {
+		std::cout << "not found user" << std::endl;
+		return false;
+	}
+
+	_players.erase(playerId);
+	return true;
+}
+
+bool Room::movePlayer(PlayerRef player)
+{
+	return false;
 }
 
 void Room::Broadcast(SendBufferRef sendBuffer, uint64 expectedId)

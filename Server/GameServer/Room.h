@@ -15,8 +15,13 @@ public:
 	}
 
 	bool ProcessEnterLocked(PlayerRef player);
+	bool ProcessLeaveLocked(PlayerRef player);
+	void ProcessMovePlayerLocked(Protocol::C_MOVE& pkt);
+private:
+
 	bool Enter(PlayerRef player);
-	void Leave(uint64 playerId);
+	bool Leave(uint64 playerId);
+	bool movePlayer(PlayerRef player);
 private:
 
 	void Broadcast(SendBufferRef sendBuffer, uint64 expectedId = 0);
