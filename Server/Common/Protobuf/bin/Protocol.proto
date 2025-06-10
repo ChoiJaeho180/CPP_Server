@@ -47,11 +47,17 @@ message S_DESPAWN {
 }
 
 message C_MOVE {
-	PlayerInfo player= 1;
+	uint64 id = 1;
+	LocationYaw dest = 2;
+	float duration = 3;
+	MoveState moveState = 4;
 }
 
 message S_MOVE {
-	PlayerInfo player = 1;
+	uint64 id = 1;
+	LocationYaw dest = 2;
+	float duration = 3;
+	MoveState moveState = 4;
 }
 message C_CHAT {
 	string msg = 1;

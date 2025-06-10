@@ -2,7 +2,7 @@
 #include "../ServerCore/TaskQueue.h"
 #include <unordered_map>
 
-class Room : public TaskQueue
+class Room : public TaskQueue //, public enable_shared_from_this<Room>
 {
 public:
 	Room();
@@ -14,19 +14,18 @@ public:
 		return instance;
 	}
 
-	bool ProcessEnterLocked(PlayerRef player);
-	bool ProcessLeaveLocked(PlayerRef player);
-	void ProcessMovePlayerLocked(Protocol::C_MOVE& pkt);
+	bool ProcessEnter(PlayerRef player);
+	bool ProcessLeave(PlayerRef player);
+	void ProcessMove(Protocol::C_MOVE pkt);
 private:
 
 	bool Enter(PlayerRef player);
 	bool Leave(uint64 playerId);
-	bool movePlayer(PlayerRef player);
+	bool move(PlayerRef player);
 private:
 
 	void Broadcast(SendBufferRef sendBuffer, uint64 expectedId = 0);
 private:
-	USE_LOCK;
 	unordered_map<uint64, PlayerRef> _players;
 };
 

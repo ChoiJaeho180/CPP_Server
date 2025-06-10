@@ -9,3 +9,7 @@ Player::Player(string name, Protocol::PlayerType type, ClientSessionRef owner)
 Player::~Player() {
 	cout << "~Player" << endl;
 }
+
+void Player::Update(float deltaTime)
+{
+}

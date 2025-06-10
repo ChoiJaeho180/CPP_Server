@@ -11,7 +11,7 @@ PlayerRef ObjectUtils::CreatePlayer(ClientSessionRef session)
 
     PlayerRef player = ObjectPool<Player>::MakeShared();
     player->SetOwnerSession(session);
-    
+  
     session->SetCurPlayer(player);
     
     Protocol::PlayerInfo& playerInfo = player->GetPlayerInfo();

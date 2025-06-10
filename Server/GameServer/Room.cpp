@@ -14,10 +14,8 @@ Room::~Room()
 {
 }
 
-bool Room::ProcessEnterLocked(PlayerRef player)
+bool Room::ProcessEnter(PlayerRef player)
 {
-	WRITE_LOCK;
-
 	bool success = Enter(player);
 	if (!success) {
 		return false;
@@ -73,10 +71,8 @@ bool Room::ProcessEnterLocked(PlayerRef player)
 }
 
 
-bool Room::ProcessLeaveLocked(PlayerRef player)
+bool Room::ProcessLeave(PlayerRef player)
 {
-	WRITE_LOCK;
-
 	const uint64 playerId = player->GetPlayerInfo().id();
 	bool success = Leave(playerId);
 	if (!success) {
@@ -101,26 +97,30 @@ bool Room::ProcessLeaveLocked(PlayerRef player)
 	return true;
 }
 
-void Room::ProcessMovePlayerLocked(Protocol::C_MOVE& pkt)
+void Room::ProcessMove(Protocol::C_MOVE pkt)
 {
-	WRITE_LOCK;
-
-	const uint64 id = pkt.player().id();
+	const uint64 id = pkt.id();
 	if (_players.find(id) == _players.end()) {
 		return;
 	}
 
 	// todo. 스피드 핵 검사
 
-
 	PlayerRef& player = _players[id];
-	player->GetPlayerInfo().CopyFrom(pkt.player());
+	Protocol::LocationYaw* locationYaw = player->GetPlayerInfo().mutable_locationyaw();
+	locationYaw->CopyFrom(pkt.dest());
 
 	{
 		Protocol::S_MOVE movePkt;
 		{
-			Protocol::PlayerInfo* info = movePkt.mutable_player();
-			info->CopyFrom(pkt.player());
+			movePkt.set_id(id);
+			movePkt.set_duration(pkt.duration());
+			movePkt.set_movestate(pkt.movestate());
+
+			Protocol::LocationYaw* locationYaw = movePkt.mutable_dest();
+			locationYaw->CopyFrom(pkt.dest());
+			cout << "id : " << id << endl;
+			cout << " locationYaw X : " << locationYaw->x() << ", Y : " << locationYaw->y() << ", Z : " << locationYaw->z() << endl;
 		}
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(movePkt);
@@ -150,7 +150,7 @@ bool Room::Leave(uint64 playerId)
 	return true;
 }
 
-bool Room::movePlayer(PlayerRef player)
+bool Room::move(PlayerRef player)
 {
 	return false;
 }

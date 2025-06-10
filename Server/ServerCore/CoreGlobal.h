@@ -12,6 +12,9 @@ extern class ConsoleLog*			GConsoleLogger;
 class CoreGlobal 
 {
 public:
-	CoreGlobal();
-	~CoreGlobal();
+	static void Init();
+	static void Destory();
+	;
+private:
+	static bool _initialized;
 };

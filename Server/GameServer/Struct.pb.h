@@ -367,6 +367,7 @@ class PlayerInfo final :
     kLocationYawFieldNumber = 4,
     kIdFieldNumber = 1,
     kPlayerTypeFieldNumber = 3,
+    kMoveStateFieldNumber = 5,
   };
   // string name = 2;
   void clear_name();
@@ -418,6 +419,15 @@ class PlayerInfo final :
   void _internal_set_playertype(::Protocol::PlayerType value);
   public:
 
+  // .Protocol.MoveState moveState = 5;
+  void clear_movestate();
+  ::Protocol::MoveState movestate() const;
+  void set_movestate(::Protocol::MoveState value);
+  private:
+  ::Protocol::MoveState _internal_movestate() const;
+  void _internal_set_movestate(::Protocol::MoveState value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.PlayerInfo)
  private:
   class _Internal;
@@ -430,6 +440,7 @@ class PlayerInfo final :
     ::Protocol::LocationYaw* locationyaw_;
     uint64_t id_;
     int playertype_;
+    int movestate_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -708,6 +719,26 @@ inline void PlayerInfo::set_allocated_locationyaw(::Protocol::LocationYaw* locat
   }
   _impl_.locationyaw_ = locationyaw;
   // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerInfo.locationYaw)
+}
+
+// .Protocol.MoveState moveState = 5;
+inline void PlayerInfo::clear_movestate() {
+  _impl_.movestate_ = 0;
+}
+inline ::Protocol::MoveState PlayerInfo::_internal_movestate() const {
+  return static_cast< ::Protocol::MoveState >(_impl_.movestate_);
+}
+inline ::Protocol::MoveState PlayerInfo::movestate() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.moveState)
+  return _internal_movestate();
+}
+inline void PlayerInfo::_internal_set_movestate(::Protocol::MoveState value) {
+  
+  _impl_.movestate_ = value;
+}
+inline void PlayerInfo::set_movestate(::Protocol::MoveState value) {
+  _internal_set_movestate(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.moveState)
 }
 
 #ifdef __GNUC__

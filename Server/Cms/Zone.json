@@ -1,0 +1,8 @@
+{
+  "id": "int",
+  "name":"std::string",
+  "Zone": [
+    { "id": 1, "name": "ZoneA" },
+    { "id": 2, "name": "ZoneB" }
+  ]
+}

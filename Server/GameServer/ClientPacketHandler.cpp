@@ -40,7 +40,7 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
 	PlayerRef curPlayer = ObjectUtils::CreatePlayer(clientSession);
 
-	Room::GetInstance().ProcessEnterLocked(curPlayer);
+	Room::GetInstance().DoAsync(&Room::ProcessEnter, curPlayer);
 	
 	return true;
 }
@@ -52,12 +52,13 @@ bool Handle_C_LEAVE_GAME(PacketSessionRef& session, Protocol::C_LEAVE_GAME& pkt)
 		return false;
 	}
 
-	PlayerRef player = clientSession->GetCurPlayer();
-	if (player == nullptr) {
+	PlayerRef curPlayer = clientSession->GetCurPlayer();
+	if (curPlayer == nullptr) {
 		return false;
 	}
 
-	Room::GetInstance().ProcessLeaveLocked(player);
+	Room::GetInstance().DoAsync(&Room::ProcessLeave, curPlayer);
+
 	return true;
 }
 
@@ -73,16 +74,13 @@ bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt)
 		return false;
 	}
 
-	PlayerRef player = clientSession->GetCurPlayer();
-	if (player == nullptr) {
+	PlayerRef curPlayer = clientSession->GetCurPlayer();
+	if (curPlayer == nullptr) {
 		return false;
 	}
 
-	if (player->GetPlayerInfo().id() != pkt.player().id()) {
-		return false;
-	}
-	
-	Room::GetInstance().ProcessMovePlayerLocked(pkt);
+	Room::GetInstance().DoAsync(&Room::ProcessMove, pkt);
+
 	return true;
 }
 

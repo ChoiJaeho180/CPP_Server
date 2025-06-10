@@ -4,17 +4,20 @@ class Protocol::PlayerInfo;
 class Room;
 class ClientSession;
 
-class Player : public enable_shared_from_this<Player>
+class Player : public BaseEntity, public IUpdate, public enable_shared_from_this<Player>
 {
 public:
 	Player() {}
 	Player(string name, Protocol::PlayerType type, ClientSessionRef owner);
-	~Player();
+	virtual ~Player();
+
+public:
+	virtual void Update(float deltaTime) override;
+public:
+
 	string						Name() { return _name; }
 	Protocol::PlayerType		PlayerType() { return _type; }
 	weak_ptr<ClientSession>		OwnerSession() { return _ownerSession; }
-public:
-
 	Protocol::PlayerInfo&		GetPlayerInfo() { return _playerInfo; }
 public:
 	/* 처음 한번만 할당*/

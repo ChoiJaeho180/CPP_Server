@@ -22,7 +22,6 @@ void TaskQueue::Push(TaskRef task, bool bPushOnly)
 	}
 }
 
-
 void TaskQueue::Execute()
 {
 	LCurrentTaskQueue = this;

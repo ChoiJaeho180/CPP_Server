@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>b0da1e18-eeed-4dbf-b3a6-4fc9ed926349</ProjectGuid>
+    <ProjectGuid>e39da701-0a0f-4771-9d99-8834fce9d903</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ProcedureGenerator.py</StartupFile>
+    <StartupFile>CmsInitialGenerator.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>ProcedureGenerator</Name>
-    <RootNamespace>ProcedureGenerator</RootNamespace>
+    <Name>CmsInitialGenerator</Name>
+    <RootNamespace>CmsInitialGenerator</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ProcedureGenerator.py" />
+    <Compile Include="CmsHeaderGenerator.py" />
+    <Compile Include="CmsInitialGenerator.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="templates\CmsManager.cpp" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

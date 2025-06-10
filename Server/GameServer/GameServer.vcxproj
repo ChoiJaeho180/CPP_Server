@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version='1.0' encoding='utf-8'?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -135,6 +135,7 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\Include\nlohmann\;$(SolutionDir)..\Libraries\Include\rapidjson\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,7 +143,8 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     </Link>
     <PreBuildEvent>
       <Command>CALL $(SolutionDir)Common\Protobuf\bin\GenPackets.bat
-CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
+CALL $(SolutionDir)Common\Procedures\GenProcedures.bat
+CALL $(SolutionDir)Common\CmsInit\GenCmsInit.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,11 +167,14 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClientSession.cpp" />
+    <ClCompile Include="CmsCached.cpp" />
+    <ClCompile Include="CmsManager.cpp" />
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="ClientSessionManager.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="ObjectUtils.cpp" />
     <ClCompile Include="pch.cpp">
@@ -187,13 +192,20 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Zone.cpp" />
+    <ClCompile Include="ZoneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="ClientSession.h" />
+    <ClInclude Include="CmsCached.h" />
+    <ClInclude Include="CmsManager.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="ClientSessionManager.h" />
     <ClInclude Include="GenProcedures.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="IUpdate.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="ObjectUtils.h" />
     <ClInclude Include="pch.h" />
@@ -202,7 +214,9 @@ CALL $(SolutionDir)Common\Procedures\GenProcedures.bat</Command>
     <ClInclude Include="Protocol.pb.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Struct.pb.h" />
-  </ItemGroup>
+    <ClInclude Include="Zone.h" />
+    <ClInclude Include="ZoneManager.h" />
+  <ClInclude Include="ZoneDesc.h" /><ClInclude Include="ZoneadsadsaDesc.h" /></ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Procedures\GenProcedures.bat" />
     <None Include="..\Common\Protobuf\bin\Enum.proto" />

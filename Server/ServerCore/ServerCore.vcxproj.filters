@@ -28,6 +28,9 @@
     <Filter Include="Log">
       <UniqueIdentifier>{c1b0ae43-644b-47cd-a199-fd9e01f4474b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{46b606df-b608-443c-aa09-d163167abe20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CorePch.h">
@@ -162,6 +165,9 @@
     <ClInclude Include="ConsoleLog.h">
       <Filter>Log</Filter>
     </ClInclude>
+    <ClInclude Include="JsonUtils.h">
+      <Filter>Json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -271,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="ConsoleLog.cpp">
       <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonUtils.cpp">
+      <Filter>Json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

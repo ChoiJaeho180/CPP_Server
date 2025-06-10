@@ -7,16 +7,21 @@
 #include "SendBuffer.h"
 #include "GlobalQueue.h"
 
-ThreadManager*				GThreadManager = nullptr;
-DeadLockProfiler*			GDeadLockProfiler = nullptr;
-MemoryManager*				GMemoryManager = nullptr;
-SendBufferManager*			GSendBufferManager = nullptr;
-GlobalQueue*				GGlobalQueue = nullptr;
-TaskTimer*					GTaskTimer = nullptr;
-DBConnectionPool*			GDBConnectionPool = nullptr;
-ConsoleLog*					GConsoleLogger = nullptr;
+ThreadManager*					GThreadManager = nullptr;
+DeadLockProfiler*				GDeadLockProfiler = nullptr;
+MemoryManager*					GMemoryManager = nullptr;
+SendBufferManager*				GSendBufferManager = nullptr;
+GlobalQueue*					GGlobalQueue = nullptr;
+TaskTimer*						GTaskTimer = nullptr;
+DBConnectionPool*				GDBConnectionPool = nullptr;
+ConsoleLog*						GConsoleLogger = nullptr;
+bool CoreGlobal::				_initialized = false;
 
-CoreGlobal::CoreGlobal() {
+void CoreGlobal::Init() {
+	if (_initialized) {
+		return;
+	}
+
 	GThreadManager = new ThreadManager();
 	GMemoryManager = new MemoryManager();
 	GDeadLockProfiler = new DeadLockProfiler();
@@ -28,7 +33,12 @@ CoreGlobal::CoreGlobal() {
 
 	SocketUtils::Init();
 }
-CoreGlobal::~CoreGlobal() {
+void CoreGlobal::Destory()
+{
+	if (!_initialized) {
+		return;
+	}
+
 	delete GThreadManager;
 	delete GDeadLockProfiler;
 	delete GMemoryManager;

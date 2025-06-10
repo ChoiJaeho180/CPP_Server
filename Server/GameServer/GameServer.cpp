@@ -16,14 +16,17 @@
 #include "DBSynchronizer.h"
 #include "GenProcedures.h"
 #include "CoreGlobal.h"
-#include <chrono>
-using namespace std::chrono_literals;
+#include "ZoneManager.h"
+#include "CmsManager.h"
 #pragma comment(lib, "Ws2_32.lib")
+#include "ZoneDesc.h"
 
 enum {
 	// TODO. 런타임에 경과를 지켜보고 보정하도록 수정
 	WORKER_TICK = 64
 };
+
+
 void DoWokerJob(ServerServiceRef& service) {
 
 	while (true) {
@@ -33,11 +36,15 @@ void DoWokerJob(ServerServiceRef& service) {
 		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
 		service->GetIocpCore()->Dispatch(10);
 
+		ZoneManager::GetInstance();
+
 		// 예약된 task 처리
 		ThreadManager::ProcessReservedTasks();
 
 		// 글로벌 큐 
 		ThreadManager::ProcessGlobalQueue();
+
+
 	}
 }
 
@@ -47,15 +54,10 @@ int main()
 	GRoom->DoTimer(2000, []() {cout << "2000!!!!" << endl; });
 	GRoom->DoTimer(3000, []() {cout << "3000!!!" << endl; });*/
 	
-	CoreGlobal coreGlobal;
-
-
 	/*ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=Yes;"));
 	DBConnection* dbConn = GDBConnectionPool->Pop();
 	DBSynchronizer dbSync(*dbConn);
 	dbSync.Synchronize(L"GameDB.xml");
-
-	
 
 	{
 		SP::GetGold getGold(*dbConn);
@@ -81,7 +83,11 @@ int main()
 				);
 		}
 	}*/
+
+	CoreGlobal::Init();
 	ClientPacketHandler::Init();
+	CmsManager::GetInstance().Init("../Cms/");
+	CmsManager::GetInstance().Get<ZoneDesc>(1);
 
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(NetAddress(L"127.0.0.1", 7777)),
@@ -101,4 +107,6 @@ int main()
 	//DoWokerJob(service);
 
 	GThreadManager->Join();
+
+	CoreGlobal::Destory();
 }
