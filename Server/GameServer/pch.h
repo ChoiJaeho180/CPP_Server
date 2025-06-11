@@ -27,7 +27,8 @@ using namespace std::chrono_literals;
 
 using ClientSessionRef		= shared_ptr<class ClientSession>;
 using PlayerRef				= shared_ptr<class Player>;
-using ZoneRef = shared_ptr<class Zone>;
+using ZoneRef				= shared_ptr<class Zone>;
+using ZoneInstanceRef		= shared_ptr<class ZoneInstance>;
 
 #define SEND_PACKET(pkt)													\
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);	\

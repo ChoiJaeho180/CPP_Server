@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CmsCommonTypeGenerator.py" />
     <Compile Include="CmsHeaderGenerator.py" />
     <Compile Include="CmsInitialGenerator.py" />
   </ItemGroup>

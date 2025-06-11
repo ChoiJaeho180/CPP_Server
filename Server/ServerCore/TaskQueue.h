@@ -29,9 +29,21 @@ public:
 	template<typename T, typename Ret, typename... Args>
 	void DoAsync(Ret(T::* memFunc)(Args ...), Args... args) {
 		weak_ptr<T> owner = static_pointer_cast<T>(shared_from_this());
-		Push( ObjectPool<Task>::MakeShared(owner, memFunc, std::forward<Args>(args)...));
+		const TaskRef task = ObjectPool<Task>::MakeShared(owner, memFunc, std::forward<Args>(args)...);
+		Push(task);
 	}
 
+	void Enqueue(CallbackType&& callback) {
+		Push(ObjectPool<Task>::MakeShared(std::move(callback)), true);
+	}
+
+	template<typename T, typename Ret, typename... Args>
+	void Enqueue(Ret(T::* memFunc)(Args ...), Args... args) {
+		weak_ptr<T> owner = static_pointer_cast<T>(shared_from_this());
+		const TaskRef task = ObjectPool<Task>::MakeShared(owner, memFunc, std::forward<Args>(args)...);
+		Push(task, true);
+	}
+	
 	void DoTimer(uint64 tickAfter, CallbackType&& callback) {
 		TaskRef task = ObjectPool<Task>::MakeShared(std::move(callback));
 		GTaskTimer->Reserve(tickAfter, shared_from_this(), task);

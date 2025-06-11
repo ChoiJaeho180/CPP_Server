@@ -17,26 +17,29 @@
 #include "GenProcedures.h"
 #include "CoreGlobal.h"
 #include "ZoneManager.h"
-#include "CmsManager.h"
-#pragma comment(lib, "Ws2_32.lib")
 #include "ZoneDesc.h"
+#include "CmsManager.h"
+#include <thread>
+
+#pragma comment(lib, "Ws2_32.lib")
+
 
 enum {
 	// TODO. 런타임에 경과를 지켜보고 보정하도록 수정
 	WORKER_TICK = 64
 };
 
-
 void DoWokerJob(ServerServiceRef& service) {
-
+	int a = 0;
 	while (true) {
-		
-		LEndTickCount = ::GetTickCount64() + WORKER_TICK;
+		const uint64 startTick = GetTickCount64();
+		LEndTickCount = startTick + WORKER_TICK;
 
 		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
 		service->GetIocpCore()->Dispatch(10);
 
-		ZoneManager::GetInstance();
+		// zone의 업데이트 요청 실제 작업을 하진 않음
+		ZoneManager::GetInstance().EnqueueUpdates();
 
 		// 예약된 task 처리
 		ThreadManager::ProcessReservedTasks();
@@ -44,7 +47,10 @@ void DoWokerJob(ServerServiceRef& service) {
 		// 글로벌 큐 
 		ThreadManager::ProcessGlobalQueue();
 
-
+		const uint64 elapsed = GetTickCount64() - startTick;
+		if (elapsed > WORKER_TICK) {
+			printf("Tick too slow: {%llu}ms\n", elapsed);
+		}
 	}
 }
 
@@ -85,9 +91,9 @@ int main()
 	}*/
 
 	CoreGlobal::Init();
-	ClientPacketHandler::Init();
 	CmsManager::GetInstance().Init("../Cms/");
-	CmsManager::GetInstance().Get<ZoneDesc>(1);
+	ClientPacketHandler::Init();
+	ZoneManager::GetInstance().Init();
 
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(NetAddress(L"127.0.0.1", 7777)),
@@ -97,7 +103,8 @@ int main()
 	);
 
 	ASSERT_CRASH(service->Start());
-	
+
+	//unsigned int MAX_WORKER_THREADS = std::thread::hardware_concurrency(); 
 	for (int i = 0; i < 1; i++) {
 		GThreadManager->Launch([&service]() {
 			DoWokerJob(service);

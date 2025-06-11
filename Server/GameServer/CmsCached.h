@@ -23,7 +23,7 @@ public:
         {
             try {
                 T obj = elem.get<T>();
-                _cache[obj.id] = std::move(obj);
+                _cache[obj.cmsId] = std::move(obj);
             }
             catch (...) {
                 // todo ·Î±× 
@@ -31,20 +31,13 @@ public:
         }
     }
 
-    static const T* Get(int id)
+    static const T* Get(int cmsId)
     {
-        auto it = _cache.find(id);
+        auto it = _cache.find(cmsId);
         return (it != _cache.end()) ? &it->second : nullptr;
     }
 
-    template<typename Func>
-    static void ForEach(Func&& func)
-    {
-        for (const auto& [id, obj] : _cache)
-        {
-            func(id, obj);
-        }
-    }
+    static const std::unordered_map<int, T>& GetAll() { return _cache; }
 
 private:
     static inline std::unordered_map<int, T> _cache;

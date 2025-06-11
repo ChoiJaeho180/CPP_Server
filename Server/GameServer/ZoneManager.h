@@ -2,6 +2,8 @@
 
 class Zone;
 
+//	입장 처리, 통계, 전체 업데이트
+
 class ZoneManager
 {
 public:
@@ -10,10 +12,11 @@ public:
 		return instance;
 	}
 
-	void Init();
-	void ReserveUpdated();
+	void							Init();
+	void							EnqueueUpdates();
 private:
-	Vector<ZoneRef> _zones;
-
+	unordered_map<uint64, ZoneRef>	_zones;
+	atomic<bool>					_isReserving;
+	uint64							_lastReservedTick;
 };
 

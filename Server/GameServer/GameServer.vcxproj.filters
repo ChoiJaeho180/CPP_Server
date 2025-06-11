@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <Filter Include="Main">
@@ -31,6 +31,9 @@
     <Filter Include="Cms\Description">
       <UniqueIdentifier>{546f0127-5385-42c1-9eca-09b28648f9db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameContents\Entity">
+      <UniqueIdentifier>{1e2d38b2-79e9-479b-a577-75de7815f8c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -57,9 +60,6 @@
     <ClCompile Include="ClientSession.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>GameContents</Filter>
-    </ClCompile>
     <ClCompile Include="MathUtils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -84,6 +84,18 @@
     <ClCompile Include="CmsManager.cpp">
       <Filter>Cms</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameContents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>GameContents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>GameContents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoneInstance.cpp">
+      <Filter>GameContents\Zone</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -107,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="ClientSession.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>GameContents</Filter>
     </ClInclude>
     <ClInclude Include="GenProcedures.h">
       <Filter>DB</Filter>
@@ -144,7 +153,31 @@
     <ClInclude Include="CmsManager.h">
       <Filter>Cms</Filter>
     </ClInclude>
-  <ClInclude Include="ZoneDesc.h"><Filter>Cms\Description</Filter></ClInclude><ClInclude Include="ZoneadsadsaDesc.h"><Filter>Cms\Description</Filter></ClInclude></ItemGroup>
+    <ClInclude Include="Player.h">
+      <Filter>GameContents\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>GameContents\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>GameContents\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneInstance.h">
+      <Filter>GameContents\Zone</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonType.h">
+      <Filter>Cms\Description</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterDesc.h">
+      <Filter>Cms\Description</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterSpawnPointDesc.h">
+      <Filter>Cms\Description</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneDesc.h">
+      <Filter>Cms\Description</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Protocol.proto">
       <Filter>Protocol</Filter>

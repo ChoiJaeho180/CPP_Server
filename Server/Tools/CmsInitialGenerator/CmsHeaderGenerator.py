@@ -1,52 +1,42 @@
 import json
-import logging
 import os
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 
 class CmsHeaderGenerator:
-    def __init__(self, vcxproj_path, vcxproj_filter_path, virtual_path):
+    def __init__(self, vcxproj_path, vcxproj_filter_path, vs_include_path):
         self.vcxproj_path = vcxproj_path
         self.vcxproj_tree = ET.parse(self.vcxproj_path)
 
         self.vcxproj_filter_path = vcxproj_filter_path
         self.vcxproj_filter_tree = ET.parse(self.vcxproj_filter_path)
 
-        self.virtual_path = virtual_path
+        self.vs_include_path = vs_include_path
         return
 
-    def GenCmsHeader(self, name, header_full_path, cms_full_path):
-        with open(cms_full_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
 
-        hasVector = False;
+    def gen_file(self, json_data, name, header_full_path):
+        file = ""
 
-        file =""
         file += "#pragma once\n"
         file += "#include \"../Libraries/Include/nlohmann/json.hpp\"\n"
+        if "Type" in json_data:
+            file +="#include \"CommonType.h\"\n"
+        file += "\n"
 
-        struct = ""
-        struct += f"struct {name}Desc  {{\n" 
-        
-        define_parameter = ""
-        for k, v in data.items():
-            if k == name:
-                continue
-            struct += f"	{v} {k};\n"
-            define_parameter += f", {k}"
-            
-            if k =="std::vector":
-                hasVector = True
-            
-        struct += "};\n"
-        
-        
-        if hasVector:
-            file += "#include \"<vector>\"\n"
+        # struct 
+        file += f"struct {name}Desc  {{\n" 
+        for _name, _type in json_data["Column"].items():
+            if _type.endswith("[]"):
+                _type = f"std::vector<{ _type[:-2]}>"
+            file += f"	{_type} {_name};\n"
+       
+        file += "};\n"
+        file += "\n";
 
-        file += struct;
-        file += f"NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE({name}Desc{define_parameter}";
-        file +=");"
+        # macro
+        field_list = ", ".join(json_data["Column"].keys())
+        file += f"NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE({name}Desc, {field_list});";
 
         f = open(header_full_path, 'w+', encoding='utf-8')
         f.write(file)
@@ -54,6 +44,8 @@ class CmsHeaderGenerator:
 
         self.add_header_to_vcxproj(name)
         self.add_filter_to_vcxproj_filter(name)
+        return
+
 
     def add_header_to_vcxproj(self,name):
         file_name = name + "Desc.h"
@@ -65,7 +57,7 @@ class CmsHeaderGenerator:
             self.vcxproj_filter_tree,
             self.vcxproj_filter_path,
             file_name,
-            self.virtual_path
+            self.vs_include_path
             )
 
     def _add_include_if_not_exists(self, tree, path, file_name, filter_path=None):
@@ -101,10 +93,6 @@ class CmsHeaderGenerator:
 
         tree.write(path, encoding="utf-8", xml_declaration=True)
 
-        xml_str = ET.tostring(tree.getroot(), encoding='utf-8')
-        parsed = xml.dom.minidom.parseString(xml_str)
-        with open(path, 'w', encoding='utf-8') as f:
-            f.write(parsed.toprettyxml(indent="  "))
         return True
 
    

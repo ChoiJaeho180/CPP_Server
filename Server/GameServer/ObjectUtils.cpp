@@ -14,7 +14,7 @@ PlayerRef ObjectUtils::CreatePlayer(ClientSessionRef session)
   
     session->SetCurPlayer(player);
     
-    Protocol::PlayerInfo& playerInfo = player->GetPlayerInfo();
+    Protocol::ObjectInfo& playerInfo = player->GetObjectInfo();
     playerInfo.set_id(newId);
 
     return player;

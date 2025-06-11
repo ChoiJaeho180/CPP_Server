@@ -22,7 +22,7 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 	
 	static Atomic<uint64> playerIdGen = 1;
 
-	PlayerRef player = MakeShared<Player>(pkt.name(), Protocol::PlayerType::PLAYER_TYPE_NONE, clientSession);
+	PlayerRef player = MakeShared<Player>( clientSession);
 	clientSession->AddPlayer(player);
 
 	{
@@ -39,8 +39,8 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
 	PlayerRef curPlayer = ObjectUtils::CreatePlayer(clientSession);
-
-	Room::GetInstance().DoAsync(&Room::ProcessEnter, curPlayer);
+	
+	//g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
 	
 	return true;
 }
@@ -57,7 +57,7 @@ bool Handle_C_LEAVE_GAME(PacketSessionRef& session, Protocol::C_LEAVE_GAME& pkt)
 		return false;
 	}
 
-	Room::GetInstance().DoAsync(&Room::ProcessLeave, curPlayer);
+	//g_Room->DoAsync(&Room::ProcessLeave, curPlayer);
 
 	return true;
 }
@@ -79,7 +79,7 @@ bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt)
 		return false;
 	}
 
-	Room::GetInstance().DoAsync(&Room::ProcessMove, pkt);
+	//g_Room->DoAsync(&Room::ProcessMove, pkt);
 
 	return true;
 }

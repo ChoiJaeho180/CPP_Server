@@ -5,16 +5,22 @@ import "Enum.proto";
 
 message LocationYaw 
 {
-	float x = 1;
-	float y = 2;
-	float z = 3;
-	float yaw = 4;
+	uint64 id = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float yaw = 5;
+	MoveState moveState = 6;
+
+	float duration = 7;
 }
-message PlayerInfo
+
+message ObjectInfo
 {
 	uint64 id = 1;
-	string name = 2;
-	PlayerType playerType = 3;
-	LocationYaw locationYaw = 4;
-	MoveState moveState = 5;
+	ObjectType objectType = 2;
+	LocationYaw locationYaw = 3;
+	string name = 4;
+	PlayerType playerType = 5;
+	MonsterType monsterType = 6;
 }

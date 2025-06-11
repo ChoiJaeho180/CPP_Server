@@ -1,0 +1,49 @@
+{
+    "Type":{
+        "Position": {
+            "x": "int",
+            "y": "int",
+            "z": "int"
+        }
+    },
+    "Column":{
+        "cmsId": "int",
+        "zoneCmsId": "int",
+        "monsterCmsId": "int",
+        "position": "Position",
+        "radius": "int",
+        "respawnTimeSec": "float",
+        "maxCount": "int"
+    },
+    "MonsterSpawnPoint": [
+        { 
+            "cmsId": 10000, 
+            "zoneCmsId": 1,
+            "monsterCmsId": 10000,
+            "position":
+            {
+                "x": 100,
+                "y": 100,
+                "z": 100
+            },
+            "radius": 50,
+            "respawnTimeSec":10,
+            "maxCount":3
+        },
+        { 
+            "cmsId": 10000,
+            "zoneCmsId": 1,
+            "monsterCmsId": 10000,
+            "position":
+            {
+                "x": 500,
+                "y": 500,
+                "z": 100
+            },
+            "radius": 50,
+            "respawnTimeSec":10,
+            "maxCount":3
+        }
+    ]
+    }
+

@@ -1,19 +1,16 @@
 #pragma once
 #include "../ServerCore/TaskQueue.h"
 #include <unordered_map>
+#include "../ServerCore/ObjectPool.h"
 
-class Room : public TaskQueue //, public enable_shared_from_this<Room>
+
+class Room : public TaskQueue 
 {
 public:
 	Room();
 	~Room();
 
 public:
-	static Room& GetInstance() {
-		static Room instance;
-		return instance;
-	}
-
 	bool ProcessEnter(PlayerRef player);
 	bool ProcessLeave(PlayerRef player);
 	void ProcessMove(Protocol::C_MOVE pkt);
@@ -28,4 +25,3 @@ private:
 private:
 	unordered_map<uint64, PlayerRef> _players;
 };
-

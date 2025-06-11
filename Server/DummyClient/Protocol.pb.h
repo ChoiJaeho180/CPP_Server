@@ -384,22 +384,22 @@ class S_LOGIN final :
     kPlayersFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // repeated .Protocol.PlayerInfo players = 2;
+  // repeated .Protocol.ObjectInfo players = 2;
   int players_size() const;
   private:
   int _internal_players_size() const;
   public:
   void clear_players();
-  ::Protocol::PlayerInfo* mutable_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
+  ::Protocol::ObjectInfo* mutable_players(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
       mutable_players();
   private:
-  const ::Protocol::PlayerInfo& _internal_players(int index) const;
-  ::Protocol::PlayerInfo* _internal_add_players();
+  const ::Protocol::ObjectInfo& _internal_players(int index) const;
+  ::Protocol::ObjectInfo* _internal_add_players();
   public:
-  const ::Protocol::PlayerInfo& players(int index) const;
-  ::Protocol::PlayerInfo* add_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
+  const ::Protocol::ObjectInfo& players(int index) const;
+  ::Protocol::ObjectInfo* add_players();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
       players() const;
 
   // bool success = 1;
@@ -419,7 +419,7 @@ class S_LOGIN final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo > players_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo > players_;
     bool success_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -700,23 +700,23 @@ class S_ENTER_GAME final :
     kPlayerFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // .Protocol.PlayerInfo player = 2;
+  // .Protocol.ObjectInfo player = 2;
   bool has_player() const;
   private:
   bool _internal_has_player() const;
   public:
   void clear_player();
-  const ::Protocol::PlayerInfo& player() const;
-  PROTOBUF_NODISCARD ::Protocol::PlayerInfo* release_player();
-  ::Protocol::PlayerInfo* mutable_player();
-  void set_allocated_player(::Protocol::PlayerInfo* player);
+  const ::Protocol::ObjectInfo& player() const;
+  PROTOBUF_NODISCARD ::Protocol::ObjectInfo* release_player();
+  ::Protocol::ObjectInfo* mutable_player();
+  void set_allocated_player(::Protocol::ObjectInfo* player);
   private:
-  const ::Protocol::PlayerInfo& _internal_player() const;
-  ::Protocol::PlayerInfo* _internal_mutable_player();
+  const ::Protocol::ObjectInfo& _internal_player() const;
+  ::Protocol::ObjectInfo* _internal_mutable_player();
   public:
   void unsafe_arena_set_allocated_player(
-      ::Protocol::PlayerInfo* player);
-  ::Protocol::PlayerInfo* unsafe_arena_release_player();
+      ::Protocol::ObjectInfo* player);
+  ::Protocol::ObjectInfo* unsafe_arena_release_player();
 
   // bool success = 1;
   void clear_success();
@@ -735,7 +735,7 @@ class S_ENTER_GAME final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::PlayerInfo* player_;
+    ::Protocol::ObjectInfo* player_;
     bool success_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1263,25 +1263,25 @@ class S_SPAWN final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPlayersFieldNumber = 1,
+    kObjectsFieldNumber = 1,
   };
-  // repeated .Protocol.PlayerInfo players = 1;
-  int players_size() const;
+  // repeated .Protocol.ObjectInfo objects = 1;
+  int objects_size() const;
   private:
-  int _internal_players_size() const;
+  int _internal_objects_size() const;
   public:
-  void clear_players();
-  ::Protocol::PlayerInfo* mutable_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
-      mutable_players();
+  void clear_objects();
+  ::Protocol::ObjectInfo* mutable_objects(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
+      mutable_objects();
   private:
-  const ::Protocol::PlayerInfo& _internal_players(int index) const;
-  ::Protocol::PlayerInfo* _internal_add_players();
+  const ::Protocol::ObjectInfo& _internal_objects(int index) const;
+  ::Protocol::ObjectInfo* _internal_add_objects();
   public:
-  const ::Protocol::PlayerInfo& players(int index) const;
-  ::Protocol::PlayerInfo* add_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
-      players() const;
+  const ::Protocol::ObjectInfo& objects(int index) const;
+  ::Protocol::ObjectInfo* add_objects();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
+      objects() const;
 
   // @@protoc_insertion_point(class_scope:Protocol.S_SPAWN)
  private:
@@ -1291,7 +1291,7 @@ class S_SPAWN final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo > players_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo > objects_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1582,55 +1582,25 @@ class C_MOVE final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDestFieldNumber = 2,
-    kIdFieldNumber = 1,
-    kDurationFieldNumber = 3,
-    kMoveStateFieldNumber = 4,
+    kLocationYawFieldNumber = 1,
   };
-  // .Protocol.LocationYaw dest = 2;
-  bool has_dest() const;
+  // .Protocol.LocationYaw locationYaw = 1;
+  bool has_locationyaw() const;
   private:
-  bool _internal_has_dest() const;
+  bool _internal_has_locationyaw() const;
   public:
-  void clear_dest();
-  const ::Protocol::LocationYaw& dest() const;
-  PROTOBUF_NODISCARD ::Protocol::LocationYaw* release_dest();
-  ::Protocol::LocationYaw* mutable_dest();
-  void set_allocated_dest(::Protocol::LocationYaw* dest);
+  void clear_locationyaw();
+  const ::Protocol::LocationYaw& locationyaw() const;
+  PROTOBUF_NODISCARD ::Protocol::LocationYaw* release_locationyaw();
+  ::Protocol::LocationYaw* mutable_locationyaw();
+  void set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw);
   private:
-  const ::Protocol::LocationYaw& _internal_dest() const;
-  ::Protocol::LocationYaw* _internal_mutable_dest();
+  const ::Protocol::LocationYaw& _internal_locationyaw() const;
+  ::Protocol::LocationYaw* _internal_mutable_locationyaw();
   public:
-  void unsafe_arena_set_allocated_dest(
-      ::Protocol::LocationYaw* dest);
-  ::Protocol::LocationYaw* unsafe_arena_release_dest();
-
-  // uint64 id = 1;
-  void clear_id();
-  uint64_t id() const;
-  void set_id(uint64_t value);
-  private:
-  uint64_t _internal_id() const;
-  void _internal_set_id(uint64_t value);
-  public:
-
-  // float duration = 3;
-  void clear_duration();
-  float duration() const;
-  void set_duration(float value);
-  private:
-  float _internal_duration() const;
-  void _internal_set_duration(float value);
-  public:
-
-  // .Protocol.MoveState moveState = 4;
-  void clear_movestate();
-  ::Protocol::MoveState movestate() const;
-  void set_movestate(::Protocol::MoveState value);
-  private:
-  ::Protocol::MoveState _internal_movestate() const;
-  void _internal_set_movestate(::Protocol::MoveState value);
-  public:
+  void unsafe_arena_set_allocated_locationyaw(
+      ::Protocol::LocationYaw* locationyaw);
+  ::Protocol::LocationYaw* unsafe_arena_release_locationyaw();
 
   // @@protoc_insertion_point(class_scope:Protocol.C_MOVE)
  private:
@@ -1640,10 +1610,7 @@ class C_MOVE final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::LocationYaw* dest_;
-    uint64_t id_;
-    float duration_;
-    int movestate_;
+    ::Protocol::LocationYaw* locationyaw_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1772,55 +1739,25 @@ class S_MOVE final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDestFieldNumber = 2,
-    kIdFieldNumber = 1,
-    kDurationFieldNumber = 3,
-    kMoveStateFieldNumber = 4,
+    kLocationYawFieldNumber = 1,
   };
-  // .Protocol.LocationYaw dest = 2;
-  bool has_dest() const;
+  // .Protocol.LocationYaw locationYaw = 1;
+  bool has_locationyaw() const;
   private:
-  bool _internal_has_dest() const;
+  bool _internal_has_locationyaw() const;
   public:
-  void clear_dest();
-  const ::Protocol::LocationYaw& dest() const;
-  PROTOBUF_NODISCARD ::Protocol::LocationYaw* release_dest();
-  ::Protocol::LocationYaw* mutable_dest();
-  void set_allocated_dest(::Protocol::LocationYaw* dest);
+  void clear_locationyaw();
+  const ::Protocol::LocationYaw& locationyaw() const;
+  PROTOBUF_NODISCARD ::Protocol::LocationYaw* release_locationyaw();
+  ::Protocol::LocationYaw* mutable_locationyaw();
+  void set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw);
   private:
-  const ::Protocol::LocationYaw& _internal_dest() const;
-  ::Protocol::LocationYaw* _internal_mutable_dest();
+  const ::Protocol::LocationYaw& _internal_locationyaw() const;
+  ::Protocol::LocationYaw* _internal_mutable_locationyaw();
   public:
-  void unsafe_arena_set_allocated_dest(
-      ::Protocol::LocationYaw* dest);
-  ::Protocol::LocationYaw* unsafe_arena_release_dest();
-
-  // uint64 id = 1;
-  void clear_id();
-  uint64_t id() const;
-  void set_id(uint64_t value);
-  private:
-  uint64_t _internal_id() const;
-  void _internal_set_id(uint64_t value);
-  public:
-
-  // float duration = 3;
-  void clear_duration();
-  float duration() const;
-  void set_duration(float value);
-  private:
-  float _internal_duration() const;
-  void _internal_set_duration(float value);
-  public:
-
-  // .Protocol.MoveState moveState = 4;
-  void clear_movestate();
-  ::Protocol::MoveState movestate() const;
-  void set_movestate(::Protocol::MoveState value);
-  private:
-  ::Protocol::MoveState _internal_movestate() const;
-  void _internal_set_movestate(::Protocol::MoveState value);
-  public:
+  void unsafe_arena_set_allocated_locationyaw(
+      ::Protocol::LocationYaw* locationyaw);
+  ::Protocol::LocationYaw* unsafe_arena_release_locationyaw();
 
   // @@protoc_insertion_point(class_scope:Protocol.S_MOVE)
  private:
@@ -1830,10 +1767,7 @@ class S_MOVE final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::LocationYaw* dest_;
-    uint64_t id_;
-    float duration_;
-    int movestate_;
+    ::Protocol::LocationYaw* locationyaw_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2241,38 +2175,38 @@ inline void S_LOGIN::set_success(bool value) {
   // @@protoc_insertion_point(field_set:Protocol.S_LOGIN.success)
 }
 
-// repeated .Protocol.PlayerInfo players = 2;
+// repeated .Protocol.ObjectInfo players = 2;
 inline int S_LOGIN::_internal_players_size() const {
   return _impl_.players_.size();
 }
 inline int S_LOGIN::players_size() const {
   return _internal_players_size();
 }
-inline ::Protocol::PlayerInfo* S_LOGIN::mutable_players(int index) {
+inline ::Protocol::ObjectInfo* S_LOGIN::mutable_players(int index) {
   // @@protoc_insertion_point(field_mutable:Protocol.S_LOGIN.players)
   return _impl_.players_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
 S_LOGIN::mutable_players() {
   // @@protoc_insertion_point(field_mutable_list:Protocol.S_LOGIN.players)
   return &_impl_.players_;
 }
-inline const ::Protocol::PlayerInfo& S_LOGIN::_internal_players(int index) const {
+inline const ::Protocol::ObjectInfo& S_LOGIN::_internal_players(int index) const {
   return _impl_.players_.Get(index);
 }
-inline const ::Protocol::PlayerInfo& S_LOGIN::players(int index) const {
+inline const ::Protocol::ObjectInfo& S_LOGIN::players(int index) const {
   // @@protoc_insertion_point(field_get:Protocol.S_LOGIN.players)
   return _internal_players(index);
 }
-inline ::Protocol::PlayerInfo* S_LOGIN::_internal_add_players() {
+inline ::Protocol::ObjectInfo* S_LOGIN::_internal_add_players() {
   return _impl_.players_.Add();
 }
-inline ::Protocol::PlayerInfo* S_LOGIN::add_players() {
-  ::Protocol::PlayerInfo* _add = _internal_add_players();
+inline ::Protocol::ObjectInfo* S_LOGIN::add_players() {
+  ::Protocol::ObjectInfo* _add = _internal_add_players();
   // @@protoc_insertion_point(field_add:Protocol.S_LOGIN.players)
   return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
 S_LOGIN::players() const {
   // @@protoc_insertion_point(field_list:Protocol.S_LOGIN.players)
   return _impl_.players_;
@@ -2326,24 +2260,24 @@ inline void S_ENTER_GAME::set_success(bool value) {
   // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.success)
 }
 
-// .Protocol.PlayerInfo player = 2;
+// .Protocol.ObjectInfo player = 2;
 inline bool S_ENTER_GAME::_internal_has_player() const {
   return this != internal_default_instance() && _impl_.player_ != nullptr;
 }
 inline bool S_ENTER_GAME::has_player() const {
   return _internal_has_player();
 }
-inline const ::Protocol::PlayerInfo& S_ENTER_GAME::_internal_player() const {
-  const ::Protocol::PlayerInfo* p = _impl_.player_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::PlayerInfo&>(
-      ::Protocol::_PlayerInfo_default_instance_);
+inline const ::Protocol::ObjectInfo& S_ENTER_GAME::_internal_player() const {
+  const ::Protocol::ObjectInfo* p = _impl_.player_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::ObjectInfo&>(
+      ::Protocol::_ObjectInfo_default_instance_);
 }
-inline const ::Protocol::PlayerInfo& S_ENTER_GAME::player() const {
+inline const ::Protocol::ObjectInfo& S_ENTER_GAME::player() const {
   // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.player)
   return _internal_player();
 }
 inline void S_ENTER_GAME::unsafe_arena_set_allocated_player(
-    ::Protocol::PlayerInfo* player) {
+    ::Protocol::ObjectInfo* player) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.player_);
   }
@@ -2355,9 +2289,9 @@ inline void S_ENTER_GAME::unsafe_arena_set_allocated_player(
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_ENTER_GAME.player)
 }
-inline ::Protocol::PlayerInfo* S_ENTER_GAME::release_player() {
+inline ::Protocol::ObjectInfo* S_ENTER_GAME::release_player() {
   
-  ::Protocol::PlayerInfo* temp = _impl_.player_;
+  ::Protocol::ObjectInfo* temp = _impl_.player_;
   _impl_.player_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
@@ -2370,27 +2304,27 @@ inline ::Protocol::PlayerInfo* S_ENTER_GAME::release_player() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::PlayerInfo* S_ENTER_GAME::unsafe_arena_release_player() {
+inline ::Protocol::ObjectInfo* S_ENTER_GAME::unsafe_arena_release_player() {
   // @@protoc_insertion_point(field_release:Protocol.S_ENTER_GAME.player)
   
-  ::Protocol::PlayerInfo* temp = _impl_.player_;
+  ::Protocol::ObjectInfo* temp = _impl_.player_;
   _impl_.player_ = nullptr;
   return temp;
 }
-inline ::Protocol::PlayerInfo* S_ENTER_GAME::_internal_mutable_player() {
+inline ::Protocol::ObjectInfo* S_ENTER_GAME::_internal_mutable_player() {
   
   if (_impl_.player_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::PlayerInfo>(GetArenaForAllocation());
+    auto* p = CreateMaybeMessage<::Protocol::ObjectInfo>(GetArenaForAllocation());
     _impl_.player_ = p;
   }
   return _impl_.player_;
 }
-inline ::Protocol::PlayerInfo* S_ENTER_GAME::mutable_player() {
-  ::Protocol::PlayerInfo* _msg = _internal_mutable_player();
+inline ::Protocol::ObjectInfo* S_ENTER_GAME::mutable_player() {
+  ::Protocol::ObjectInfo* _msg = _internal_mutable_player();
   // @@protoc_insertion_point(field_mutable:Protocol.S_ENTER_GAME.player)
   return _msg;
 }
-inline void S_ENTER_GAME::set_allocated_player(::Protocol::PlayerInfo* player) {
+inline void S_ENTER_GAME::set_allocated_player(::Protocol::ObjectInfo* player) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.player_);
@@ -2474,41 +2408,41 @@ C_SPAWN::mutable_ids() {
 
 // S_SPAWN
 
-// repeated .Protocol.PlayerInfo players = 1;
-inline int S_SPAWN::_internal_players_size() const {
-  return _impl_.players_.size();
+// repeated .Protocol.ObjectInfo objects = 1;
+inline int S_SPAWN::_internal_objects_size() const {
+  return _impl_.objects_.size();
 }
-inline int S_SPAWN::players_size() const {
-  return _internal_players_size();
+inline int S_SPAWN::objects_size() const {
+  return _internal_objects_size();
 }
-inline ::Protocol::PlayerInfo* S_SPAWN::mutable_players(int index) {
-  // @@protoc_insertion_point(field_mutable:Protocol.S_SPAWN.players)
-  return _impl_.players_.Mutable(index);
+inline ::Protocol::ObjectInfo* S_SPAWN::mutable_objects(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_SPAWN.objects)
+  return _impl_.objects_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
-S_SPAWN::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_SPAWN.players)
-  return &_impl_.players_;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
+S_SPAWN::mutable_objects() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_SPAWN.objects)
+  return &_impl_.objects_;
 }
-inline const ::Protocol::PlayerInfo& S_SPAWN::_internal_players(int index) const {
-  return _impl_.players_.Get(index);
+inline const ::Protocol::ObjectInfo& S_SPAWN::_internal_objects(int index) const {
+  return _impl_.objects_.Get(index);
 }
-inline const ::Protocol::PlayerInfo& S_SPAWN::players(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN.players)
-  return _internal_players(index);
+inline const ::Protocol::ObjectInfo& S_SPAWN::objects(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN.objects)
+  return _internal_objects(index);
 }
-inline ::Protocol::PlayerInfo* S_SPAWN::_internal_add_players() {
-  return _impl_.players_.Add();
+inline ::Protocol::ObjectInfo* S_SPAWN::_internal_add_objects() {
+  return _impl_.objects_.Add();
 }
-inline ::Protocol::PlayerInfo* S_SPAWN::add_players() {
-  ::Protocol::PlayerInfo* _add = _internal_add_players();
-  // @@protoc_insertion_point(field_add:Protocol.S_SPAWN.players)
+inline ::Protocol::ObjectInfo* S_SPAWN::add_objects() {
+  ::Protocol::ObjectInfo* _add = _internal_add_objects();
+  // @@protoc_insertion_point(field_add:Protocol.S_SPAWN.objects)
   return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
-S_SPAWN::players() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_SPAWN.players)
-  return _impl_.players_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
+S_SPAWN::objects() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_SPAWN.objects)
+  return _impl_.objects_;
 }
 
 // -------------------------------------------------------------------
@@ -2566,59 +2500,39 @@ S_DESPAWN::mutable_ids() {
 
 // C_MOVE
 
-// uint64 id = 1;
-inline void C_MOVE::clear_id() {
-  _impl_.id_ = uint64_t{0u};
+// .Protocol.LocationYaw locationYaw = 1;
+inline bool C_MOVE::_internal_has_locationyaw() const {
+  return this != internal_default_instance() && _impl_.locationyaw_ != nullptr;
 }
-inline uint64_t C_MOVE::_internal_id() const {
-  return _impl_.id_;
+inline bool C_MOVE::has_locationyaw() const {
+  return _internal_has_locationyaw();
 }
-inline uint64_t C_MOVE::id() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.id)
-  return _internal_id();
-}
-inline void C_MOVE::_internal_set_id(uint64_t value) {
-  
-  _impl_.id_ = value;
-}
-inline void C_MOVE::set_id(uint64_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_MOVE.id)
-}
-
-// .Protocol.LocationYaw dest = 2;
-inline bool C_MOVE::_internal_has_dest() const {
-  return this != internal_default_instance() && _impl_.dest_ != nullptr;
-}
-inline bool C_MOVE::has_dest() const {
-  return _internal_has_dest();
-}
-inline const ::Protocol::LocationYaw& C_MOVE::_internal_dest() const {
-  const ::Protocol::LocationYaw* p = _impl_.dest_;
+inline const ::Protocol::LocationYaw& C_MOVE::_internal_locationyaw() const {
+  const ::Protocol::LocationYaw* p = _impl_.locationyaw_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::LocationYaw&>(
       ::Protocol::_LocationYaw_default_instance_);
 }
-inline const ::Protocol::LocationYaw& C_MOVE::dest() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.dest)
-  return _internal_dest();
+inline const ::Protocol::LocationYaw& C_MOVE::locationyaw() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.locationYaw)
+  return _internal_locationyaw();
 }
-inline void C_MOVE::unsafe_arena_set_allocated_dest(
-    ::Protocol::LocationYaw* dest) {
+inline void C_MOVE::unsafe_arena_set_allocated_locationyaw(
+    ::Protocol::LocationYaw* locationyaw) {
   if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.dest_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locationyaw_);
   }
-  _impl_.dest_ = dest;
-  if (dest) {
+  _impl_.locationyaw_ = locationyaw;
+  if (locationyaw) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C_MOVE.dest)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C_MOVE.locationYaw)
 }
-inline ::Protocol::LocationYaw* C_MOVE::release_dest() {
+inline ::Protocol::LocationYaw* C_MOVE::release_locationyaw() {
   
-  ::Protocol::LocationYaw* temp = _impl_.dest_;
-  _impl_.dest_ = nullptr;
+  ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
+  _impl_.locationyaw_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
   temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
@@ -2630,144 +2544,84 @@ inline ::Protocol::LocationYaw* C_MOVE::release_dest() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::LocationYaw* C_MOVE::unsafe_arena_release_dest() {
-  // @@protoc_insertion_point(field_release:Protocol.C_MOVE.dest)
+inline ::Protocol::LocationYaw* C_MOVE::unsafe_arena_release_locationyaw() {
+  // @@protoc_insertion_point(field_release:Protocol.C_MOVE.locationYaw)
   
-  ::Protocol::LocationYaw* temp = _impl_.dest_;
-  _impl_.dest_ = nullptr;
+  ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
+  _impl_.locationyaw_ = nullptr;
   return temp;
 }
-inline ::Protocol::LocationYaw* C_MOVE::_internal_mutable_dest() {
+inline ::Protocol::LocationYaw* C_MOVE::_internal_mutable_locationyaw() {
   
-  if (_impl_.dest_ == nullptr) {
+  if (_impl_.locationyaw_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::LocationYaw>(GetArenaForAllocation());
-    _impl_.dest_ = p;
+    _impl_.locationyaw_ = p;
   }
-  return _impl_.dest_;
+  return _impl_.locationyaw_;
 }
-inline ::Protocol::LocationYaw* C_MOVE::mutable_dest() {
-  ::Protocol::LocationYaw* _msg = _internal_mutable_dest();
-  // @@protoc_insertion_point(field_mutable:Protocol.C_MOVE.dest)
+inline ::Protocol::LocationYaw* C_MOVE::mutable_locationyaw() {
+  ::Protocol::LocationYaw* _msg = _internal_mutable_locationyaw();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_MOVE.locationYaw)
   return _msg;
 }
-inline void C_MOVE::set_allocated_dest(::Protocol::LocationYaw* dest) {
+inline void C_MOVE::set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.dest_);
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locationyaw_);
   }
-  if (dest) {
+  if (locationyaw) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
         ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(dest));
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(locationyaw));
     if (message_arena != submessage_arena) {
-      dest = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, dest, submessage_arena);
+      locationyaw = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, locationyaw, submessage_arena);
     }
     
   } else {
     
   }
-  _impl_.dest_ = dest;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.C_MOVE.dest)
-}
-
-// float duration = 3;
-inline void C_MOVE::clear_duration() {
-  _impl_.duration_ = 0;
-}
-inline float C_MOVE::_internal_duration() const {
-  return _impl_.duration_;
-}
-inline float C_MOVE::duration() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.duration)
-  return _internal_duration();
-}
-inline void C_MOVE::_internal_set_duration(float value) {
-  
-  _impl_.duration_ = value;
-}
-inline void C_MOVE::set_duration(float value) {
-  _internal_set_duration(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_MOVE.duration)
-}
-
-// .Protocol.MoveState moveState = 4;
-inline void C_MOVE::clear_movestate() {
-  _impl_.movestate_ = 0;
-}
-inline ::Protocol::MoveState C_MOVE::_internal_movestate() const {
-  return static_cast< ::Protocol::MoveState >(_impl_.movestate_);
-}
-inline ::Protocol::MoveState C_MOVE::movestate() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.moveState)
-  return _internal_movestate();
-}
-inline void C_MOVE::_internal_set_movestate(::Protocol::MoveState value) {
-  
-  _impl_.movestate_ = value;
-}
-inline void C_MOVE::set_movestate(::Protocol::MoveState value) {
-  _internal_set_movestate(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_MOVE.moveState)
+  _impl_.locationyaw_ = locationyaw;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_MOVE.locationYaw)
 }
 
 // -------------------------------------------------------------------
 
 // S_MOVE
 
-// uint64 id = 1;
-inline void S_MOVE::clear_id() {
-  _impl_.id_ = uint64_t{0u};
+// .Protocol.LocationYaw locationYaw = 1;
+inline bool S_MOVE::_internal_has_locationyaw() const {
+  return this != internal_default_instance() && _impl_.locationyaw_ != nullptr;
 }
-inline uint64_t S_MOVE::_internal_id() const {
-  return _impl_.id_;
+inline bool S_MOVE::has_locationyaw() const {
+  return _internal_has_locationyaw();
 }
-inline uint64_t S_MOVE::id() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_MOVE.id)
-  return _internal_id();
-}
-inline void S_MOVE::_internal_set_id(uint64_t value) {
-  
-  _impl_.id_ = value;
-}
-inline void S_MOVE::set_id(uint64_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_MOVE.id)
-}
-
-// .Protocol.LocationYaw dest = 2;
-inline bool S_MOVE::_internal_has_dest() const {
-  return this != internal_default_instance() && _impl_.dest_ != nullptr;
-}
-inline bool S_MOVE::has_dest() const {
-  return _internal_has_dest();
-}
-inline const ::Protocol::LocationYaw& S_MOVE::_internal_dest() const {
-  const ::Protocol::LocationYaw* p = _impl_.dest_;
+inline const ::Protocol::LocationYaw& S_MOVE::_internal_locationyaw() const {
+  const ::Protocol::LocationYaw* p = _impl_.locationyaw_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::LocationYaw&>(
       ::Protocol::_LocationYaw_default_instance_);
 }
-inline const ::Protocol::LocationYaw& S_MOVE::dest() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_MOVE.dest)
-  return _internal_dest();
+inline const ::Protocol::LocationYaw& S_MOVE::locationyaw() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MOVE.locationYaw)
+  return _internal_locationyaw();
 }
-inline void S_MOVE::unsafe_arena_set_allocated_dest(
-    ::Protocol::LocationYaw* dest) {
+inline void S_MOVE::unsafe_arena_set_allocated_locationyaw(
+    ::Protocol::LocationYaw* locationyaw) {
   if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.dest_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locationyaw_);
   }
-  _impl_.dest_ = dest;
-  if (dest) {
+  _impl_.locationyaw_ = locationyaw;
+  if (locationyaw) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_MOVE.dest)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_MOVE.locationYaw)
 }
-inline ::Protocol::LocationYaw* S_MOVE::release_dest() {
+inline ::Protocol::LocationYaw* S_MOVE::release_locationyaw() {
   
-  ::Protocol::LocationYaw* temp = _impl_.dest_;
-  _impl_.dest_ = nullptr;
+  ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
+  _impl_.locationyaw_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
   temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
@@ -2779,85 +2633,45 @@ inline ::Protocol::LocationYaw* S_MOVE::release_dest() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::LocationYaw* S_MOVE::unsafe_arena_release_dest() {
-  // @@protoc_insertion_point(field_release:Protocol.S_MOVE.dest)
+inline ::Protocol::LocationYaw* S_MOVE::unsafe_arena_release_locationyaw() {
+  // @@protoc_insertion_point(field_release:Protocol.S_MOVE.locationYaw)
   
-  ::Protocol::LocationYaw* temp = _impl_.dest_;
-  _impl_.dest_ = nullptr;
+  ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
+  _impl_.locationyaw_ = nullptr;
   return temp;
 }
-inline ::Protocol::LocationYaw* S_MOVE::_internal_mutable_dest() {
+inline ::Protocol::LocationYaw* S_MOVE::_internal_mutable_locationyaw() {
   
-  if (_impl_.dest_ == nullptr) {
+  if (_impl_.locationyaw_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::LocationYaw>(GetArenaForAllocation());
-    _impl_.dest_ = p;
+    _impl_.locationyaw_ = p;
   }
-  return _impl_.dest_;
+  return _impl_.locationyaw_;
 }
-inline ::Protocol::LocationYaw* S_MOVE::mutable_dest() {
-  ::Protocol::LocationYaw* _msg = _internal_mutable_dest();
-  // @@protoc_insertion_point(field_mutable:Protocol.S_MOVE.dest)
+inline ::Protocol::LocationYaw* S_MOVE::mutable_locationyaw() {
+  ::Protocol::LocationYaw* _msg = _internal_mutable_locationyaw();
+  // @@protoc_insertion_point(field_mutable:Protocol.S_MOVE.locationYaw)
   return _msg;
 }
-inline void S_MOVE::set_allocated_dest(::Protocol::LocationYaw* dest) {
+inline void S_MOVE::set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.dest_);
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locationyaw_);
   }
-  if (dest) {
+  if (locationyaw) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
         ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(dest));
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(locationyaw));
     if (message_arena != submessage_arena) {
-      dest = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, dest, submessage_arena);
+      locationyaw = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, locationyaw, submessage_arena);
     }
     
   } else {
     
   }
-  _impl_.dest_ = dest;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S_MOVE.dest)
-}
-
-// float duration = 3;
-inline void S_MOVE::clear_duration() {
-  _impl_.duration_ = 0;
-}
-inline float S_MOVE::_internal_duration() const {
-  return _impl_.duration_;
-}
-inline float S_MOVE::duration() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_MOVE.duration)
-  return _internal_duration();
-}
-inline void S_MOVE::_internal_set_duration(float value) {
-  
-  _impl_.duration_ = value;
-}
-inline void S_MOVE::set_duration(float value) {
-  _internal_set_duration(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_MOVE.duration)
-}
-
-// .Protocol.MoveState moveState = 4;
-inline void S_MOVE::clear_movestate() {
-  _impl_.movestate_ = 0;
-}
-inline ::Protocol::MoveState S_MOVE::_internal_movestate() const {
-  return static_cast< ::Protocol::MoveState >(_impl_.movestate_);
-}
-inline ::Protocol::MoveState S_MOVE::movestate() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_MOVE.moveState)
-  return _internal_movestate();
-}
-inline void S_MOVE::_internal_set_movestate(::Protocol::MoveState value) {
-  
-  _impl_.movestate_ = value;
-}
-inline void S_MOVE::set_movestate(::Protocol::MoveState value) {
-  _internal_set_movestate(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_MOVE.moveState)
+  _impl_.locationyaw_ = locationyaw;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_MOVE.locationYaw)
 }
 
 // -------------------------------------------------------------------

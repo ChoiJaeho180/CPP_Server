@@ -21,21 +21,20 @@ bool Room::ProcessEnter(PlayerRef player)
 		return false;
 	}
 
+	Protocol::ObjectInfo& enterPlayerInfo = player->GetObjectInfo();
 	{
 		Protocol::LocationYaw* locationYaw = new Protocol::LocationYaw();
 		locationYaw->set_x(MathUtils::rand(0.f, 500.f));
 		locationYaw->set_y(MathUtils::rand(0.f, 500.f));
 		locationYaw->set_z(100.f);
 		locationYaw->set_yaw(MathUtils::rand(0.f, 100.f));
-
-		Protocol::PlayerInfo& curPlayerInfo = player->GetPlayerInfo();
-		curPlayerInfo.set_allocated_locationyaw(locationYaw);
+		enterPlayerInfo.mutable_locationyaw()->CopyFrom(*locationYaw);
 
 		Protocol::S_ENTER_GAME enterGamePkt;
 		enterGamePkt.set_success(true);
 
-		Protocol::PlayerInfo* playerInfo = new Protocol::PlayerInfo();
-		playerInfo->CopyFrom(curPlayerInfo);
+		Protocol::ObjectInfo* playerInfo = new Protocol::ObjectInfo();
+		playerInfo->CopyFrom(enterPlayerInfo);
 		enterGamePkt.set_allocated_player(playerInfo);
 
 		if (auto session = player->OwnerSession().lock()) {
@@ -43,15 +42,16 @@ bool Room::ProcessEnter(PlayerRef player)
 		}
 	}
 	
+	// 접속한 유저에게 이전에 접속해 있던 주변 유저 정보 전달.
 	{
 		Protocol::S_SPAWN spawnPkt;
 		for (auto& item : _players) {
-			if (item.first == player->GetPlayerInfo().id()) {
+			if (item.first == enterPlayerInfo.id()) {
 				continue;
 			}
 
-			Protocol::PlayerInfo* playerInfo = spawnPkt.add_players();
-			playerInfo->CopyFrom(item.second->GetPlayerInfo());
+			Protocol::ObjectInfo* playerInfo = spawnPkt.add_objects();
+			playerInfo->CopyFrom(item.second->GetObjectInfo());
 		}
 
 		if (auto session = player->OwnerSession().lock()) {
@@ -59,13 +59,14 @@ bool Room::ProcessEnter(PlayerRef player)
 		}
 	}
 
+	// 주변 유저에게 현재 유저 정보 전달
 	{
 		Protocol::S_SPAWN spawnPkt;
 
-		Protocol::PlayerInfo* playerInfo = spawnPkt.add_players();
-		playerInfo->CopyFrom(player->GetPlayerInfo());
+		Protocol::ObjectInfo* playerInfo = spawnPkt.add_objects();
+		playerInfo->CopyFrom(enterPlayerInfo);
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnPkt);
-		Broadcast(sendBuffer, player->GetPlayerInfo().id());
+		Broadcast(sendBuffer, enterPlayerInfo.id());
 	}
 	return true;
 }
@@ -73,7 +74,7 @@ bool Room::ProcessEnter(PlayerRef player)
 
 bool Room::ProcessLeave(PlayerRef player)
 {
-	const uint64 playerId = player->GetPlayerInfo().id();
+	const uint64 playerId = player->GetObjectInfo().id();
 	bool success = Leave(playerId);
 	if (!success) {
 		return false;
@@ -99,7 +100,8 @@ bool Room::ProcessLeave(PlayerRef player)
 
 void Room::ProcessMove(Protocol::C_MOVE pkt)
 {
-	const uint64 id = pkt.id();
+	const Protocol::LocationYaw newLocationYaw = pkt.locationyaw();
+	const uint64 id = newLocationYaw.id();
 	if (_players.find(id) == _players.end()) {
 		return;
 	}
@@ -107,20 +109,16 @@ void Room::ProcessMove(Protocol::C_MOVE pkt)
 	// todo. 스피드 핵 검사
 
 	PlayerRef& player = _players[id];
-	Protocol::LocationYaw* locationYaw = player->GetPlayerInfo().mutable_locationyaw();
-	locationYaw->CopyFrom(pkt.dest());
+	Protocol::LocationYaw* locationYaw = player->GetObjectInfo().mutable_locationyaw();
+	locationYaw->CopyFrom(newLocationYaw);
 
 	{
 		Protocol::S_MOVE movePkt;
 		{
-			movePkt.set_id(id);
-			movePkt.set_duration(pkt.duration());
-			movePkt.set_movestate(pkt.movestate());
-
-			Protocol::LocationYaw* locationYaw = movePkt.mutable_dest();
-			locationYaw->CopyFrom(pkt.dest());
+			Protocol::LocationYaw* sendLoc = movePkt.mutable_locationyaw();
+			sendLoc->CopyFrom(newLocationYaw);
 			cout << "id : " << id << endl;
-			cout << " locationYaw X : " << locationYaw->x() << ", Y : " << locationYaw->y() << ", Z : " << locationYaw->z() << endl;
+			cout << " locationYaw X : " << sendLoc->x() << ", Y : " << sendLoc->y() << ", Z : " << sendLoc->z() << endl;
 		}
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(movePkt);
@@ -130,12 +128,12 @@ void Room::ProcessMove(Protocol::C_MOVE pkt)
 }
 bool Room::Enter(PlayerRef player)
 {
-	if (_players.find(player->GetPlayerInfo().id()) != _players.end()) {
+	if (_players.find(player->GetObjectInfo().id()) != _players.end()) {
 		std::cout << "duplicate entered player" << std::endl;
 		return false;
 	}
 
-	_players.insert(make_pair(player->GetPlayerInfo().id(), player));
+	_players.insert(make_pair(player->GetObjectInfo().id(), player));
 	return true;
 }
 

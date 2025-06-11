@@ -17,6 +17,10 @@ enum MoveState {
 
 enum ObjectType {
 	OBJECT_TYPE_NONE = 0;
-	OBJECT_TYPE_PLAYER = 1;
+	OBJECT_TYPE_CREATURE = 1;
 	OBJECT_TYPE_MONSTER = 2;
+}
+
+enum MonsterType {
+	MONSTER_TYPE_NONE = 0;
 }

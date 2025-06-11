@@ -1,0 +1,38 @@
+{
+    "Column":{
+        "cmsId": "int",
+        "name":"std::string",
+        "level":"int",
+        "hp":"int",
+        "exp":"int",
+        "moveSpeed":"int",
+        "aggroRange":"int",
+        "attackRange": "int",
+        "dropGroupId": "int"
+    },
+    "Monster": [
+    { 
+        "cmsId": 10000, 
+        "name": "고블린",
+        "level": 1,
+        "hp":50,
+        "exp":10,
+        "moveSpeed": 10,
+        "aggroRange": 300,
+        "attackRange": 100,
+        "dropGroupId": 1
+    },
+    { 
+        "cmsId": 10000,
+        "name": "화난 사슴" ,
+        "level": 1,
+        "hp":50,
+        "exp":10,
+        "moveSpeed": 10,
+        "aggroRange": 300,
+        "attackRange": 100,
+        "dropGroupId": 1
+    }
+  ]
+}
+

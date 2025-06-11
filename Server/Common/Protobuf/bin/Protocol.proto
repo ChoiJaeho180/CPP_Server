@@ -10,7 +10,7 @@ message C_LOGIN {
 
 message S_LOGIN {
 	bool success = 1;
-	repeated PlayerInfo players = 2; // 아이디 발급 전
+	repeated ObjectInfo players = 2; // 아이디 발급 전
 }
 
 message C_ENTER_GAME {
@@ -19,7 +19,7 @@ message C_ENTER_GAME {
 
 message S_ENTER_GAME {
 	bool success = 1;
-	PlayerInfo player = 2;
+	ObjectInfo player = 2;
 	// todo. 내 정보 
 
 	// todo. 현재 필드에 있는 유저 정보 
@@ -30,7 +30,7 @@ message C_LEAVE_GAME {
 }
 
 message S_LEAVE_GAME {
-
+	
 }
 
 message C_SPAWN {
@@ -39,7 +39,7 @@ message C_SPAWN {
 }
 
 message S_SPAWN {
-	repeated PlayerInfo players = 1;
+	repeated ObjectInfo objects = 1;
 }
 
 message S_DESPAWN {
@@ -47,17 +47,11 @@ message S_DESPAWN {
 }
 
 message C_MOVE {
-	uint64 id = 1;
-	LocationYaw dest = 2;
-	float duration = 3;
-	MoveState moveState = 4;
+	LocationYaw locationYaw = 1;
 }
 
 message S_MOVE {
-	uint64 id = 1;
-	LocationYaw dest = 2;
-	float duration = 3;
-	MoveState moveState = 4;
+	LocationYaw locationYaw = 1;
 }
 message C_CHAT {
 	string msg = 1;

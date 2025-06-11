@@ -49,13 +49,13 @@ namespace Protocol {
 class LocationYaw;
 struct LocationYawDefaultTypeInternal;
 extern LocationYawDefaultTypeInternal _LocationYaw_default_instance_;
-class PlayerInfo;
-struct PlayerInfoDefaultTypeInternal;
-extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
+class ObjectInfo;
+struct ObjectInfoDefaultTypeInternal;
+extern ObjectInfoDefaultTypeInternal _ObjectInfo_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::LocationYaw* Arena::CreateMaybeMessage<::Protocol::LocationYaw>(Arena*);
-template<> ::Protocol::PlayerInfo* Arena::CreateMaybeMessage<::Protocol::PlayerInfo>(Arena*);
+template<> ::Protocol::ObjectInfo* Arena::CreateMaybeMessage<::Protocol::ObjectInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -182,12 +182,24 @@ class LocationYaw final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kXFieldNumber = 1,
-    kYFieldNumber = 2,
-    kZFieldNumber = 3,
-    kYawFieldNumber = 4,
+    kIdFieldNumber = 1,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+    kZFieldNumber = 4,
+    kYawFieldNumber = 5,
+    kMoveStateFieldNumber = 6,
+    kDurationFieldNumber = 7,
   };
-  // float x = 1;
+  // uint64 id = 1;
+  void clear_id();
+  uint64_t id() const;
+  void set_id(uint64_t value);
+  private:
+  uint64_t _internal_id() const;
+  void _internal_set_id(uint64_t value);
+  public:
+
+  // float x = 2;
   void clear_x();
   float x() const;
   void set_x(float value);
@@ -196,7 +208,7 @@ class LocationYaw final :
   void _internal_set_x(float value);
   public:
 
-  // float y = 2;
+  // float y = 3;
   void clear_y();
   float y() const;
   void set_y(float value);
@@ -205,7 +217,7 @@ class LocationYaw final :
   void _internal_set_y(float value);
   public:
 
-  // float z = 3;
+  // float z = 4;
   void clear_z();
   float z() const;
   void set_z(float value);
@@ -214,13 +226,31 @@ class LocationYaw final :
   void _internal_set_z(float value);
   public:
 
-  // float yaw = 4;
+  // float yaw = 5;
   void clear_yaw();
   float yaw() const;
   void set_yaw(float value);
   private:
   float _internal_yaw() const;
   void _internal_set_yaw(float value);
+  public:
+
+  // .Protocol.MoveState moveState = 6;
+  void clear_movestate();
+  ::Protocol::MoveState movestate() const;
+  void set_movestate(::Protocol::MoveState value);
+  private:
+  ::Protocol::MoveState _internal_movestate() const;
+  void _internal_set_movestate(::Protocol::MoveState value);
+  public:
+
+  // float duration = 7;
+  void clear_duration();
+  float duration() const;
+  void set_duration(float value);
+  private:
+  float _internal_duration() const;
+  void _internal_set_duration(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.LocationYaw)
@@ -231,10 +261,13 @@ class LocationYaw final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    uint64_t id_;
     float x_;
     float y_;
     float z_;
     float yaw_;
+    int movestate_;
+    float duration_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -242,24 +275,24 @@ class LocationYaw final :
 };
 // -------------------------------------------------------------------
 
-class PlayerInfo final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.PlayerInfo) */ {
+class ObjectInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.ObjectInfo) */ {
  public:
-  inline PlayerInfo() : PlayerInfo(nullptr) {}
-  ~PlayerInfo() override;
-  explicit PROTOBUF_CONSTEXPR PlayerInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline ObjectInfo() : ObjectInfo(nullptr) {}
+  ~ObjectInfo() override;
+  explicit PROTOBUF_CONSTEXPR ObjectInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  PlayerInfo(const PlayerInfo& from);
-  PlayerInfo(PlayerInfo&& from) noexcept
-    : PlayerInfo() {
+  ObjectInfo(const ObjectInfo& from);
+  ObjectInfo(ObjectInfo&& from) noexcept
+    : ObjectInfo() {
     *this = ::std::move(from);
   }
 
-  inline PlayerInfo& operator=(const PlayerInfo& from) {
+  inline ObjectInfo& operator=(const ObjectInfo& from) {
     CopyFrom(from);
     return *this;
   }
-  inline PlayerInfo& operator=(PlayerInfo&& from) noexcept {
+  inline ObjectInfo& operator=(ObjectInfo&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -282,20 +315,20 @@ class PlayerInfo final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const PlayerInfo& default_instance() {
+  static const ObjectInfo& default_instance() {
     return *internal_default_instance();
   }
-  static inline const PlayerInfo* internal_default_instance() {
-    return reinterpret_cast<const PlayerInfo*>(
-               &_PlayerInfo_default_instance_);
+  static inline const ObjectInfo* internal_default_instance() {
+    return reinterpret_cast<const ObjectInfo*>(
+               &_ObjectInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(PlayerInfo& a, PlayerInfo& b) {
+  friend void swap(ObjectInfo& a, ObjectInfo& b) {
     a.Swap(&b);
   }
-  inline void Swap(PlayerInfo* other) {
+  inline void Swap(ObjectInfo* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -308,7 +341,7 @@ class PlayerInfo final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(PlayerInfo* other) {
+  void UnsafeArenaSwap(ObjectInfo* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -316,14 +349,14 @@ class PlayerInfo final :
 
   // implements Message ----------------------------------------------
 
-  PlayerInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PlayerInfo>(arena);
+  ObjectInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ObjectInfo>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PlayerInfo& from);
+  void CopyFrom(const ObjectInfo& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PlayerInfo& from) {
-    PlayerInfo::MergeImpl(*this, from);
+  void MergeFrom( const ObjectInfo& from) {
+    ObjectInfo::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -341,15 +374,15 @@ class PlayerInfo final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(PlayerInfo* other);
+  void InternalSwap(ObjectInfo* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.PlayerInfo";
+    return "Protocol.ObjectInfo";
   }
   protected:
-  explicit PlayerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit ObjectInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -363,13 +396,14 @@ class PlayerInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kLocationYawFieldNumber = 4,
+    kNameFieldNumber = 4,
+    kLocationYawFieldNumber = 3,
     kIdFieldNumber = 1,
-    kPlayerTypeFieldNumber = 3,
-    kMoveStateFieldNumber = 5,
+    kObjectTypeFieldNumber = 2,
+    kPlayerTypeFieldNumber = 5,
+    kMonsterTypeFieldNumber = 6,
   };
-  // string name = 2;
+  // string name = 4;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -383,7 +417,7 @@ class PlayerInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // .Protocol.LocationYaw locationYaw = 4;
+  // .Protocol.LocationYaw locationYaw = 3;
   bool has_locationyaw() const;
   private:
   bool _internal_has_locationyaw() const;
@@ -410,7 +444,16 @@ class PlayerInfo final :
   void _internal_set_id(uint64_t value);
   public:
 
-  // .Protocol.PlayerType playerType = 3;
+  // .Protocol.ObjectType objectType = 2;
+  void clear_objecttype();
+  ::Protocol::ObjectType objecttype() const;
+  void set_objecttype(::Protocol::ObjectType value);
+  private:
+  ::Protocol::ObjectType _internal_objecttype() const;
+  void _internal_set_objecttype(::Protocol::ObjectType value);
+  public:
+
+  // .Protocol.PlayerType playerType = 5;
   void clear_playertype();
   ::Protocol::PlayerType playertype() const;
   void set_playertype(::Protocol::PlayerType value);
@@ -419,16 +462,16 @@ class PlayerInfo final :
   void _internal_set_playertype(::Protocol::PlayerType value);
   public:
 
-  // .Protocol.MoveState moveState = 5;
-  void clear_movestate();
-  ::Protocol::MoveState movestate() const;
-  void set_movestate(::Protocol::MoveState value);
+  // .Protocol.MonsterType monsterType = 6;
+  void clear_monstertype();
+  ::Protocol::MonsterType monstertype() const;
+  void set_monstertype(::Protocol::MonsterType value);
   private:
-  ::Protocol::MoveState _internal_movestate() const;
-  void _internal_set_movestate(::Protocol::MoveState value);
+  ::Protocol::MonsterType _internal_monstertype() const;
+  void _internal_set_monstertype(::Protocol::MonsterType value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.PlayerInfo)
+  // @@protoc_insertion_point(class_scope:Protocol.ObjectInfo)
  private:
   class _Internal;
 
@@ -439,8 +482,9 @@ class PlayerInfo final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::Protocol::LocationYaw* locationyaw_;
     uint64_t id_;
+    int objecttype_;
     int playertype_;
-    int movestate_;
+    int monstertype_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -457,7 +501,27 @@ class PlayerInfo final :
 #endif  // __GNUC__
 // LocationYaw
 
-// float x = 1;
+// uint64 id = 1;
+inline void LocationYaw::clear_id() {
+  _impl_.id_ = uint64_t{0u};
+}
+inline uint64_t LocationYaw::_internal_id() const {
+  return _impl_.id_;
+}
+inline uint64_t LocationYaw::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.id)
+  return _internal_id();
+}
+inline void LocationYaw::_internal_set_id(uint64_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void LocationYaw::set_id(uint64_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.id)
+}
+
+// float x = 2;
 inline void LocationYaw::clear_x() {
   _impl_.x_ = 0;
 }
@@ -477,7 +541,7 @@ inline void LocationYaw::set_x(float value) {
   // @@protoc_insertion_point(field_set:Protocol.LocationYaw.x)
 }
 
-// float y = 2;
+// float y = 3;
 inline void LocationYaw::clear_y() {
   _impl_.y_ = 0;
 }
@@ -497,7 +561,7 @@ inline void LocationYaw::set_y(float value) {
   // @@protoc_insertion_point(field_set:Protocol.LocationYaw.y)
 }
 
-// float z = 3;
+// float z = 4;
 inline void LocationYaw::clear_z() {
   _impl_.z_ = 0;
 }
@@ -517,7 +581,7 @@ inline void LocationYaw::set_z(float value) {
   // @@protoc_insertion_point(field_set:Protocol.LocationYaw.z)
 }
 
-// float yaw = 4;
+// float yaw = 5;
 inline void LocationYaw::clear_yaw() {
   _impl_.yaw_ = 0;
 }
@@ -537,123 +601,113 @@ inline void LocationYaw::set_yaw(float value) {
   // @@protoc_insertion_point(field_set:Protocol.LocationYaw.yaw)
 }
 
+// .Protocol.MoveState moveState = 6;
+inline void LocationYaw::clear_movestate() {
+  _impl_.movestate_ = 0;
+}
+inline ::Protocol::MoveState LocationYaw::_internal_movestate() const {
+  return static_cast< ::Protocol::MoveState >(_impl_.movestate_);
+}
+inline ::Protocol::MoveState LocationYaw::movestate() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.moveState)
+  return _internal_movestate();
+}
+inline void LocationYaw::_internal_set_movestate(::Protocol::MoveState value) {
+  
+  _impl_.movestate_ = value;
+}
+inline void LocationYaw::set_movestate(::Protocol::MoveState value) {
+  _internal_set_movestate(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.moveState)
+}
+
+// float duration = 7;
+inline void LocationYaw::clear_duration() {
+  _impl_.duration_ = 0;
+}
+inline float LocationYaw::_internal_duration() const {
+  return _impl_.duration_;
+}
+inline float LocationYaw::duration() const {
+  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.duration)
+  return _internal_duration();
+}
+inline void LocationYaw::_internal_set_duration(float value) {
+  
+  _impl_.duration_ = value;
+}
+inline void LocationYaw::set_duration(float value) {
+  _internal_set_duration(value);
+  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.duration)
+}
+
 // -------------------------------------------------------------------
 
-// PlayerInfo
+// ObjectInfo
 
 // uint64 id = 1;
-inline void PlayerInfo::clear_id() {
+inline void ObjectInfo::clear_id() {
   _impl_.id_ = uint64_t{0u};
 }
-inline uint64_t PlayerInfo::_internal_id() const {
+inline uint64_t ObjectInfo::_internal_id() const {
   return _impl_.id_;
 }
-inline uint64_t PlayerInfo::id() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.id)
+inline uint64_t ObjectInfo::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.id)
   return _internal_id();
 }
-inline void PlayerInfo::_internal_set_id(uint64_t value) {
+inline void ObjectInfo::_internal_set_id(uint64_t value) {
   
   _impl_.id_ = value;
 }
-inline void PlayerInfo::set_id(uint64_t value) {
+inline void ObjectInfo::set_id(uint64_t value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.id)
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.id)
 }
 
-// string name = 2;
-inline void PlayerInfo::clear_name() {
-  _impl_.name_.ClearToEmpty();
+// .Protocol.ObjectType objectType = 2;
+inline void ObjectInfo::clear_objecttype() {
+  _impl_.objecttype_ = 0;
 }
-inline const std::string& PlayerInfo::name() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.name)
-  return _internal_name();
+inline ::Protocol::ObjectType ObjectInfo::_internal_objecttype() const {
+  return static_cast< ::Protocol::ObjectType >(_impl_.objecttype_);
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void PlayerInfo::set_name(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.name)
+inline ::Protocol::ObjectType ObjectInfo::objecttype() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.objectType)
+  return _internal_objecttype();
 }
-inline std::string* PlayerInfo::mutable_name() {
-  std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:Protocol.PlayerInfo.name)
-  return _s;
-}
-inline const std::string& PlayerInfo::_internal_name() const {
-  return _impl_.name_.Get();
-}
-inline void PlayerInfo::_internal_set_name(const std::string& value) {
+inline void ObjectInfo::_internal_set_objecttype(::Protocol::ObjectType value) {
   
-  _impl_.name_.Set(value, GetArenaForAllocation());
+  _impl_.objecttype_ = value;
 }
-inline std::string* PlayerInfo::_internal_mutable_name() {
-  
-  return _impl_.name_.Mutable(GetArenaForAllocation());
-}
-inline std::string* PlayerInfo::release_name() {
-  // @@protoc_insertion_point(field_release:Protocol.PlayerInfo.name)
-  return _impl_.name_.Release();
-}
-inline void PlayerInfo::set_allocated_name(std::string* name) {
-  if (name != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.name_.IsDefault()) {
-    _impl_.name_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerInfo.name)
+inline void ObjectInfo::set_objecttype(::Protocol::ObjectType value) {
+  _internal_set_objecttype(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.objectType)
 }
 
-// .Protocol.PlayerType playerType = 3;
-inline void PlayerInfo::clear_playertype() {
-  _impl_.playertype_ = 0;
-}
-inline ::Protocol::PlayerType PlayerInfo::_internal_playertype() const {
-  return static_cast< ::Protocol::PlayerType >(_impl_.playertype_);
-}
-inline ::Protocol::PlayerType PlayerInfo::playertype() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.playerType)
-  return _internal_playertype();
-}
-inline void PlayerInfo::_internal_set_playertype(::Protocol::PlayerType value) {
-  
-  _impl_.playertype_ = value;
-}
-inline void PlayerInfo::set_playertype(::Protocol::PlayerType value) {
-  _internal_set_playertype(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.playerType)
-}
-
-// .Protocol.LocationYaw locationYaw = 4;
-inline bool PlayerInfo::_internal_has_locationyaw() const {
+// .Protocol.LocationYaw locationYaw = 3;
+inline bool ObjectInfo::_internal_has_locationyaw() const {
   return this != internal_default_instance() && _impl_.locationyaw_ != nullptr;
 }
-inline bool PlayerInfo::has_locationyaw() const {
+inline bool ObjectInfo::has_locationyaw() const {
   return _internal_has_locationyaw();
 }
-inline void PlayerInfo::clear_locationyaw() {
+inline void ObjectInfo::clear_locationyaw() {
   if (GetArenaForAllocation() == nullptr && _impl_.locationyaw_ != nullptr) {
     delete _impl_.locationyaw_;
   }
   _impl_.locationyaw_ = nullptr;
 }
-inline const ::Protocol::LocationYaw& PlayerInfo::_internal_locationyaw() const {
+inline const ::Protocol::LocationYaw& ObjectInfo::_internal_locationyaw() const {
   const ::Protocol::LocationYaw* p = _impl_.locationyaw_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::LocationYaw&>(
       ::Protocol::_LocationYaw_default_instance_);
 }
-inline const ::Protocol::LocationYaw& PlayerInfo::locationyaw() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.locationYaw)
+inline const ::Protocol::LocationYaw& ObjectInfo::locationyaw() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.locationYaw)
   return _internal_locationyaw();
 }
-inline void PlayerInfo::unsafe_arena_set_allocated_locationyaw(
+inline void ObjectInfo::unsafe_arena_set_allocated_locationyaw(
     ::Protocol::LocationYaw* locationyaw) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locationyaw_);
@@ -664,9 +718,9 @@ inline void PlayerInfo::unsafe_arena_set_allocated_locationyaw(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.PlayerInfo.locationYaw)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.ObjectInfo.locationYaw)
 }
-inline ::Protocol::LocationYaw* PlayerInfo::release_locationyaw() {
+inline ::Protocol::LocationYaw* ObjectInfo::release_locationyaw() {
   
   ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
   _impl_.locationyaw_ = nullptr;
@@ -681,14 +735,14 @@ inline ::Protocol::LocationYaw* PlayerInfo::release_locationyaw() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::LocationYaw* PlayerInfo::unsafe_arena_release_locationyaw() {
-  // @@protoc_insertion_point(field_release:Protocol.PlayerInfo.locationYaw)
+inline ::Protocol::LocationYaw* ObjectInfo::unsafe_arena_release_locationyaw() {
+  // @@protoc_insertion_point(field_release:Protocol.ObjectInfo.locationYaw)
   
   ::Protocol::LocationYaw* temp = _impl_.locationyaw_;
   _impl_.locationyaw_ = nullptr;
   return temp;
 }
-inline ::Protocol::LocationYaw* PlayerInfo::_internal_mutable_locationyaw() {
+inline ::Protocol::LocationYaw* ObjectInfo::_internal_mutable_locationyaw() {
   
   if (_impl_.locationyaw_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::LocationYaw>(GetArenaForAllocation());
@@ -696,12 +750,12 @@ inline ::Protocol::LocationYaw* PlayerInfo::_internal_mutable_locationyaw() {
   }
   return _impl_.locationyaw_;
 }
-inline ::Protocol::LocationYaw* PlayerInfo::mutable_locationyaw() {
+inline ::Protocol::LocationYaw* ObjectInfo::mutable_locationyaw() {
   ::Protocol::LocationYaw* _msg = _internal_mutable_locationyaw();
-  // @@protoc_insertion_point(field_mutable:Protocol.PlayerInfo.locationYaw)
+  // @@protoc_insertion_point(field_mutable:Protocol.ObjectInfo.locationYaw)
   return _msg;
 }
-inline void PlayerInfo::set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw) {
+inline void ObjectInfo::set_allocated_locationyaw(::Protocol::LocationYaw* locationyaw) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete _impl_.locationyaw_;
@@ -718,27 +772,97 @@ inline void PlayerInfo::set_allocated_locationyaw(::Protocol::LocationYaw* locat
     
   }
   _impl_.locationyaw_ = locationyaw;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerInfo.locationYaw)
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ObjectInfo.locationYaw)
 }
 
-// .Protocol.MoveState moveState = 5;
-inline void PlayerInfo::clear_movestate() {
-  _impl_.movestate_ = 0;
+// string name = 4;
+inline void ObjectInfo::clear_name() {
+  _impl_.name_.ClearToEmpty();
 }
-inline ::Protocol::MoveState PlayerInfo::_internal_movestate() const {
-  return static_cast< ::Protocol::MoveState >(_impl_.movestate_);
+inline const std::string& ObjectInfo::name() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.name)
+  return _internal_name();
 }
-inline ::Protocol::MoveState PlayerInfo::movestate() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.moveState)
-  return _internal_movestate();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ObjectInfo::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.name)
 }
-inline void PlayerInfo::_internal_set_movestate(::Protocol::MoveState value) {
+inline std::string* ObjectInfo::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.ObjectInfo.name)
+  return _s;
+}
+inline const std::string& ObjectInfo::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void ObjectInfo::_internal_set_name(const std::string& value) {
   
-  _impl_.movestate_ = value;
+  _impl_.name_.Set(value, GetArenaForAllocation());
 }
-inline void PlayerInfo::set_movestate(::Protocol::MoveState value) {
-  _internal_set_movestate(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.moveState)
+inline std::string* ObjectInfo::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ObjectInfo::release_name() {
+  // @@protoc_insertion_point(field_release:Protocol.ObjectInfo.name)
+  return _impl_.name_.Release();
+}
+inline void ObjectInfo::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ObjectInfo.name)
+}
+
+// .Protocol.PlayerType playerType = 5;
+inline void ObjectInfo::clear_playertype() {
+  _impl_.playertype_ = 0;
+}
+inline ::Protocol::PlayerType ObjectInfo::_internal_playertype() const {
+  return static_cast< ::Protocol::PlayerType >(_impl_.playertype_);
+}
+inline ::Protocol::PlayerType ObjectInfo::playertype() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.playerType)
+  return _internal_playertype();
+}
+inline void ObjectInfo::_internal_set_playertype(::Protocol::PlayerType value) {
+  
+  _impl_.playertype_ = value;
+}
+inline void ObjectInfo::set_playertype(::Protocol::PlayerType value) {
+  _internal_set_playertype(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.playerType)
+}
+
+// .Protocol.MonsterType monsterType = 6;
+inline void ObjectInfo::clear_monstertype() {
+  _impl_.monstertype_ = 0;
+}
+inline ::Protocol::MonsterType ObjectInfo::_internal_monstertype() const {
+  return static_cast< ::Protocol::MonsterType >(_impl_.monstertype_);
+}
+inline ::Protocol::MonsterType ObjectInfo::monstertype() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.monsterType)
+  return _internal_monstertype();
+}
+inline void ObjectInfo::_internal_set_monstertype(::Protocol::MonsterType value) {
+  
+  _impl_.monstertype_ = value;
+}
+inline void ObjectInfo::set_monstertype(::Protocol::MonsterType value) {
+  _internal_set_monstertype(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.monsterType)
 }
 
 #ifdef __GNUC__
