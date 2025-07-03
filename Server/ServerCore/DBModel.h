@@ -23,6 +23,7 @@ enum class DataType {
 	VarChar = 167,
 	Binary = 173,
 	NVarChar = 231,
+
 };
 
 // 컬럼 정보   

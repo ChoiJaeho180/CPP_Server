@@ -4,10 +4,9 @@
 
 MemoryManager::MemoryManager()
 {
-	int size = 0;
 	int tableIndex = 0;
 
-	for (size = 32; size <= 1024; size += 32) {
+	for (int size = 32; size <= 1024; size += 32) {
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 
@@ -17,7 +16,7 @@ MemoryManager::MemoryManager()
 		}
 	}
 
-	for (; size <= 2048; size += 128) {
+	for (int size = 1024; size <= 2048; size += 128) {
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 
@@ -27,7 +26,7 @@ MemoryManager::MemoryManager()
 		}
 	}
 
-	for (; size <= 4096; size += 256) {
+	for (int size = 2048; size <= 4096; size += 256) {
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 

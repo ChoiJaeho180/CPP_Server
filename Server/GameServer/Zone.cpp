@@ -2,27 +2,41 @@
 #include "Zone.h"
 #include "ZoneInstance.h"
 #include <unordered_map>
+#include "ZoneUtils.h"
 
-Zone::Zone(const ZoneDesc& zoneCms):_zoneCms(zoneCms)
+Zone::Zone(const uint64 key, const MapDesc mapCms) : _key(key), _mapCms(mapCms)
 {
-	_instanceIdGen = 0;
-
-	if (_zoneCms.minInstance) {
-		for (int i = 1; i <= _zoneCms.minInstance; i++) {
-			ZoneInstanceRef instance = ObjectPool<ZoneInstance>::MakeShared();
-			_instancese.insert(make_pair(++_instanceIdGen, instance));
-		}
-	}
+	AddZoneInstance();
 }
 
 Zone::~Zone()
 {
 }
 
+void Zone::AddZoneInstance()
+{
+	const uint64 instanceId = _instances[_key].size();
+	const Vector2<int> zoneIndex = ZoneUtils::GetZoneIndex(_key);
+	const Rect2D zoneArea = Rect2D(
+		zoneIndex.x * _mapCms.zoneWidth,
+		zoneIndex.y * _mapCms.zoneHeight,
+		_mapCms.zoneWidth - 1,
+		_mapCms.zoneHeight - 1
+	);
+
+	//std::cout << "ZoneINstance" << std::endl;
+	//std::cout << "x : " << zoneArea.x << ", endX : " << zoneArea.endX << ", y : " << zoneArea.y  << ", endY : " << zoneArea.endY << std::endl;
+	ZoneInstanceRef instance = ObjectPool<ZoneInstance>::MakeShared(instanceId, zoneIndex, zoneArea,  _mapCms);
+	instance->Init();
+	_instances[_key].push_back(instance);
+}
+
 void Zone::EnqueueUpdates()
 {
-	for (auto& [_, instance] : _instancese) {
-		instance->Enqueue(&ZoneInstance::Update);
+	for (auto& [_, instanceList] : _instances) {
+		for (auto& zoneInstance : instanceList) {
+			zoneInstance->Enqueue(&ZoneInstance::Update);
+		}
 	}
 }
 

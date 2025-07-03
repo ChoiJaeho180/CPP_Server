@@ -47,3 +47,6 @@ Server/DummyClient/x64
 Server/Libraries/Debug
 Server/.vs
 Server/Tools/PacketGenerator/__pycache__
+Server/DBServer/x64
+Server/Tools/CmsInitialGenerator/__pycache__
+Server/Tools/ProcedureGenerator/__pycache__

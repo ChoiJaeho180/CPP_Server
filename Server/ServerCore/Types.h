@@ -30,6 +30,7 @@ using SendBufferRef			= std::shared_ptr<class SendBuffer>;
 using SendBufferChunkRef	= std::shared_ptr<class SendBufferChunk>;
 using TaskRef				= std::shared_ptr<class Task>;
 using TaskQueueRef			= std::shared_ptr<class TaskQueue>;
+using ServerPacketHeaderRef	= std::shared_ptr<struct ServerPacketHeader>;
 
 #define size16(val)			static_cast<int16>(sizeof(val))
 #define size32(val)			static_cast<int32>(sizeof(val))

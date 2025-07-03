@@ -1,10 +1,10 @@
 pushd %~dp0
 
 
-GenProcedures.exe --path=../../GameServer/GameDB.xml --output=GenProcedures.h
+GenProcedures.exe --path=../../DBServer/GameDB.xml --output=GenProcedures.h
 IF ERRORLEVEL 1 PAUSE
 
-XCOPY /Y GenProcedures.h "../../GameServer"
+XCOPY /Y GenProcedures.h "../../DBServer"
 
 DEL /Q /F *.h
 

@@ -1,7 +1,7 @@
 pushd %~dp0
 
 
-GenCmsInit.exe --cms_path=../../Cms --template=CmsManager.cpp --output=../../GameServer/CmsManager.cpp --header_path=../../GameServer --vcxproj_path=../../GameServer/GameServer.vcxproj --vcxproj_filter_path=../../GameServer/GameServer.vcxproj.filters --vs_include_path=../../GameServer/Cms/Description --common_type_name=CommonType
+GenCmsInit.exe --cms_path=../../Cms --template=CmsManager.cpp --output=../../GameServer/CmsManager.cpp --header_path=../../GameServer --vcxproj_path=../../GameServer/GameServer.vcxproj --vcxproj_filter_path=../../GameServer/GameServer.vcxproj.filters --common_type_name=CommonType
 IF ERRORLEVEL 1 PAUSE
 
 XCOPY /Y CmsManager.cpp "../../GameServer"

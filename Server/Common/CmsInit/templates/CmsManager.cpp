@@ -8,6 +8,6 @@
 void CmsManager::Init(const string& directory)
 {
 {%- for entry in entries %}
-    CmsCached<{{ entry }}Desc>::Load(directory + "/{{ entry }}.json");
+    CmsCached<{{ entry }}Desc>::Load(directory ,"{{ entry }}");
 {%- endfor %}
 }

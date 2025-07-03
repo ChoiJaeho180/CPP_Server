@@ -25,10 +25,17 @@ public:
 	}
 
 	void PopAll(OUT Vector<T>& items) {
-		WRITE_LOCK;
+		Queue<T> copyItems;
+		{
+			WRITE_LOCK;
+			std::swap(copyItems, _items);
+		}
 
-		while (T item = Pop()) {
-			items.push_back(item);
+		while (copyItems.empty() == false) {
+			T result = copyItems.front();
+			copyItems.pop();
+
+			items.push_back(result);
 		}
 	}
 

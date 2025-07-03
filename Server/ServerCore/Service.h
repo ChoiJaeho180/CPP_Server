@@ -60,7 +60,7 @@ public:
 class ServerService : public Service
 {
 public:
-	ServerService(NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
+	ServerService(ServiceType serviceType, NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
 	virtual ~ServerService() {}
 
 	virtual bool		Start() override;
@@ -68,6 +68,5 @@ public:
 private:
 	ListenerRef _listener = nullptr;
 };
-
 
 

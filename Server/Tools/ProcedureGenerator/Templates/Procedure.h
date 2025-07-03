@@ -33,7 +33,7 @@ public:
 
 private:
 {%- for param in proc.params %}
-  {%- if param.type == 'int32' or param.type == 'TIMESTAMP_STRUCT' %}
+  {%- if param.type in ['int32', 'int64', 'TIMESTAMP_STRUCT'] %}
 	{{param.type}} _{{lower_first(param.name)}} = {};
   {%- endif %}
 {%- endfor %}

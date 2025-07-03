@@ -1,0 +1,26 @@
+{
+  "Type": {},
+  "Column": {
+    "cmsId": "int",
+    "name": "std::string",
+    "width": "int",
+    "height": "int",
+    "zoneWidth": "int",
+    "zoneHeight": "int",
+    "gridWidth": "int",
+    "gridHeight": "int"
+  },
+  "Optional": [],
+  "Map": [
+    {
+      "cmsId": 1,
+      "name": "forest",
+      "width": 4096,
+      "height": 4096,
+      "zoneWidth": 512,
+      "zoneHeight": 512,
+      "gridWidth": 32,
+      "gridHeight": 32
+    }
+  ]
+}

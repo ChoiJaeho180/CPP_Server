@@ -116,7 +116,7 @@ String Procedure::GenerateAlterQuery()
 String Procedure::GenerateParamString()
 {
     String result;
-    const int32 size = parameters.size();
+    const uint64 size = parameters.size();
     if (size > 0) {
         result += L"\n";
     }
@@ -168,7 +168,7 @@ String Helper::RemoveWhiteSpace(const String& str)
 {
     String result = str;
     result.erase(
-        std::remove_if(result.begin(), result.end(), [=](WCHAR ch) { return ::isspace(ch);}),
+        std::remove_if(result.begin(), result.end(), [=](WCHAR ch) { return ::iswspace(ch);}),
         result.end());
     
     return result;
@@ -200,4 +200,5 @@ DataType Helper::String2DataType(const WCHAR* str, OUT int32& maxLen)
     if (::_wcsicmp(ret[1].str().c_str(), L"Varchar") == 0) return DataType::VarChar;
     if (::_wcsicmp(ret[1].str().c_str(), L"Binary") == 0) return DataType::Binary;
     if (::_wcsicmp(ret[1].str().c_str(), L"NVarChar") == 0) return DataType::NVarChar;
+    return DataType::None;
 }

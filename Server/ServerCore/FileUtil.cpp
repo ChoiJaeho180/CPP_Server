@@ -39,3 +39,11 @@ String FileUtil::Convert(string str)
 
 	return ret;
 }
+
+std::string FileUtil::Convert(WCHAR str[])
+{
+	char buffer[256] = {};
+	::WideCharToMultiByte(CP_UTF8, 0, str, -1, buffer, sizeof(buffer), nullptr, nullptr);
+	std::string utf8Name = buffer;
+	return utf8Name;
+}

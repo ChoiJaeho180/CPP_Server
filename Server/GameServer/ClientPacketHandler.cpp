@@ -4,6 +4,15 @@
 #include "Player.h"
 #include "ObjectUtils.h"
 #include "Room.h"
+#include "ZoneUtils.h"
+#include "CmsManager.h"
+#include "MapDesc.h"
+#include "PlayerManager.h"
+#include "DBServerPacketHandler.h"
+#include "DBWorkerManager.h"
+#include "DBStruct.pb.h"
+#include "DBHelper.h"
+#include "ClientSessionManager.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -14,24 +23,44 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 
 bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 {
-	// TODO. DB에서 account 정보를 긁어온다.
-	// TODO. 인증 서버 개발 시 인증 서버에서 redis에 인증 관련 토큰을 저장하고
-	//  여기서 검증을 한다.
+
+	// TODO. 
+	// 1. 인증 서버 개발 시 인증 서버에서 redis에 인증 관련 토큰을 저장 및 검증을 한다.
+	// 2. 중복 로그인 체크.
+
+	Protocol::S_LOGIN sLoginPkt;
+	sLoginPkt.set_success(false);
+	std::string account = pkt.account();
+
+	if (account.empty()) {
+		SEND_PACKET(sLoginPkt);
+		return true;
+	}
 
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
 	
-	static Atomic<uint64> playerIdGen = 1;
+	DBProtocol::C_LOAD_LOBBY_PLAYERS_INFO pktLoadLobbyPlayers;
+	pktLoadLobbyPlayers.set_account(account);
 
-	PlayerRef player = MakeShared<Player>( clientSession);
-	clientSession->AddPlayer(player);
+	// temp. 현재 캐릭터 정보 가져오도록 구현
+	// todo. 간략한 캐릭터 정보만 가져오도록 구현
+	DBHelper::SendDBRequest<DBProtocol::C_LOAD_LOBBY_PLAYERS_INFO, DBProtocol::S_LOAD_LOBBY_PLAYERS_INFO>(
+		clientSession->GetSessionId(), pktLoadLobbyPlayers,
+		[=](const DBProtocol::S_LOAD_LOBBY_PLAYERS_INFO& result) {
+			{
+				ClientSessionManager::GetInstance().Add(clientSession);
+				for (int i = 0; i < result.infos().size(); i++) {
+					clientSession->AddLobbyPlayer(result.infos(i));
+				}
 
-	{
-		Protocol::S_LOGIN sLoginPkt;
+				Protocol::S_LOGIN sLoginPkt;
+				sLoginPkt.mutable_infos()->CopyFrom(result.infos());
+				sLoginPkt.set_success(true);
 
-		sLoginPkt.set_success(true);
+				SEND_PACKET(sLoginPkt);
+			}
+	});
 
-		SEND_PACKET(sLoginPkt);
-	}
 	return true;
 }
 
@@ -39,9 +68,13 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
 	PlayerRef curPlayer = ObjectUtils::CreatePlayer(clientSession);
-	
-	//g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
-	
+
+	////g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
+	//PlayerRef player = MakeShared<Player>(clientSession);
+	//clientSession->AddPlayer(player);
+
+	//player->SetOwnerSession(clientSession);
+	//player->SetObjectInfo(result.info());
 	return true;
 }
 

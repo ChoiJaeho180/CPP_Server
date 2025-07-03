@@ -56,5 +56,8 @@ public:
 	void deallocate(T* ptr, size_t count) {
 		PoolAllocator::Release(ptr);
 	}
+
+	bool operator==(const StlAllocator&) const noexcept { return true; }
+	bool operator!=(const StlAllocator&) const noexcept { return false; }
 };
 

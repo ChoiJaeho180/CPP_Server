@@ -14,12 +14,13 @@
 #include "DBBind.h"
 #include "XmlParser.h"
 #include "DBSynchronizer.h"
-#include "GenProcedures.h"
 #include "CoreGlobal.h"
 #include "ZoneManager.h"
-#include "ZoneDesc.h"
 #include "CmsManager.h"
-#include <thread>
+#include "CmsLookup.h"
+#include "DBServerSession.h"
+#include "DBWorkerManager.h"
+#include "DBServerPacketHandler.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -29,8 +30,7 @@ enum {
 	WORKER_TICK = 64
 };
 
-void DoWokerJob(ServerServiceRef& service) {
-	int a = 0;
+void DoGameWorkerJob(ServerServiceRef& service) {
 	while (true) {
 		const uint64 startTick = GetTickCount64();
 		LEndTickCount = startTick + WORKER_TICK;
@@ -38,7 +38,10 @@ void DoWokerJob(ServerServiceRef& service) {
 		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
 		service->GetIocpCore()->Dispatch(10);
 
-		// zone의 업데이트 요청 실제 작업을 하진 않음
+
+
+		// zone의 업데이트 요청 실제 작업을 하진 않음. 
+		// -> 하나의 thread가 다 처리하지 않도록 분산
 		ZoneManager::GetInstance().EnqueueUpdates();
 
 		// 예약된 task 처리
@@ -46,6 +49,9 @@ void DoWokerJob(ServerServiceRef& service) {
 
 		// 글로벌 큐 
 		ThreadManager::ProcessGlobalQueue();
+
+		// DB response 
+		GDBServerCallbackMgr->ProcessPackets();
 
 		const uint64 elapsed = GetTickCount64() - startTick;
 		if (elapsed > WORKER_TICK) {
@@ -56,62 +62,56 @@ void DoWokerJob(ServerServiceRef& service) {
 
 int main()
 {
+
 	/*GRoom->DoTimer(1000, []() {cout << "1000!!!!" << endl; });
 	GRoom->DoTimer(2000, []() {cout << "2000!!!!" << endl; });
 	GRoom->DoTimer(3000, []() {cout << "3000!!!" << endl; });*/
-	
-	/*ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=Yes;"));
-	DBConnection* dbConn = GDBConnectionPool->Pop();
-	DBSynchronizer dbSync(*dbConn);
-	dbSync.Synchronize(L"GameDB.xml");
-
-	{
-		SP::GetGold getGold(*dbConn);
-		getGold.In_Gold(100);
-
-		int32 id = 0;
-		int32 gold = 0;
-		WCHAR name[100];
-		TIMESTAMP_STRUCT date;
-
-		getGold.Out_Id(OUT id);
-
-		getGold.Out_Gold(OUT gold);
-
-		getGold.Out_CreateDate(OUT date);
-
-		getGold.Out_Name(OUT name);
-
-		getGold.Execute();
-		while (getGold.Fetch()) {
-			GConsoleLogger->WriteStdOut(Color::BLUE,
-				L"ID[%d] Gold[%d] Name[%s]\n", id, gold, name
-				);
-		}
-	}*/
-
 	CoreGlobal::Init();
+	GameGlobal::Init();
+
 	CmsManager::GetInstance().Init("../Cms/");
+	CmsLookup::Build();
 	ClientPacketHandler::Init();
+	DBServerPacketHandler::Init();
+
 	ZoneManager::GetInstance().Init();
 
-	ServerServiceRef service = MakeShared<ServerService>(
+	ServerServiceRef gameServer = MakeShared<ServerService>(
+		ServiceType::Server,
 		NetAddress(NetAddress(L"127.0.0.1", 7777)),
 		MakeShared<IocpCore>(),
 		MakeShared<ClientSession>,
 		100
 	);
-
-	ASSERT_CRASH(service->Start());
-
+	ASSERT_CRASH(gameServer->Start());
 	//unsigned int MAX_WORKER_THREADS = std::thread::hardware_concurrency(); 
-	for (int i = 0; i < 1; i++) {
-		GThreadManager->Launch([&service]() {
-			DoWokerJob(service);
-		});
+	for (int i = 0; i < GameConst::GAME_WORKER_COUNT; i++) {
+		GThreadManager->Launch([&gameServer]() {
+			DoGameWorkerJob(gameServer);
+			});
 	}
 
-	//DoWokerJob(service);
+	ClientServiceRef dbClient = MakeShared<ClientService>(
+		NetAddress(L"127.0.0.1", 8888),
+		MakeShared<IocpCore>(),
+		MakeShared<DBServerSession>,
+		1
+	);
+
+	ASSERT_CRASH(dbClient->Start());
+
+	for (int i = 0; i < GameConst::DB_WORKER_COUNT; i++) {
+		int shardId = i;
+		GThreadManager->Launch([&dbClient, shardId]() {
+			DBWorkerRef worker = MakeShared<DBWorker>(shardId);
+			DBWorkerManager::GetInstance().AddWorker(shardId, worker);
+
+			worker->Tick(dbClient);
+		});
+	}
+	
+
+	//DoGameWorkerJob(gameServer);
 
 	GThreadManager->Join();
 

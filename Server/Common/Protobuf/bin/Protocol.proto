@@ -5,12 +5,12 @@ import "Enum.proto";
 import "Struct.proto";
 
 message C_LOGIN {
-	string name = 1;
+	string account = 1;
 }
 
 message S_LOGIN {
 	bool success = 1;
-	repeated ObjectInfo players = 2; // 아이디 발급 전
+	repeated LobbyPlayerInfo infos = 2; // 아이디 발급 전
 }
 
 message C_ENTER_GAME {
@@ -35,7 +35,6 @@ message S_LEAVE_GAME {
 
 message C_SPAWN {
 	repeated uint64 ids = 1;
-	
 }
 
 message S_SPAWN {

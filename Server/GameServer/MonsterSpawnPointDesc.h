@@ -4,12 +4,11 @@
 
 struct MonsterSpawnPointDesc  {
 	int cmsId;
-	int zoneCmsId;
+	int mapCmsId;
 	int monsterCmsId;
-	Position position;
-	int radius;
-	float respawnTimeSec;
+	J_Rect position;
+	float respawnTimeMs;
 	int maxCount;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MonsterSpawnPointDesc, cmsId, zoneCmsId, monsterCmsId, position, radius, respawnTimeSec, maxCount);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(MonsterSpawnPointDesc, cmsId, mapCmsId, monsterCmsId, position, respawnTimeMs, maxCount);

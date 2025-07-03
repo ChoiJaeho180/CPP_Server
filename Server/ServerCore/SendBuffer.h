@@ -52,7 +52,6 @@ private:
 	Array<BYTE, SEND_BUFFER_CHUNK_SIZE>		_buffer = {};
 	bool									_open = false;
 	uint32									_usedSize = 0;
-	
 };
 
 class SendBufferManager {

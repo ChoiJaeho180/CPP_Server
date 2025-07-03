@@ -1,28 +1,26 @@
 #pragma once
 #include "Session.h"
 
-class Room;
-
 class ClientSession : public PacketSession {
 public:
 	ClientSession();
 	~ClientSession();
 
-	virtual void				OnConnected() override;
-	virtual void				OnDisconnected() override;
+	virtual void								OnConnected() override;
+	virtual void								OnDisconnected() override;
 
 
-	virtual void				OnRecvPacket(BYTE* buffer, int32 len) override;
-	virtual void				OnSend(int32 len) override;
+	virtual void								OnRecvPacket(BYTE* buffer, int32 len) override;
+	virtual void								OnSend(int32 len) override;
 
 public:
-	void						AddPlayer(PlayerRef player) { _players.push_back(player); }
-	PlayerRef					GetPlayer(uint64 playerIndex) { return _players[playerIndex]; }
+	void										AddLobbyPlayer(Protocol::LobbyPlayerInfo lobbyPlayer) { _lobbyPlayersInfo[lobbyPlayer.id()] = lobbyPlayer; }
+	bool										HasLobbyPlayer(uint64 playerId) { return _lobbyPlayersInfo.find(playerId) != _lobbyPlayersInfo.end(); }
 
-	void						SetCurPlayer(PlayerRef player) { _curPlayer = player; }
-	PlayerRef					GetCurPlayer() { return _curPlayer; }
+	void										SetCurPlayer(PlayerRef player) { _curPlayer = player; }
+	PlayerRef									GetCurPlayer() { return _curPlayer; }
 
 private:
-	atomic<PlayerRef>		_curPlayer;
-	Vector<PlayerRef>		_players;
+	Atomic<PlayerRef>							_curPlayer;
+	HashMap<uint64, Protocol::LobbyPlayerInfo>	_lobbyPlayersInfo;
 };

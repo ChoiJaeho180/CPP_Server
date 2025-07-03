@@ -5,6 +5,10 @@
 #include "ThreadManager.h"
 #include "BufferReader.h"
 #include "ServerPacketHandler.h"
+#include <chrono>
+
+using namespace std::chrono_literals;
+
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -20,7 +24,7 @@ public:
 	{
 		// 인증 서버에 로그인 과정을 거쳐야하지만 스킵
 		Protocol::C_LOGIN pkt;
-		pkt.set_name("DanGyeol");
+		pkt.set_account("DanGyeol");
 		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
 		Send(sendBuffer);
 	}
@@ -43,7 +47,7 @@ public:
 
 int main()
 {
-	CoreGlobal core;
+	CoreGlobal::Init();
 	ServerPacketHandler::Init();
 
 	this_thread::sleep_for(1s);
@@ -52,7 +56,7 @@ int main()
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
 		MakeShared<ServerSession>,
-		1);
+		2);
 
 	ASSERT_CRASH(service->Start());
 
@@ -65,12 +69,14 @@ int main()
 		});
 	}
 
-	Protocol::C_CHAT chatPkt;
-	chatPkt.set_msg("!!!ewqewe");
-	SendBufferRef sendBuffer = ServerPacketHandler::MakeSendBuffer(chatPkt);
-	while (true) {
-		service->BroadCast(sendBuffer);
-		this_thread::sleep_for(1000ms);
-	}
+	//Protocol::C_CHAT chatPkt;
+	//chatPkt.set_msg("!!!ewqewe");
+	//SendBufferRef sendBuffer = ServerPacketHandler::MakeSendBuffer(chatPkt);
+	//while (true) {
+	//	service->BroadCast(sendBuffer);
+	//	this_thread::sleep_for(1000ms);
+	//}
 	GThreadManager->Join();
+
+	CoreGlobal::Destory();
 }

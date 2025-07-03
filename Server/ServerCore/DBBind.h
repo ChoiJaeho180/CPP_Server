@@ -27,7 +27,7 @@ public:
 	}
 
 	bool Validate() {
-		int32 paramCOunt = FullBits<ParamCount>::value;
+		int32 paramCount = FullBits<ParamCount>::value;
 		int32 columnCount = FullBits<ColumnCount>::value;
 		return _paramFlag == FullBits<ParamCount>::value &&
 			_columnFlag == FullBits<ColumnCount>::value;

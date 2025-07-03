@@ -15,7 +15,7 @@ class CmsHeaderGenerator:
         return
 
 
-    def gen_file(self, json_data, name, header_full_path):
+    def generate_header_from_json(self, json_data, name, header_full_path):
         file = ""
 
         file += "#pragma once\n"
@@ -27,16 +27,23 @@ class CmsHeaderGenerator:
         # struct 
         file += f"struct {name}Desc  {{\n" 
         for _name, _type in json_data["Column"].items():
+            is_optional = _name in json_data.get("Optional", [])
+
             if _type.endswith("[]"):
-                _type = f"std::vector<{ _type[:-2]}>"
-            file += f"	{_type} {_name};\n"
-       
+                _type = f"std::vector<{_type[:-2]}>"
+
+            if is_optional:
+                _type = f"std::optional<{_type}>"
+                file += f"	{_type} {_name} = std::nullopt;\n"
+            else:
+                file += f"	{_type} {_name};\n"
+
         file += "};\n"
         file += "\n";
 
         # macro
         field_list = ", ".join(json_data["Column"].keys())
-        file += f"NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE({name}Desc, {field_list});";
+        file += f"NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT({name}Desc, {field_list});";
 
         f = open(header_full_path, 'w+', encoding='utf-8')
         f.write(file)

@@ -3,9 +3,12 @@
 #include "SocketUtils.h"
 #include "Service.h"
 
+Atomic<uint64> Session::GSessionIdGenerator = 1;
+
 Session::Session(): _recvBuffer(BUFFER_SIZE)
 {
     _socket = SocketUtils::CreateSocket();
+    _sessionId = RoutingKey::MakeSessionKey(GSessionIdGenerator.fetch_add(1));
 }
 
 Session::~Session()

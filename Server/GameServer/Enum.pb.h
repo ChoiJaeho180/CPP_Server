@@ -47,32 +47,59 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
-enum PlayerType : int {
-  PLAYER_TYPE_NONE = 0,
-  PLAYER_TYPE_KNIGHT = 1,
-  PLAYER_TYPE_MAGE = 2,
-  PLAYER_TYPE_ARCHER = 3,
-  PlayerType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  PlayerType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+enum LOGIN_RESULT : int {
+  LOGIN_RESULT_NONE = 0,
+  LOGIN_RESULT_SUCCESS = 1,
+  LOGIN_RESULT_ALREADY_LOGIN = 2,
+  LOGIN_RESULT_INTERNAL_ERROR = 3,
+  LOGIN_RESULT_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  LOGIN_RESULT_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
-bool PlayerType_IsValid(int value);
-constexpr PlayerType PlayerType_MIN = PLAYER_TYPE_NONE;
-constexpr PlayerType PlayerType_MAX = PLAYER_TYPE_ARCHER;
-constexpr int PlayerType_ARRAYSIZE = PlayerType_MAX + 1;
+bool LOGIN_RESULT_IsValid(int value);
+constexpr LOGIN_RESULT LOGIN_RESULT_MIN = LOGIN_RESULT_NONE;
+constexpr LOGIN_RESULT LOGIN_RESULT_MAX = LOGIN_RESULT_INTERNAL_ERROR;
+constexpr int LOGIN_RESULT_ARRAYSIZE = LOGIN_RESULT_MAX + 1;
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerType_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LOGIN_RESULT_descriptor();
 template<typename T>
-inline const std::string& PlayerType_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PlayerType>::value ||
+inline const std::string& LOGIN_RESULT_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, LOGIN_RESULT>::value ||
     ::std::is_integral<T>::value,
-    "Incorrect type passed to function PlayerType_Name.");
+    "Incorrect type passed to function LOGIN_RESULT_Name.");
   return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PlayerType_descriptor(), enum_t_value);
+    LOGIN_RESULT_descriptor(), enum_t_value);
 }
-inline bool PlayerType_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PlayerType* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
-    PlayerType_descriptor(), name, value);
+inline bool LOGIN_RESULT_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LOGIN_RESULT* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LOGIN_RESULT>(
+    LOGIN_RESULT_descriptor(), name, value);
+}
+enum JobType : int {
+  JOB_TYPE_NONE = 0,
+  JOB_TYPE_KNIGHT = 1,
+  JOB_TYPE_MAGE = 2,
+  JOB_TYPE_ARCHER = 3,
+  JobType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  JobType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool JobType_IsValid(int value);
+constexpr JobType JobType_MIN = JOB_TYPE_NONE;
+constexpr JobType JobType_MAX = JOB_TYPE_ARCHER;
+constexpr int JobType_ARRAYSIZE = JobType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* JobType_descriptor();
+template<typename T>
+inline const std::string& JobType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, JobType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function JobType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    JobType_descriptor(), enum_t_value);
+}
+inline bool JobType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, JobType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<JobType>(
+    JobType_descriptor(), name, value);
 }
 enum MoveState : int {
   MOVE_STATE_NONE = 0,
@@ -173,10 +200,15 @@ inline bool MonsterType_Parse(
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::Protocol::PlayerType> : ::std::true_type {};
+template <> struct is_proto_enum< ::Protocol::LOGIN_RESULT> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::PlayerType>() {
-  return ::Protocol::PlayerType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::LOGIN_RESULT>() {
+  return ::Protocol::LOGIN_RESULT_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::JobType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::JobType>() {
+  return ::Protocol::JobType_descriptor();
 }
 template <> struct is_proto_enum< ::Protocol::MoveState> : ::std::true_type {};
 template <>

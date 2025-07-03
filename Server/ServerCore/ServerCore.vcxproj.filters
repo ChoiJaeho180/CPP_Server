@@ -171,6 +171,12 @@
     <ClInclude Include="AtomicScopeGuard.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="CallbackStorage.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RoutingKey.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -283,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="JsonUtils.cpp">
       <Filter>Json</Filter>
+    </ClCompile>
+    <ClCompile Include="CallbackStorage.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

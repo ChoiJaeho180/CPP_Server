@@ -17,9 +17,9 @@ bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 		return false;
 	}
 
-	if (pkt.players().size() == 0) {
-		// 캐릭터 생성
-	}
+	//if (pkt.players().size() == 0) {
+	//	// 캐릭터 생성
+	//}
 
 	// 입장 UI 버튼 눌러서 게임 입장
 	Protocol::C_ENTER_GAME cEnterPkt;
@@ -33,6 +33,26 @@ bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 bool Handle_S_ENTER_GAME(PacketSessionRef& session, Protocol::S_ENTER_GAME& pkt)
 {
 	// TODO.
+	return false;
+}
+
+bool Handle_S_LEAVE_GAME(PacketSessionRef& session, Protocol::S_LEAVE_GAME& pkt)
+{
+	return false;
+}
+
+bool Handle_S_SPAWN(PacketSessionRef& session, Protocol::S_SPAWN& pkt)
+{
+	return false;
+}
+
+bool Handle_S_DESPAWN(PacketSessionRef& session, Protocol::S_DESPAWN& pkt)
+{
+	return false;
+}
+
+bool Handle_S_MOVE(PacketSessionRef& session, Protocol::S_MOVE& pkt)
+{
 	return false;
 }
 

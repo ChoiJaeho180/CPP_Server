@@ -5,28 +5,29 @@ template<typename T>
 class CmsCached
 {
 public:
-    static void Load(const std::string& file)
+    static void Load(const std::string& path, const std::string& fileName)
     {
         using json = nlohmann::json;
-       
+        
+        const std::string fullPath = path + fileName + ".json";
         json j;
-        if (!JsonUtils::LoadJsonFromFile(file, j)) {
+        if (!JsonUtils::LoadJsonFromFile(fullPath, j)) {
             return;
         }
 
-        const string rootKey = j.begin().key();
-        if (!j.contains(rootKey) || !j[rootKey].is_array()) {
+        if (!j.contains(fileName) || !j[fileName].is_array()) {
             return;
         }
 
-        for (const auto& elem : j[rootKey])
+        for (const auto& elem : j[fileName])
         {
             try {
                 T obj = elem.get<T>();
                 _cache[obj.cmsId] = std::move(obj);
             }
-            catch (...) {
-                // todo ·Î±× 
+            catch (const std::exception& e) {
+                std::cerr << "[ERROR] Failed to parse element in " << fullPath
+                    << ": " << e.what() << std::endl;
             }
         }
     }

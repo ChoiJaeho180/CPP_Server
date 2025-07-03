@@ -1,0 +1,14 @@
+syntax = "proto3"; // version
+package DBProtocol; // namespace
+
+import "Struct.proto";
+
+message C_LOAD_LOBBY_PLAYERS_INFO
+{
+	string account = 1;
+}
+
+message S_LOAD_LOBBY_PLAYERS_INFO
+{
+	repeated Protocol.LobbyPlayerInfo infos = 1;
+}

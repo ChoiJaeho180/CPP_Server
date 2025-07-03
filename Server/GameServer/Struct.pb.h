@@ -46,6 +46,9 @@ struct TableStruct_Struct_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Struct_2eproto;
 namespace Protocol {
+class LobbyPlayerInfo;
+struct LobbyPlayerInfoDefaultTypeInternal;
+extern LobbyPlayerInfoDefaultTypeInternal _LobbyPlayerInfo_default_instance_;
 class LocationYaw;
 struct LocationYawDefaultTypeInternal;
 extern LocationYawDefaultTypeInternal _LocationYaw_default_instance_;
@@ -54,6 +57,7 @@ struct ObjectInfoDefaultTypeInternal;
 extern ObjectInfoDefaultTypeInternal _ObjectInfo_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::LobbyPlayerInfo* Arena::CreateMaybeMessage<::Protocol::LobbyPlayerInfo>(Arena*);
 template<> ::Protocol::LocationYaw* Arena::CreateMaybeMessage<::Protocol::LocationYaw>(Arena*);
 template<> ::Protocol::ObjectInfo* Arena::CreateMaybeMessage<::Protocol::ObjectInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -185,7 +189,6 @@ class LocationYaw final :
     kIdFieldNumber = 1,
     kXFieldNumber = 2,
     kYFieldNumber = 3,
-    kZFieldNumber = 4,
     kYawFieldNumber = 5,
     kMoveStateFieldNumber = 6,
     kDurationFieldNumber = 7,
@@ -215,15 +218,6 @@ class LocationYaw final :
   private:
   float _internal_y() const;
   void _internal_set_y(float value);
-  public:
-
-  // float z = 4;
-  void clear_z();
-  float z() const;
-  void set_z(float value);
-  private:
-  float _internal_z() const;
-  void _internal_set_z(float value);
   public:
 
   // float yaw = 5;
@@ -264,7 +258,6 @@ class LocationYaw final :
     uint64_t id_;
     float x_;
     float y_;
-    float z_;
     float yaw_;
     int movestate_;
     float duration_;
@@ -400,8 +393,12 @@ class ObjectInfo final :
     kLocationYawFieldNumber = 3,
     kIdFieldNumber = 1,
     kObjectTypeFieldNumber = 2,
-    kPlayerTypeFieldNumber = 5,
+    kJobTypeFieldNumber = 5,
     kMonsterTypeFieldNumber = 6,
+    kLevelFieldNumber = 7,
+    kMapCmsIdFieldNumber = 8,
+    kHpFieldNumber = 9,
+    kExpFieldNumber = 10,
   };
   // string name = 4;
   void clear_name();
@@ -453,13 +450,13 @@ class ObjectInfo final :
   void _internal_set_objecttype(::Protocol::ObjectType value);
   public:
 
-  // .Protocol.PlayerType playerType = 5;
-  void clear_playertype();
-  ::Protocol::PlayerType playertype() const;
-  void set_playertype(::Protocol::PlayerType value);
+  // .Protocol.JobType jobType = 5;
+  void clear_jobtype();
+  ::Protocol::JobType jobtype() const;
+  void set_jobtype(::Protocol::JobType value);
   private:
-  ::Protocol::PlayerType _internal_playertype() const;
-  void _internal_set_playertype(::Protocol::PlayerType value);
+  ::Protocol::JobType _internal_jobtype() const;
+  void _internal_set_jobtype(::Protocol::JobType value);
   public:
 
   // .Protocol.MonsterType monsterType = 6;
@@ -469,6 +466,42 @@ class ObjectInfo final :
   private:
   ::Protocol::MonsterType _internal_monstertype() const;
   void _internal_set_monstertype(::Protocol::MonsterType value);
+  public:
+
+  // uint32 level = 7;
+  void clear_level();
+  uint32_t level() const;
+  void set_level(uint32_t value);
+  private:
+  uint32_t _internal_level() const;
+  void _internal_set_level(uint32_t value);
+  public:
+
+  // uint32 mapCmsId = 8;
+  void clear_mapcmsid();
+  uint32_t mapcmsid() const;
+  void set_mapcmsid(uint32_t value);
+  private:
+  uint32_t _internal_mapcmsid() const;
+  void _internal_set_mapcmsid(uint32_t value);
+  public:
+
+  // uint32 hp = 9;
+  void clear_hp();
+  uint32_t hp() const;
+  void set_hp(uint32_t value);
+  private:
+  uint32_t _internal_hp() const;
+  void _internal_set_hp(uint32_t value);
+  public:
+
+  // uint32 exp = 10;
+  void clear_exp();
+  uint32_t exp() const;
+  void set_exp(uint32_t value);
+  private:
+  uint32_t _internal_exp() const;
+  void _internal_set_exp(uint32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.ObjectInfo)
@@ -483,8 +516,198 @@ class ObjectInfo final :
     ::Protocol::LocationYaw* locationyaw_;
     uint64_t id_;
     int objecttype_;
-    int playertype_;
+    int jobtype_;
     int monstertype_;
+    uint32_t level_;
+    uint32_t mapcmsid_;
+    uint32_t hp_;
+    uint32_t exp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Struct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class LobbyPlayerInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.LobbyPlayerInfo) */ {
+ public:
+  inline LobbyPlayerInfo() : LobbyPlayerInfo(nullptr) {}
+  ~LobbyPlayerInfo() override;
+  explicit PROTOBUF_CONSTEXPR LobbyPlayerInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  LobbyPlayerInfo(const LobbyPlayerInfo& from);
+  LobbyPlayerInfo(LobbyPlayerInfo&& from) noexcept
+    : LobbyPlayerInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline LobbyPlayerInfo& operator=(const LobbyPlayerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LobbyPlayerInfo& operator=(LobbyPlayerInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LobbyPlayerInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LobbyPlayerInfo* internal_default_instance() {
+    return reinterpret_cast<const LobbyPlayerInfo*>(
+               &_LobbyPlayerInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(LobbyPlayerInfo& a, LobbyPlayerInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LobbyPlayerInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LobbyPlayerInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LobbyPlayerInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LobbyPlayerInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const LobbyPlayerInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const LobbyPlayerInfo& from) {
+    LobbyPlayerInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LobbyPlayerInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.LobbyPlayerInfo";
+  }
+  protected:
+  explicit LobbyPlayerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kIdFieldNumber = 1,
+    kJobTypeFieldNumber = 3,
+    kLevelFieldNumber = 4,
+  };
+  // string name = 2;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // uint64 id = 1;
+  void clear_id();
+  uint64_t id() const;
+  void set_id(uint64_t value);
+  private:
+  uint64_t _internal_id() const;
+  void _internal_set_id(uint64_t value);
+  public:
+
+  // uint32 jobType = 3;
+  void clear_jobtype();
+  uint32_t jobtype() const;
+  void set_jobtype(uint32_t value);
+  private:
+  uint32_t _internal_jobtype() const;
+  void _internal_set_jobtype(uint32_t value);
+  public:
+
+  // uint32 level = 4;
+  void clear_level();
+  uint32_t level() const;
+  void set_level(uint32_t value);
+  private:
+  uint32_t _internal_level() const;
+  void _internal_set_level(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.LobbyPlayerInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    uint64_t id_;
+    uint32_t jobtype_;
+    uint32_t level_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -559,26 +782,6 @@ inline void LocationYaw::_internal_set_y(float value) {
 inline void LocationYaw::set_y(float value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:Protocol.LocationYaw.y)
-}
-
-// float z = 4;
-inline void LocationYaw::clear_z() {
-  _impl_.z_ = 0;
-}
-inline float LocationYaw::_internal_z() const {
-  return _impl_.z_;
-}
-inline float LocationYaw::z() const {
-  // @@protoc_insertion_point(field_get:Protocol.LocationYaw.z)
-  return _internal_z();
-}
-inline void LocationYaw::_internal_set_z(float value) {
-  
-  _impl_.z_ = value;
-}
-inline void LocationYaw::set_z(float value) {
-  _internal_set_z(value);
-  // @@protoc_insertion_point(field_set:Protocol.LocationYaw.z)
 }
 
 // float yaw = 5;
@@ -825,24 +1028,24 @@ inline void ObjectInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.ObjectInfo.name)
 }
 
-// .Protocol.PlayerType playerType = 5;
-inline void ObjectInfo::clear_playertype() {
-  _impl_.playertype_ = 0;
+// .Protocol.JobType jobType = 5;
+inline void ObjectInfo::clear_jobtype() {
+  _impl_.jobtype_ = 0;
 }
-inline ::Protocol::PlayerType ObjectInfo::_internal_playertype() const {
-  return static_cast< ::Protocol::PlayerType >(_impl_.playertype_);
+inline ::Protocol::JobType ObjectInfo::_internal_jobtype() const {
+  return static_cast< ::Protocol::JobType >(_impl_.jobtype_);
 }
-inline ::Protocol::PlayerType ObjectInfo::playertype() const {
-  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.playerType)
-  return _internal_playertype();
+inline ::Protocol::JobType ObjectInfo::jobtype() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.jobType)
+  return _internal_jobtype();
 }
-inline void ObjectInfo::_internal_set_playertype(::Protocol::PlayerType value) {
+inline void ObjectInfo::_internal_set_jobtype(::Protocol::JobType value) {
   
-  _impl_.playertype_ = value;
+  _impl_.jobtype_ = value;
 }
-inline void ObjectInfo::set_playertype(::Protocol::PlayerType value) {
-  _internal_set_playertype(value);
-  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.playerType)
+inline void ObjectInfo::set_jobtype(::Protocol::JobType value) {
+  _internal_set_jobtype(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.jobType)
 }
 
 // .Protocol.MonsterType monsterType = 6;
@@ -865,9 +1068,205 @@ inline void ObjectInfo::set_monstertype(::Protocol::MonsterType value) {
   // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.monsterType)
 }
 
+// uint32 level = 7;
+inline void ObjectInfo::clear_level() {
+  _impl_.level_ = 0u;
+}
+inline uint32_t ObjectInfo::_internal_level() const {
+  return _impl_.level_;
+}
+inline uint32_t ObjectInfo::level() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.level)
+  return _internal_level();
+}
+inline void ObjectInfo::_internal_set_level(uint32_t value) {
+  
+  _impl_.level_ = value;
+}
+inline void ObjectInfo::set_level(uint32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.level)
+}
+
+// uint32 mapCmsId = 8;
+inline void ObjectInfo::clear_mapcmsid() {
+  _impl_.mapcmsid_ = 0u;
+}
+inline uint32_t ObjectInfo::_internal_mapcmsid() const {
+  return _impl_.mapcmsid_;
+}
+inline uint32_t ObjectInfo::mapcmsid() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.mapCmsId)
+  return _internal_mapcmsid();
+}
+inline void ObjectInfo::_internal_set_mapcmsid(uint32_t value) {
+  
+  _impl_.mapcmsid_ = value;
+}
+inline void ObjectInfo::set_mapcmsid(uint32_t value) {
+  _internal_set_mapcmsid(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.mapCmsId)
+}
+
+// uint32 hp = 9;
+inline void ObjectInfo::clear_hp() {
+  _impl_.hp_ = 0u;
+}
+inline uint32_t ObjectInfo::_internal_hp() const {
+  return _impl_.hp_;
+}
+inline uint32_t ObjectInfo::hp() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.hp)
+  return _internal_hp();
+}
+inline void ObjectInfo::_internal_set_hp(uint32_t value) {
+  
+  _impl_.hp_ = value;
+}
+inline void ObjectInfo::set_hp(uint32_t value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.hp)
+}
+
+// uint32 exp = 10;
+inline void ObjectInfo::clear_exp() {
+  _impl_.exp_ = 0u;
+}
+inline uint32_t ObjectInfo::_internal_exp() const {
+  return _impl_.exp_;
+}
+inline uint32_t ObjectInfo::exp() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.exp)
+  return _internal_exp();
+}
+inline void ObjectInfo::_internal_set_exp(uint32_t value) {
+  
+  _impl_.exp_ = value;
+}
+inline void ObjectInfo::set_exp(uint32_t value) {
+  _internal_set_exp(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.exp)
+}
+
+// -------------------------------------------------------------------
+
+// LobbyPlayerInfo
+
+// uint64 id = 1;
+inline void LobbyPlayerInfo::clear_id() {
+  _impl_.id_ = uint64_t{0u};
+}
+inline uint64_t LobbyPlayerInfo::_internal_id() const {
+  return _impl_.id_;
+}
+inline uint64_t LobbyPlayerInfo::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.id)
+  return _internal_id();
+}
+inline void LobbyPlayerInfo::_internal_set_id(uint64_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void LobbyPlayerInfo::set_id(uint64_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.id)
+}
+
+// string name = 2;
+inline void LobbyPlayerInfo::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& LobbyPlayerInfo::name() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LobbyPlayerInfo::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.name)
+}
+inline std::string* LobbyPlayerInfo::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.LobbyPlayerInfo.name)
+  return _s;
+}
+inline const std::string& LobbyPlayerInfo::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void LobbyPlayerInfo::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* LobbyPlayerInfo::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* LobbyPlayerInfo::release_name() {
+  // @@protoc_insertion_point(field_release:Protocol.LobbyPlayerInfo.name)
+  return _impl_.name_.Release();
+}
+inline void LobbyPlayerInfo::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.LobbyPlayerInfo.name)
+}
+
+// uint32 jobType = 3;
+inline void LobbyPlayerInfo::clear_jobtype() {
+  _impl_.jobtype_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_jobtype() const {
+  return _impl_.jobtype_;
+}
+inline uint32_t LobbyPlayerInfo::jobtype() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.jobType)
+  return _internal_jobtype();
+}
+inline void LobbyPlayerInfo::_internal_set_jobtype(uint32_t value) {
+  
+  _impl_.jobtype_ = value;
+}
+inline void LobbyPlayerInfo::set_jobtype(uint32_t value) {
+  _internal_set_jobtype(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.jobType)
+}
+
+// uint32 level = 4;
+inline void LobbyPlayerInfo::clear_level() {
+  _impl_.level_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_level() const {
+  return _impl_.level_;
+}
+inline uint32_t LobbyPlayerInfo::level() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.level)
+  return _internal_level();
+}
+inline void LobbyPlayerInfo::_internal_set_level(uint32_t value) {
+  
+  _impl_.level_ = value;
+}
+inline void LobbyPlayerInfo::set_level(uint32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.level)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

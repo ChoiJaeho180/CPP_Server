@@ -19,6 +19,10 @@
 #include "Protocol.pb.h"
 #include "BaseEntity.h"
 #include "IUpdate.h"
+#include "GameConst.h"
+#include "DBProtocol.pb.h"
+#include "GameGlobal.h"
+#include "DBResponseManager.h"
 
 #include <chrono>
 
@@ -29,7 +33,17 @@ using ClientSessionRef		= shared_ptr<class ClientSession>;
 using PlayerRef				= shared_ptr<class Player>;
 using ZoneRef				= shared_ptr<class Zone>;
 using ZoneInstanceRef		= shared_ptr<class ZoneInstance>;
+using MonsterSpanwerRef		= shared_ptr<class MonsterSpanwer>;
+using BaseEntityRef			= shared_ptr<class BaseEntity>;
+using MonsterRef			= shared_ptr<class Monster>;
+using GridRef				= shared_ptr<class Grid>;
+using DBServerSessionRef	= shared_ptr<class DBServerSession>;
 
 #define SEND_PACKET(pkt)													\
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);	\
 	session->Send(sendBuffer);												\
+
+#define SEND_PACKET_TO_DB(pkt)												\
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);	\
+	dbSession->Send(sendBuffer);											\
+

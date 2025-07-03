@@ -67,6 +67,7 @@ bool DBConnection::Fetch()
         return false;
     case SQL_ERROR:
         HandleError(result);
+        return false;
     default:
         return true;
     }

@@ -39,6 +39,26 @@ namespace SP
     	int32 _gold = {};
     };
 
+    class GetOrCreatePlayer : public DBBind<1,8>
+    {
+    public:
+    	GetOrCreatePlayer(DBConnection& conn) : DBBind(conn, L"{CALL dbo.spGetOrCreatePlayer(?)}") { }
+    	template<int32 N> void In_Name(WCHAR(&v)[N]) { BindParam(0, v); };
+    	template<int32 N> void In_Name(const WCHAR(&v)[N]) { BindParam(0, v); };
+    	void In_Name(WCHAR* v, int32 count) { BindParam(0, v, count); };
+    	void In_Name(const WCHAR* v, int32 count) { BindParam(0, v, count); };
+    	void Out_PlayerId(OUT int64& v) { BindCol(0, v); };
+    	template<int32 N> void Out_Name(OUT WCHAR(&v)[N]) { BindCol(1, v); };
+    	void Out_MapId(OUT int32& v) { BindCol(2, v); };
+    	void Out_X(OUT float& v) { BindCol(3, v); };
+    	void Out_Y(OUT float& v) { BindCol(4, v); };
+    	void Out_Level(OUT int32& v) { BindCol(5, v); };
+    	void Out_Exp(OUT int32& v) { BindCol(6, v); };
+    	void Out_Hp(OUT int32& v) { BindCol(7, v); };
+
+    private:
+    };
+
 
      
 };

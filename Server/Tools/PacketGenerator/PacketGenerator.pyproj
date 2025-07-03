@@ -28,6 +28,8 @@
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="templates\DBClientPacketHandler.h" />
+    <Content Include="templates\DBServerPacketHandler.h" />
     <Content Include="templates\PacketHandler.h" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

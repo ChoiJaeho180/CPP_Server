@@ -71,8 +71,8 @@ bool ClientService::Start()
 }
 
 
-ServerService::ServerService(NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
-	: Service(ServiceType::Server, address, core, factory, maxSessionCount)
+ServerService::ServerService(ServiceType serviceType, NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
+	: Service(serviceType, address, core, factory, maxSessionCount)
 {
 }
 

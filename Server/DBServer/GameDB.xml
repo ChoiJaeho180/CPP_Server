@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameDB>
+	<Table name="u_players">
+		<Column name="playerId" type="bigint" notnull="true" identity="1,1"/>
+		<Column name="account" type="nvarchar(32)" notnull="true"/>
+		<Column name="nickName" type="nvarchar(32)" notnull="true"/>
+		<Column name="jobType" type="int" notnull="true" default="1"/>
+		<Column name="mapId" type="int" notnull="true" default="1"/>
+		<Column name="x" type="float" notnull="true" default="100"/>
+		<Column name="y" type="float" notnull="true" default="100"/>
+		<Column name="level" type="int" notnull="true" default="1"/>
+		<Column name="exp" type="int" notnull="true" default="0"/>
+		<Column name="hp" type="int" notnull="true" default="100"/>
+		<Column name="createAt" type="datetime" notnull="true" default="getdate()"/>
+		<Index type="clustered">
+			<PrimaryKey/>
+			<Column name ="playerId"/>
+		</Index>
+		<Index type="nonclustered">
+			<UniqueKey/>
+			<Column name="name"/>
+		</Index>
+	</Table>
+	<Procedure name="spLoadLobbyPlayersInfo">
+		<Param name="@account" type ="nvarchar(32)"/>
+		<Body>
+			<![CDATA[
+			SELECT playerId, nickName, jobType, level FROM [dbo].u_players WHERE account = (@account)
+			]]>
+		</Body>
+	</Procedure>
+	<Procedure name="spGetOrCreatePlayer">
+		<Param name="@playerId" type="bigint"/>
+		<Param name="@nickName" type="nvarchar(32)"/>
+		<Body>
+			<![CDATA[
+			SET NOCOUNT ON;
+
+			DECLARE @foundPlayerId BIGINT;
+
+			BEGIN TRY
+				BEGIN TRANSACTION;
+				
+				IF @playerId != -1
+				BEGIN
+					SELECT @foundPlayerId = playerId
+					FROM u_players WITH (UPDLOCK, HOLDLOCK)
+					WHERE playerId = @playerId;
+				END
+				
+				IF @foundPlayerId IS NULL
+				BEGIN
+					INSERT INTO u_players (account, nickName, level, createAt)
+					VALUES (@nickName, @nickName, 1, GETDATE());
+
+					SET @foundPlayerId = SCOPE_IDENTITY();
+				END
+
+				SELECT playerId, nickName, mapId,x,y,level,exp,hp FROM u_players WHERE playerId = @foundPlayerId;
+
+				COMMIT;
+			END TRY
+			BEGIN CATCH
+				IF @@TRANCOUNT > 0
+					ROLLBACK;
+
+				DECLARE @err NVARCHAR(4000) = ERROR_MESSAGE();
+				RAISERROR('spGetOrCreatePlayer failed: %s', 16, 1, @err);
+			END CATCH
+			]]>
+		</Body>
+	</Procedure>
+</GameDB>

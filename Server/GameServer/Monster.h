@@ -1,5 +1,13 @@
 #pragma once
-class Monster
+
+class BaseEntiy;
+
+class Monster : public BaseEntity
 {
+public:
+	Monster();
+	~Monster();
+private:
+
 };
 

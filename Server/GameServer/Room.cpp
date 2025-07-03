@@ -26,7 +26,6 @@ bool Room::ProcessEnter(PlayerRef player)
 		Protocol::LocationYaw* locationYaw = new Protocol::LocationYaw();
 		locationYaw->set_x(MathUtils::rand(0.f, 500.f));
 		locationYaw->set_y(MathUtils::rand(0.f, 500.f));
-		locationYaw->set_z(100.f);
 		locationYaw->set_yaw(MathUtils::rand(0.f, 100.f));
 		enterPlayerInfo.mutable_locationyaw()->CopyFrom(*locationYaw);
 
@@ -118,7 +117,7 @@ void Room::ProcessMove(Protocol::C_MOVE pkt)
 			Protocol::LocationYaw* sendLoc = movePkt.mutable_locationyaw();
 			sendLoc->CopyFrom(newLocationYaw);
 			cout << "id : " << id << endl;
-			cout << " locationYaw X : " << sendLoc->x() << ", Y : " << sendLoc->y() << ", Z : " << sendLoc->z() << endl;
+			cout << " locationYaw X : " << sendLoc->x() << ", Y : " << sendLoc->y() << ", Z : " << endl;
 		}
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(movePkt);

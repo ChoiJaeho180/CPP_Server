@@ -228,20 +228,20 @@ class C_LOGIN final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 1,
+    kAccountFieldNumber = 1,
   };
-  // string name = 1;
-  void clear_name();
-  const std::string& name() const;
+  // string account = 1;
+  void clear_account();
+  const std::string& account() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_name(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_name();
-  PROTOBUF_NODISCARD std::string* release_name();
-  void set_allocated_name(std::string* name);
+  void set_account(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_account();
+  PROTOBUF_NODISCARD std::string* release_account();
+  void set_allocated_account(std::string* account);
   private:
-  const std::string& _internal_name() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
-  std::string* _internal_mutable_name();
+  const std::string& _internal_account() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_account(const std::string& value);
+  std::string* _internal_mutable_account();
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.C_LOGIN)
@@ -252,7 +252,7 @@ class C_LOGIN final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr account_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -381,26 +381,26 @@ class S_LOGIN final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPlayersFieldNumber = 2,
+    kInfosFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // repeated .Protocol.ObjectInfo players = 2;
-  int players_size() const;
+  // repeated .Protocol.LobbyPlayerInfo infos = 2;
+  int infos_size() const;
   private:
-  int _internal_players_size() const;
+  int _internal_infos_size() const;
   public:
-  void clear_players();
-  ::Protocol::ObjectInfo* mutable_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
-      mutable_players();
+  void clear_infos();
+  ::Protocol::LobbyPlayerInfo* mutable_infos(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::LobbyPlayerInfo >*
+      mutable_infos();
   private:
-  const ::Protocol::ObjectInfo& _internal_players(int index) const;
-  ::Protocol::ObjectInfo* _internal_add_players();
+  const ::Protocol::LobbyPlayerInfo& _internal_infos(int index) const;
+  ::Protocol::LobbyPlayerInfo* _internal_add_infos();
   public:
-  const ::Protocol::ObjectInfo& players(int index) const;
-  ::Protocol::ObjectInfo* add_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
-      players() const;
+  const ::Protocol::LobbyPlayerInfo& infos(int index) const;
+  ::Protocol::LobbyPlayerInfo* add_infos();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::LobbyPlayerInfo >&
+      infos() const;
 
   // bool success = 1;
   void clear_success();
@@ -419,7 +419,7 @@ class S_LOGIN final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo > players_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::LobbyPlayerInfo > infos_;
     bool success_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -2101,54 +2101,54 @@ class S_CHAT final :
 #endif  // __GNUC__
 // C_LOGIN
 
-// string name = 1;
-inline void C_LOGIN::clear_name() {
-  _impl_.name_.ClearToEmpty();
+// string account = 1;
+inline void C_LOGIN::clear_account() {
+  _impl_.account_.ClearToEmpty();
 }
-inline const std::string& C_LOGIN::name() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.name)
-  return _internal_name();
+inline const std::string& C_LOGIN::account() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.account)
+  return _internal_account();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void C_LOGIN::set_name(ArgT0&& arg0, ArgT... args) {
+void C_LOGIN::set_account(ArgT0&& arg0, ArgT... args) {
  
- _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.name)
+ _impl_.account_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.account)
 }
-inline std::string* C_LOGIN::mutable_name() {
-  std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:Protocol.C_LOGIN.name)
+inline std::string* C_LOGIN::mutable_account() {
+  std::string* _s = _internal_mutable_account();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_LOGIN.account)
   return _s;
 }
-inline const std::string& C_LOGIN::_internal_name() const {
-  return _impl_.name_.Get();
+inline const std::string& C_LOGIN::_internal_account() const {
+  return _impl_.account_.Get();
 }
-inline void C_LOGIN::_internal_set_name(const std::string& value) {
+inline void C_LOGIN::_internal_set_account(const std::string& value) {
   
-  _impl_.name_.Set(value, GetArenaForAllocation());
+  _impl_.account_.Set(value, GetArenaForAllocation());
 }
-inline std::string* C_LOGIN::_internal_mutable_name() {
+inline std::string* C_LOGIN::_internal_mutable_account() {
   
-  return _impl_.name_.Mutable(GetArenaForAllocation());
+  return _impl_.account_.Mutable(GetArenaForAllocation());
 }
-inline std::string* C_LOGIN::release_name() {
-  // @@protoc_insertion_point(field_release:Protocol.C_LOGIN.name)
-  return _impl_.name_.Release();
+inline std::string* C_LOGIN::release_account() {
+  // @@protoc_insertion_point(field_release:Protocol.C_LOGIN.account)
+  return _impl_.account_.Release();
 }
-inline void C_LOGIN::set_allocated_name(std::string* name) {
-  if (name != nullptr) {
+inline void C_LOGIN::set_allocated_account(std::string* account) {
+  if (account != nullptr) {
     
   } else {
     
   }
-  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+  _impl_.account_.SetAllocated(account, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.name_.IsDefault()) {
-    _impl_.name_.Set("", GetArenaForAllocation());
+  if (_impl_.account_.IsDefault()) {
+    _impl_.account_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.C_LOGIN.name)
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_LOGIN.account)
 }
 
 // -------------------------------------------------------------------
@@ -2175,41 +2175,41 @@ inline void S_LOGIN::set_success(bool value) {
   // @@protoc_insertion_point(field_set:Protocol.S_LOGIN.success)
 }
 
-// repeated .Protocol.ObjectInfo players = 2;
-inline int S_LOGIN::_internal_players_size() const {
-  return _impl_.players_.size();
+// repeated .Protocol.LobbyPlayerInfo infos = 2;
+inline int S_LOGIN::_internal_infos_size() const {
+  return _impl_.infos_.size();
 }
-inline int S_LOGIN::players_size() const {
-  return _internal_players_size();
+inline int S_LOGIN::infos_size() const {
+  return _internal_infos_size();
 }
-inline ::Protocol::ObjectInfo* S_LOGIN::mutable_players(int index) {
-  // @@protoc_insertion_point(field_mutable:Protocol.S_LOGIN.players)
-  return _impl_.players_.Mutable(index);
+inline ::Protocol::LobbyPlayerInfo* S_LOGIN::mutable_infos(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_LOGIN.infos)
+  return _impl_.infos_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
-S_LOGIN::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_LOGIN.players)
-  return &_impl_.players_;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::LobbyPlayerInfo >*
+S_LOGIN::mutable_infos() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_LOGIN.infos)
+  return &_impl_.infos_;
 }
-inline const ::Protocol::ObjectInfo& S_LOGIN::_internal_players(int index) const {
-  return _impl_.players_.Get(index);
+inline const ::Protocol::LobbyPlayerInfo& S_LOGIN::_internal_infos(int index) const {
+  return _impl_.infos_.Get(index);
 }
-inline const ::Protocol::ObjectInfo& S_LOGIN::players(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S_LOGIN.players)
-  return _internal_players(index);
+inline const ::Protocol::LobbyPlayerInfo& S_LOGIN::infos(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_LOGIN.infos)
+  return _internal_infos(index);
 }
-inline ::Protocol::ObjectInfo* S_LOGIN::_internal_add_players() {
-  return _impl_.players_.Add();
+inline ::Protocol::LobbyPlayerInfo* S_LOGIN::_internal_add_infos() {
+  return _impl_.infos_.Add();
 }
-inline ::Protocol::ObjectInfo* S_LOGIN::add_players() {
-  ::Protocol::ObjectInfo* _add = _internal_add_players();
-  // @@protoc_insertion_point(field_add:Protocol.S_LOGIN.players)
+inline ::Protocol::LobbyPlayerInfo* S_LOGIN::add_infos() {
+  ::Protocol::LobbyPlayerInfo* _add = _internal_add_infos();
+  // @@protoc_insertion_point(field_add:Protocol.S_LOGIN.infos)
   return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
-S_LOGIN::players() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_LOGIN.players)
-  return _impl_.players_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::LobbyPlayerInfo >&
+S_LOGIN::infos() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_LOGIN.infos)
+  return _impl_.infos_;
 }
 
 // -------------------------------------------------------------------

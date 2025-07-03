@@ -19,14 +19,12 @@ def main():
 
     arg_parser = argparse.ArgumentParser(description='CmsInitialGenerator')
 
-    # ����
     arg_parser.add_argument('--cms_path', type=str, default='../../Cms', help='Header directory')
 
     # CmsManager
     arg_parser.add_argument('--template', type=str, default='CmsManager.cpp', help='Template file (in Templates/)')
     arg_parser.add_argument('--output', type=str, default='../../GameServer/CmsManager.cpp', help='Output file path')
 
-    # cms.json ���� vs�� ���� ���� �� �ε� ��ɿ� ���
     arg_parser.add_argument('--header_path', type=str, default='../../GameServer', help='header file path')
     arg_parser.add_argument('--vcxproj_path', type=str, default='../../GameServer/GameServer.vcxproj', help='header file path')
     arg_parser.add_argument('--vcxproj_filter_path', type=str, default='../../GameServer/GameServer.vcxproj.filters', help='header file path')
@@ -37,7 +35,6 @@ def main():
 
     json_file_names = get_json_file_names(args.cms_path)
     
-    # CmsManager �ڵ�ȭ
     file_loader = jinja2.FileSystemLoader('Templates')
     env = jinja2.Environment(loader=file_loader)
     template = env.get_template(args.template)
@@ -46,7 +43,6 @@ def main():
     f.write(output)
     f.close()
     
-    # commonType�� Ÿ�� �߰�
     common_type_gen = CmsCommonTypeGenerator.CmsCommonTypeGenerator(args.header_path,args.common_type_name)
     for file_name in json_file_names:
 
@@ -57,7 +53,6 @@ def main():
         common_type_gen.gen_common_type(json_data)
     common_type_gen.write()
 
-    # cms.json ���� vs�� ���� ���� �� �ε� ��ɿ� ���
     header_gen = CmsHeaderGenerator.CmsHeaderGenerator(
         args.vcxproj_path,                                   
         args.vcxproj_filter_path,                                        
@@ -72,9 +67,7 @@ def main():
         with open(cms_full_path, "r", encoding="utf-8") as f:
             json_data = json.load(f)
 
-        # *Desc.h ���� ����
-        header_gen.gen_file(json_data, file_name, header_full_path)
-
+        header_gen.generate_header_from_json(json_data, file_name, header_full_path)
     return
     
     

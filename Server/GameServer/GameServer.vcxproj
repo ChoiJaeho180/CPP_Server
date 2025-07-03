@@ -166,18 +166,38 @@ CALL $(SolutionDir)Common\CmsInit\GenCmsInit.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DBResponseManager.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="CmsCached.cpp" />
+    <ClCompile Include="CmsLookup.cpp" />
     <ClCompile Include="CmsManager.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="DBHelper.cpp" />
+    <ClCompile Include="DBProtocol.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DBServerPacketHandler.cpp" />
+    <ClCompile Include="DBStruct.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DBWorker.cpp" />
+    <ClCompile Include="DBWorkerManager.cpp" />
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="GameGlobal.cpp" />
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="ClientSessionManager.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterSpanwer.cpp" />
     <ClCompile Include="ObjectUtils.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -187,48 +207,68 @@ CALL $(SolutionDir)Common\CmsInit\GenCmsInit.bat</Command>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="DBServerSession.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Zone.cpp" />
     <ClCompile Include="ZoneInstance.cpp" />
     <ClCompile Include="ZoneManager.cpp" />
+    <ClCompile Include="ZonePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEntity.h" />
+    <ClInclude Include="DBResponseManager.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="CmsCached.h" />
+    <ClInclude Include="CmsLookup.h" />
     <ClInclude Include="CmsManager.h" />
     <ClInclude Include="CommonType.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="DBHelper.h" />
+    <ClInclude Include="DBProtocol.pb.h" />
+    <ClInclude Include="DBServerPacketHandler.h" />
+    <ClInclude Include="DBStruct.pb.h" />
+    <ClInclude Include="DBWorker.h" />
+    <ClInclude Include="DBWorkerManager.h" />
     <ClInclude Include="Enum.pb.h" />
+    <ClInclude Include="GameConst.h" />
+    <ClInclude Include="GameGlobal.h" />
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="ClientSessionManager.h" />
-    <ClInclude Include="GenProcedures.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="IUpdate.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterSpanwer.h" />
     <ClInclude Include="ObjectUtils.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ClientPacketHandler.h" />
+    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Protocol.pb.h" />
+    <ClInclude Include="Rect2D.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="DBServerSession.h" />
     <ClInclude Include="Struct.pb.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="Zone.h" />
     <ClInclude Include="ZoneInstance.h" />
     <ClInclude Include="ZoneManager.h" />
+    <ClInclude Include="ZonePlayer.h" />
+    <ClInclude Include="ZoneUtils.h" />
+    <ClInclude Include="MapDesc.h" />
     <ClInclude Include="MonsterDesc.h" />
     <ClInclude Include="MonsterSpawnPointDesc.h" />
-    <ClInclude Include="ZoneDesc.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Common\Procedures\GenProcedures.bat" />
+    <None Include="..\Common\Protobuf\bin\DBProtocol.proto" />
+    <None Include="..\Common\Protobuf\bin\DBStruct.proto" />
     <None Include="..\Common\Protobuf\bin\Enum.proto" />
     <None Include="..\Common\Protobuf\bin\GenPackets.bat" />
     <None Include="..\Common\Protobuf\bin\Protocol.proto" />
@@ -238,10 +278,9 @@ CALL $(SolutionDir)Common\CmsInit\GenCmsInit.bat</Command>
     <UpToDateCheckInput Include="..\Common\Protobuf\bin\Enum.proto" />
     <UpToDateCheckInput Include="..\Common\Protobuf\bin\Protocol.proto" />
     <UpToDateCheckInput Include="..\Common\Protobuf\bin\Struct.proto" />
+    <UpToDateCheckInput Include="..\Common\Protobuf\bin\DBProtocol.proto" />
+    <UpToDateCheckInput Include="..\Common\Protobuf\bin\DBStruct.proto" />
     <UpToDateCheckInput Include="GameDB.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="GameDB.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

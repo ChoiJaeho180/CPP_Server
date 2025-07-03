@@ -125,7 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -158,6 +158,7 @@
     <ClInclude Include="AtomicScopeGuard.h" />
     <ClInclude Include="BufferReader.h" />
     <ClInclude Include="BufferWriter.h" />
+    <ClInclude Include="CallbackStorage.h" />
     <ClInclude Include="ConsoleLog.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="CoreGlobal.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="ReceiveBuffer.h" />
     <ClInclude Include="RefCounting.h" />
+    <ClInclude Include="RoutingKey.h" />
     <ClInclude Include="SendBuffer.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="Session.h" />
@@ -205,6 +207,7 @@
     <ClCompile Include="Allocator.cpp" />
     <ClCompile Include="BufferReader.cpp" />
     <ClCompile Include="BufferWriter.cpp" />
+    <ClCompile Include="CallbackStorage.cpp" />
     <ClCompile Include="ConsoleLog.cpp" />
     <ClCompile Include="CoreGlobal.cpp" />
     <ClCompile Include="CorePch.cpp" />

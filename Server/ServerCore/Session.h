@@ -7,6 +7,7 @@
 
 class Service;
 class Listener;
+
 class Session : public IocpObject
 {
 	friend class Listener;
@@ -57,6 +58,11 @@ protected:
 	virtual void			OnSend(int32 len) {}
 	virtual void			OnDisconnected(){}
 
+public:
+	uint64					GetSessionId() { return _sessionId; }
+protected:
+	uint64					_sessionId;
+	static Atomic<uint64>	GSessionIdGenerator;
 private:
 	weak_ptr<Service>		_service;
 	SOCKET					_socket = INVALID_SOCKET;
@@ -86,6 +92,12 @@ private:
 struct PacketHeader {
 	uint16 size;
 	uint16 id; // proto id
+};
+
+// 서버 간 통신에서 사용되는 헤더
+struct ServerPacketHeader : public PacketHeader {
+	uint64 targetId; // session id or player id 
+	uint64 requestId;
 };
 
 class PacketSession : public Session {

@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "새 프로필",
+    "Projects": [
+      {
+        "Path": "GameServer\\GameServer.vcxproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "DBServer\\DBServer.vcxproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "DummyClient\\DummyClient.vcxproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

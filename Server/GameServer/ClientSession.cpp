@@ -4,8 +4,9 @@
 #include "ClientPacketHandler.h"
 #include "Player.h"
 #include "ClientSessionManager.h"
-ClientSession::ClientSession() {
 
+
+ClientSession::ClientSession() {
 }
 
 ClientSession::~ClientSession() {
@@ -21,14 +22,12 @@ void ClientSession::OnDisconnected()
 {
 	ClientSessionManager::GetInstance().Remove(static_pointer_cast<ClientSession>(shared_from_this()));
 
-	_curPlayer = nullptr;
-	_players.clear();
+	//_players.clear();
 }
 
 void ClientSession::OnRecvPacket(BYTE* buffer, int32 len) {
 	PacketSessionRef session = GetPacketSessionRef();
 	PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
-	// todo. packetId �뿪 üũ
 	ClientPacketHandler::HandlePacket(session, buffer, len);
 }
 

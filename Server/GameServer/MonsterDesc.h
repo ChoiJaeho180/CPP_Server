@@ -13,4 +13,4 @@ struct MonsterDesc  {
 	int dropGroupId;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MonsterDesc, cmsId, name, level, hp, exp, moveSpeed, aggroRange, attackRange, dropGroupId);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(MonsterDesc, cmsId, name, level, hp, exp, moveSpeed, aggroRange, attackRange, dropGroupId);

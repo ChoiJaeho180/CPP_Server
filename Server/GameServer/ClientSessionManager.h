@@ -13,7 +13,9 @@ public:
 	void Add(ClientSessionRef session);
 	void Remove(ClientSessionRef session);
 	void Broadcast(SendBufferRef sendBuffer);
+	ClientSessionRef Get(const uint64 id);
+
 private:
 	USE_LOCK;
-	Set<ClientSessionRef> _sessions;
+	HashMap<uint64, ClientSessionRef> _sessions;
 };

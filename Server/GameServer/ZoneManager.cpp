@@ -2,20 +2,33 @@
 #include "ZoneManager.h"
 #include "Zone.h"
 #include "CmsManager.h"
-#include "ZoneDesc.h"
 #include <atomic>
 #include "../ServerCore/AtomicScopeGuard.h"
+#include "MapDesc.h"
+#include "ZoneUtils.h"
 
 #define UPDATE_INTERVER 100
 
 void ZoneManager::Init()
 {
-	const auto& zoneDeses = CmsManager::GetAll<ZoneDesc>();
+	
+	const auto& mapCmses = CmsManager::GetAll<MapDesc>();
+	for (const auto& [mapCmsId, mapCms] : mapCmses)
+	{
+		int zoneCountX = mapCms.width / mapCms.zoneWidth;
+		int zoneCountY = mapCms.height / mapCms.zoneHeight;
 
-	for (const auto& [cmsId, zoneDesc] : zoneDeses) {
-		ZoneRef zone = ObjectPool<Zone>::MakeShared(zoneDesc);
-		_zones.insert(make_pair(cmsId, zone));
+		for (int y = 0; y < zoneCountY; ++y) {
+			for (int x = 0; x < zoneCountX; ++x) {
+				const uint64 key = ZoneUtils::MakeZoneCoordKey(x, y);
+				_zones[key] = MakeShared<Zone>(key, mapCms);
+			}
+		}
 	}
+}
+
+void ZoneManager::EnterPlayer(const Protocol::LocationYaw& pos, int mapCmsId)
+{
 }
 
 void ZoneManager::EnqueueUpdates()
@@ -26,7 +39,7 @@ void ZoneManager::EnqueueUpdates()
 	}
 
 	const uint64 curTick = ::GetTickCount64();
-	if (curTick > _lastReservedTick + UPDATE_INTERVER) {
+	if (_lastReservedTick + UPDATE_INTERVER > curTick) {
 		return;
 	}
 	
@@ -35,4 +48,15 @@ void ZoneManager::EnqueueUpdates()
 	}
 
 	_lastReservedTick = curTick;
+}
+
+
+ZoneInstanceRef ZoneManager::GetOrCreateZoneInstance(const Protocol::LocationYaw& pos, int mapCmsId)
+{
+	{
+		READ_LOCK;
+
+	}
+
+	return ZoneInstanceRef();
 }
