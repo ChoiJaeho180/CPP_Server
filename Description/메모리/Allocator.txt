@@ -4,6 +4,6 @@ BaseAllocator
 
 StompAllocator
 1. 페이지 단위로 메모리를 할당하여, 실제 사용하는 메모리는 끝에 배치한다.
-2. overflow를 잡기 위함과, 헤제 후 접근에 대해 조기를 위해 사용.
+2. overflow를 잡기 위함과, 해제 후 접근에 대해 조기를 위해 사용.
 
 

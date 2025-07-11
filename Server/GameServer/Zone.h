@@ -16,6 +16,6 @@ private:
 	const uint64									_key;
 	const MapDesc									_mapCms;
 private:
-	HashMap<uint64, Vector<ZoneInstanceRef>>		_instances;
+	Vector<ZoneInstanceRef>							_instances;
 };
 

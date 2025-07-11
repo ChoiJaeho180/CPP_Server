@@ -12,21 +12,19 @@
 #include <ws2tcpip.h>
 
 #include "CorePch.h"
-
+#include "DbTLS.h"
 
 using PacketWorkerRef				= shared_ptr<class PacketWorker>;
 using GameServerSessionRef			= shared_ptr<class GameServerSession>;
 
 #define REGISTER_DB_HANDLER(PKT_ID, TYPE, FUNC)												\
 	GDBPacketHandler[PKT_ID] = [](PacketSessionRef& session, DBServerPacketRef& pkt) {		\
-		DBConnection* dbConn = GDBConnectionPool->Pop();									\
 		bool result = false;																\
 		if constexpr (std::is_same_v<TYPE, google::protobuf::Message>) {					\
-			result = FUNC(session, pkt->header, *pkt->data, *dbConn);						\
+			result = FUNC(session, pkt->header, *pkt->data);								\
 		} else {																			\
 			auto typed = std::static_pointer_cast<TYPE>(pkt->data);							\
-			result = FUNC(session, pkt->header, *typed, *dbConn);							\
+			result = FUNC(session, pkt->header, *typed);									\
 		}																					\
-		GDBConnectionPool->Push(dbConn);													\
 		return result;																		\
 	};

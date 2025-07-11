@@ -21,7 +21,7 @@ void ZoneManager::Init()
 		for (int y = 0; y < zoneCountY; ++y) {
 			for (int x = 0; x < zoneCountX; ++x) {
 				const uint64 key = ZoneUtils::MakeZoneCoordKey(x, y);
-				_zones[key] = MakeShared<Zone>(key, mapCms);
+				_zones[mapCmsId] = MakeShared<Zone>(key, mapCms);
 			}
 		}
 	}

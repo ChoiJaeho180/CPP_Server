@@ -3,6 +3,17 @@
 #include "DBClientPacketHandler.h"
 #include "GameServerSession.h"
 
+PacketWorker::PacketWorker()
+{
+	LDbConnection = GDBConnectionPool->Pop();
+}
+
+PacketWorker::~PacketWorker()
+{
+	GDBConnectionPool->Push(LDbConnection);
+	LDbConnection = nullptr;
+}
+
 void PacketWorker::Tick()
 {
 	{
@@ -11,7 +22,6 @@ void PacketWorker::Tick()
 		_cv.wait(lock, [&]() { return _isReady && GameServerSession::GetInstance(); });
 	}
 
-	cout << "PacketWorker ticking" << endl;
 	while (true) {
 
 		{
@@ -43,9 +53,9 @@ void PacketWorker::Tick()
 			{
 				
 				DBServerPacketRef pkt = queue.front();
-				cout << "Thread Id : " << LThreadId << ", pkt Id : " << pkt->header.id << endl;
 				queue.pop();
-				
+
+				cout << "Thread Id : " << LThreadId << ", pkt Id : " << pkt->header.id << endl;
 				DBClientPacketHandler::HandlePacket(GameServerSession::GetInstance(), pkt);
 				//DBClientPacketHandler::HandlePacket()
 				// Ã³¸®

@@ -654,6 +654,11 @@ class LobbyPlayerInfo final :
     kIdFieldNumber = 1,
     kJobTypeFieldNumber = 3,
     kLevelFieldNumber = 4,
+    kMapIdFieldNumber = 5,
+    kXFieldNumber = 6,
+    kYFieldNumber = 7,
+    kExpFieldNumber = 8,
+    kHpFieldNumber = 9,
   };
   // string name = 2;
   void clear_name();
@@ -696,6 +701,51 @@ class LobbyPlayerInfo final :
   void _internal_set_level(uint32_t value);
   public:
 
+  // uint32 mapId = 5;
+  void clear_mapid();
+  uint32_t mapid() const;
+  void set_mapid(uint32_t value);
+  private:
+  uint32_t _internal_mapid() const;
+  void _internal_set_mapid(uint32_t value);
+  public:
+
+  // uint32 x = 6;
+  void clear_x();
+  uint32_t x() const;
+  void set_x(uint32_t value);
+  private:
+  uint32_t _internal_x() const;
+  void _internal_set_x(uint32_t value);
+  public:
+
+  // uint32 y = 7;
+  void clear_y();
+  uint32_t y() const;
+  void set_y(uint32_t value);
+  private:
+  uint32_t _internal_y() const;
+  void _internal_set_y(uint32_t value);
+  public:
+
+  // uint32 exp = 8;
+  void clear_exp();
+  uint32_t exp() const;
+  void set_exp(uint32_t value);
+  private:
+  uint32_t _internal_exp() const;
+  void _internal_set_exp(uint32_t value);
+  public:
+
+  // uint32 hp = 9;
+  void clear_hp();
+  uint32_t hp() const;
+  void set_hp(uint32_t value);
+  private:
+  uint32_t _internal_hp() const;
+  void _internal_set_hp(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.LobbyPlayerInfo)
  private:
   class _Internal;
@@ -708,6 +758,11 @@ class LobbyPlayerInfo final :
     uint64_t id_;
     uint32_t jobtype_;
     uint32_t level_;
+    uint32_t mapid_;
+    uint32_t x_;
+    uint32_t y_;
+    uint32_t exp_;
+    uint32_t hp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1260,6 +1315,106 @@ inline void LobbyPlayerInfo::_internal_set_level(uint32_t value) {
 inline void LobbyPlayerInfo::set_level(uint32_t value) {
   _internal_set_level(value);
   // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.level)
+}
+
+// uint32 mapId = 5;
+inline void LobbyPlayerInfo::clear_mapid() {
+  _impl_.mapid_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_mapid() const {
+  return _impl_.mapid_;
+}
+inline uint32_t LobbyPlayerInfo::mapid() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.mapId)
+  return _internal_mapid();
+}
+inline void LobbyPlayerInfo::_internal_set_mapid(uint32_t value) {
+  
+  _impl_.mapid_ = value;
+}
+inline void LobbyPlayerInfo::set_mapid(uint32_t value) {
+  _internal_set_mapid(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.mapId)
+}
+
+// uint32 x = 6;
+inline void LobbyPlayerInfo::clear_x() {
+  _impl_.x_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_x() const {
+  return _impl_.x_;
+}
+inline uint32_t LobbyPlayerInfo::x() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.x)
+  return _internal_x();
+}
+inline void LobbyPlayerInfo::_internal_set_x(uint32_t value) {
+  
+  _impl_.x_ = value;
+}
+inline void LobbyPlayerInfo::set_x(uint32_t value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.x)
+}
+
+// uint32 y = 7;
+inline void LobbyPlayerInfo::clear_y() {
+  _impl_.y_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_y() const {
+  return _impl_.y_;
+}
+inline uint32_t LobbyPlayerInfo::y() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.y)
+  return _internal_y();
+}
+inline void LobbyPlayerInfo::_internal_set_y(uint32_t value) {
+  
+  _impl_.y_ = value;
+}
+inline void LobbyPlayerInfo::set_y(uint32_t value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.y)
+}
+
+// uint32 exp = 8;
+inline void LobbyPlayerInfo::clear_exp() {
+  _impl_.exp_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_exp() const {
+  return _impl_.exp_;
+}
+inline uint32_t LobbyPlayerInfo::exp() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.exp)
+  return _internal_exp();
+}
+inline void LobbyPlayerInfo::_internal_set_exp(uint32_t value) {
+  
+  _impl_.exp_ = value;
+}
+inline void LobbyPlayerInfo::set_exp(uint32_t value) {
+  _internal_set_exp(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.exp)
+}
+
+// uint32 hp = 9;
+inline void LobbyPlayerInfo::clear_hp() {
+  _impl_.hp_ = 0u;
+}
+inline uint32_t LobbyPlayerInfo::_internal_hp() const {
+  return _impl_.hp_;
+}
+inline uint32_t LobbyPlayerInfo::hp() const {
+  // @@protoc_insertion_point(field_get:Protocol.LobbyPlayerInfo.hp)
+  return _internal_hp();
+}
+inline void LobbyPlayerInfo::_internal_set_hp(uint32_t value) {
+  
+  _impl_.hp_ = value;
+}
+inline void LobbyPlayerInfo::set_hp(uint32_t value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:Protocol.LobbyPlayerInfo.hp)
 }
 
 #ifdef __GNUC__

@@ -5,6 +5,7 @@
 class BaseEntity 
 {
 public:
+	BaseEntity() {}
 	virtual ~BaseEntity() {}
 	Protocol::ObjectInfo&			GetObjectInfo() { return _objectInfo; }
 	Protocol::LocationYaw*			GetLocationYaw() { return _objectInfo.mutable_locationyaw(); }

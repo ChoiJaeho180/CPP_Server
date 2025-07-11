@@ -12,7 +12,7 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 
 bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 {
-	cout << "success : " << pkt.success() << endl;
+	cout << "Handle_S_LOGIN : " << pkt.success() << endl;
 	if (pkt.success() == false) {
 		return false;
 	}
@@ -20,10 +20,11 @@ bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 	//if (pkt.players().size() == 0) {
 	//	// 캐릭터 생성
 	//}
-
+	Protocol::LobbyPlayerInfo lobbyInfo = pkt.infos(0);
+	const uint64 playerId = lobbyInfo.id();
 	// 입장 UI 버튼 눌러서 게임 입장
 	Protocol::C_ENTER_GAME cEnterPkt;
-	cEnterPkt.set_playerindex(0);
+	cEnterPkt.set_playerid(playerId);
 	SendBufferRef sendBuffer = ServerPacketHandler::MakeSendBuffer(cEnterPkt);
 	session->Send(sendBuffer);
 

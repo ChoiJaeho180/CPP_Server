@@ -14,7 +14,7 @@ message S_LOGIN {
 }
 
 message C_ENTER_GAME {
-	uint64 playerIndex = 1;
+	uint64 playerId = 1;
 }
 
 message S_ENTER_GAME {

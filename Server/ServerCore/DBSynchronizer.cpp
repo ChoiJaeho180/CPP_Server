@@ -649,6 +649,7 @@ void DBSynchronizer::ExecuteUpdateQueries()
 			bool sucess = _dbConn.Execute(query.c_str());
 			std::cout << "Success : " << sucess << endl;
 			ASSERT_CRASH(sucess);
+
 		}
 	}
 }

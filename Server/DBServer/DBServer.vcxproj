@@ -134,6 +134,7 @@
     <ClCompile Include="DBProtocol.pb.cc" />
     <ClCompile Include="DBServer.cpp" />
     <ClCompile Include="DBStruct.pb.cc" />
+    <ClCompile Include="DbTLS.cpp" />
     <ClCompile Include="DBToProtoMapper.cpp" />
     <ClCompile Include="Enum.pb.cc" />
     <ClCompile Include="GameServerSession.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="DBProtocol.pb.h" />
     <ClInclude Include="DBServerPacket.h" />
     <ClInclude Include="DBStruct.pb.h" />
+    <ClInclude Include="DbTLS.h" />
     <ClInclude Include="DBToProtoMapper.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameServerSession.h" />

@@ -34,4 +34,9 @@ message LobbyPlayerInfo
 	string name = 2;
 	uint32 jobType = 3;
 	uint32 level = 4;
+	uint32 mapId =5;
+	uint32 x= 6;
+	uint32 y =7;
+	uint32 exp = 8;
+	uint32 hp = 9;
 }

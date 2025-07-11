@@ -15,7 +15,7 @@ public:
 
 public:
 	void										AddLobbyPlayer(Protocol::LobbyPlayerInfo lobbyPlayer) { _lobbyPlayersInfo[lobbyPlayer.id()] = lobbyPlayer; }
-	bool										HasLobbyPlayer(uint64 playerId) { return _lobbyPlayersInfo.find(playerId) != _lobbyPlayersInfo.end(); }
+	Protocol::LobbyPlayerInfo&					GetLobbyPlayer(uint64 playerId) { return _lobbyPlayersInfo.find(playerId)->second; }
 
 	void										SetCurPlayer(PlayerRef player) { _curPlayer = player; }
 	PlayerRef									GetCurPlayer() { return _curPlayer; }

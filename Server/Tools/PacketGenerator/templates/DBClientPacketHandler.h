@@ -15,11 +15,11 @@ enum : uint16 {
 };
 
 // Custom Handlers
-bool Handle_INVALID(PacketSessionRef& session, ServerPacketHeader& header, google::protobuf::Message& data, DBConnection& dbConn);
+bool Handle_INVALID(PacketSessionRef& session, ServerPacketHeader& header, google::protobuf::Message& data);
 
 
 {%- for pkt in parser.recv_pkt %}
-bool Handle_{{pkt.name}}(PacketSessionRef& session, ServerPacketHeader& header, DBProtocol::{{pkt.name}}& data, DBConnection& dbConn);
+bool Handle_{{pkt.name}}(PacketSessionRef& session, ServerPacketHeader& header, DBProtocol::{{pkt.name}}& data);
 {%- endfor %}
 
 class {{output}}

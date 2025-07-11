@@ -67,6 +67,11 @@ PROTOBUF_CONSTEXPR LobbyPlayerInfo::LobbyPlayerInfo(
   , /*decltype(_impl_.id_)*/uint64_t{0u}
   , /*decltype(_impl_.jobtype_)*/0u
   , /*decltype(_impl_.level_)*/0u
+  , /*decltype(_impl_.mapid_)*/0u
+  , /*decltype(_impl_.x_)*/0u
+  , /*decltype(_impl_.y_)*/0u
+  , /*decltype(_impl_.exp_)*/0u
+  , /*decltype(_impl_.hp_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct LobbyPlayerInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR LobbyPlayerInfoDefaultTypeInternal()
@@ -121,6 +126,11 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.name_),
   PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.jobtype_),
   PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.level_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.mapid_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.x_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.y_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.exp_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::LobbyPlayerInfo, _impl_.hp_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::LocationYaw)},
@@ -145,16 +155,18 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "\001(\t\022\"\n\007jobType\030\005 \001(\0162\021.Protocol.JobType\022"
   "*\n\013monsterType\030\006 \001(\0162\025.Protocol.MonsterT"
   "ype\022\r\n\005level\030\007 \001(\r\022\020\n\010mapCmsId\030\010 \001(\r\022\n\n\002"
-  "hp\030\t \001(\r\022\013\n\003exp\030\n \001(\r\"K\n\017LobbyPlayerInfo"
-  "\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\017\n\007jobType\030\003 "
-  "\001(\r\022\r\n\005level\030\004 \001(\rb\006proto3"
+  "hp\030\t \001(\r\022\013\n\003exp\030\n \001(\r\"\211\001\n\017LobbyPlayerInf"
+  "o\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\017\n\007jobType\030\003"
+  " \001(\r\022\r\n\005level\030\004 \001(\r\022\r\n\005mapId\030\005 \001(\r\022\t\n\001x\030"
+  "\006 \001(\r\022\t\n\001y\030\007 \001(\r\022\013\n\003exp\030\010 \001(\r\022\n\n\002hp\030\t \001("
+  "\rb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] = {
   &::descriptor_table_Enum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 506, descriptor_table_protodef_Struct_2eproto,
+    false, false, 569, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 3,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
@@ -1004,6 +1016,11 @@ LobbyPlayerInfo::LobbyPlayerInfo(const LobbyPlayerInfo& from)
     , decltype(_impl_.id_){}
     , decltype(_impl_.jobtype_){}
     , decltype(_impl_.level_){}
+    , decltype(_impl_.mapid_){}
+    , decltype(_impl_.x_){}
+    , decltype(_impl_.y_){}
+    , decltype(_impl_.exp_){}
+    , decltype(_impl_.hp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1016,8 +1033,8 @@ LobbyPlayerInfo::LobbyPlayerInfo(const LobbyPlayerInfo& from)
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.id_, &from._impl_.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.level_) -
-    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.level_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.hp_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.hp_));
   // @@protoc_insertion_point(copy_constructor:Protocol.LobbyPlayerInfo)
 }
 
@@ -1030,6 +1047,11 @@ inline void LobbyPlayerInfo::SharedCtor(
     , decltype(_impl_.id_){uint64_t{0u}}
     , decltype(_impl_.jobtype_){0u}
     , decltype(_impl_.level_){0u}
+    , decltype(_impl_.mapid_){0u}
+    , decltype(_impl_.x_){0u}
+    , decltype(_impl_.y_){0u}
+    , decltype(_impl_.exp_){0u}
+    , decltype(_impl_.hp_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.name_.InitDefault();
@@ -1064,8 +1086,8 @@ void LobbyPlayerInfo::Clear() {
 
   _impl_.name_.ClearToEmpty();
   ::memset(&_impl_.id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.level_) -
-      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.level_));
+      reinterpret_cast<char*>(&_impl_.hp_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.hp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1105,6 +1127,46 @@ const char* LobbyPlayerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContex
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 mapId = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.mapid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 x = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 y = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 exp = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+          _impl_.exp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 hp = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.hp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1166,6 +1228,36 @@ uint8_t* LobbyPlayerInfo::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(4, this->_internal_level(), target);
   }
 
+  // uint32 mapId = 5;
+  if (this->_internal_mapid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(5, this->_internal_mapid(), target);
+  }
+
+  // uint32 x = 6;
+  if (this->_internal_x() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(6, this->_internal_x(), target);
+  }
+
+  // uint32 y = 7;
+  if (this->_internal_y() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(7, this->_internal_y(), target);
+  }
+
+  // uint32 exp = 8;
+  if (this->_internal_exp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(8, this->_internal_exp(), target);
+  }
+
+  // uint32 hp = 9;
+  if (this->_internal_hp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(9, this->_internal_hp(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1204,6 +1296,31 @@ size_t LobbyPlayerInfo::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_level());
   }
 
+  // uint32 mapId = 5;
+  if (this->_internal_mapid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_mapid());
+  }
+
+  // uint32 x = 6;
+  if (this->_internal_x() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_x());
+  }
+
+  // uint32 y = 7;
+  if (this->_internal_y() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_y());
+  }
+
+  // uint32 exp = 8;
+  if (this->_internal_exp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_exp());
+  }
+
+  // uint32 hp = 9;
+  if (this->_internal_hp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_hp());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1234,6 +1351,21 @@ void LobbyPlayerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
   if (from._internal_level() != 0) {
     _this->_internal_set_level(from._internal_level());
   }
+  if (from._internal_mapid() != 0) {
+    _this->_internal_set_mapid(from._internal_mapid());
+  }
+  if (from._internal_x() != 0) {
+    _this->_internal_set_x(from._internal_x());
+  }
+  if (from._internal_y() != 0) {
+    _this->_internal_set_y(from._internal_y());
+  }
+  if (from._internal_exp() != 0) {
+    _this->_internal_set_exp(from._internal_exp());
+  }
+  if (from._internal_hp() != 0) {
+    _this->_internal_set_hp(from._internal_hp());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1258,8 +1390,8 @@ void LobbyPlayerInfo::InternalSwap(LobbyPlayerInfo* other) {
       &other->_impl_.name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(LobbyPlayerInfo, _impl_.level_)
-      + sizeof(LobbyPlayerInfo::_impl_.level_)
+      PROTOBUF_FIELD_OFFSET(LobbyPlayerInfo, _impl_.hp_)
+      + sizeof(LobbyPlayerInfo::_impl_.hp_)
       - PROTOBUF_FIELD_OFFSET(LobbyPlayerInfo, _impl_.id_)>(
           reinterpret_cast<char*>(&_impl_.id_),
           reinterpret_cast<char*>(&other->_impl_.id_));

@@ -20,7 +20,7 @@ participant "ClientSession" as Session
 participant "ReceiveBuffer" as Buffer
 participant "PacketHandler" as handler
 
-== IOCP 이벤트 수신 ==D
+== IOCP 이벤트 수신 ==
 WorkerThread -> Session : ProcessRecv(numOfBytes)
 Session -> Buffer : OnWrite(numOfBytes)
 

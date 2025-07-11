@@ -67,8 +67,14 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	ClientSessionRef clientSession = static_pointer_cast<ClientSession>(session);
-	PlayerRef curPlayer = ObjectUtils::CreatePlayer(clientSession);
+	const uint64 playerId = pkt.playerid();
 
+	// todo. 플레이어 정보 가져와서 초기화하기
+	const Protocol::LobbyPlayerInfo& info = clientSession->GetLobbyPlayer(playerId);
+	PlayerRef curPlayer = ObjectUtils::CreatePlayer(info);
+	clientSession->SetCurPlayer(curPlayer);
+	Protocol::ObjectInfo& objectInfo = curPlayer->GetObjectInfo();
+	cout << objectInfo.id() << endl;
 	////g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
 	//PlayerRef player = MakeShared<Player>(clientSession);
 	//clientSession->AddPlayer(player);

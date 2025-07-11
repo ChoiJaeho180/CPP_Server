@@ -20,9 +20,7 @@ public:
 	void EnqueuePacket(DBServerPacketRef pkt);
 	void AddPacketWorker(int key, PacketWorkerRef worker);
 	HashMap<uint16, PacketWorkerRef>& GetAllWorkers() { return _workers; }
-public:
 
-	
 private:
 	HashMap<uint16, PacketWorkerRef> _workers;
 };

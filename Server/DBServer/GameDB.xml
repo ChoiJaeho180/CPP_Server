@@ -18,47 +18,34 @@
 		</Index>
 		<Index type="nonclustered">
 			<UniqueKey/>
-			<Column name="name"/>
+			<Column name="nickName"/>
 		</Index>
 	</Table>
 	<Procedure name="spLoadLobbyPlayersInfo">
 		<Param name="@account" type ="nvarchar(32)"/>
 		<Body>
 			<![CDATA[
-			SELECT playerId, nickName, jobType, level FROM [dbo].u_players WHERE account = (@account)
-			]]>
-		</Body>
-	</Procedure>
-	<Procedure name="spGetOrCreatePlayer">
-		<Param name="@playerId" type="bigint"/>
-		<Param name="@nickName" type="nvarchar(32)"/>
-		<Body>
-			<![CDATA[
 			SET NOCOUNT ON;
 
-			DECLARE @foundPlayerId BIGINT;
-
 			BEGIN TRY
-				BEGIN TRANSACTION;
-				
-				IF @playerId != -1
-				BEGIN
-					SELECT @foundPlayerId = playerId
-					FROM u_players WITH (UPDLOCK, HOLDLOCK)
-					WHERE playerId = @playerId;
-				END
-				
-				IF @foundPlayerId IS NULL
-				BEGIN
-					INSERT INTO u_players (account, nickName, level, createAt)
-					VALUES (@nickName, @nickName, 1, GETDATE());
+			BEGIN TRANSACTION;
 
-					SET @foundPlayerId = SCOPE_IDENTITY();
-				END
+			-- 1. INSERT IF NOT EXISTS
+			IF NOT EXISTS (
+				SELECT 1 FROM u_players WITH (UPDLOCK, HOLDLOCK) WHERE account = @account
+			)
+			BEGIN
+				INSERT INTO u_players (account, nickName, jobType, mapId, x, y, level, exp, hp, createAt)
+				VALUES (@account, @account, 1, 100, 0, 0, 1, 0, 100, GETDATE());
+			END
 
-				SELECT playerId, nickName, mapId,x,y,level,exp,hp FROM u_players WHERE playerId = @foundPlayerId;
+			-- 2. 무조건 SELECT
+			SELECT 
+				playerId, nickName, jobType, mapId, x, y, level, exp, hp
+			FROM u_players
+			WHERE account = @account;
 
-				COMMIT;
+			COMMIT;
 			END TRY
 			BEGIN CATCH
 				IF @@TRANCOUNT > 0
@@ -70,4 +57,5 @@
 			]]>
 		</Body>
 	</Procedure>
+	
 </GameDB>

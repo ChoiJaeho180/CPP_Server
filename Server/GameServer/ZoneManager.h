@@ -21,7 +21,7 @@ public:
 	void							EnqueueUpdates();
 	
 private:
-	HashMap<uint64, ZoneRef>	_zones;
+	HashMap<uint64, ZoneRef>		_zones;
 	atomic<bool>					_isReserving;
 	uint64							_lastReservedTick;
 };

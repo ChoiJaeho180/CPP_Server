@@ -1,0 +1,41 @@
+# Custom Memory Pool System
+
+## 개요
+다양한 크기의 메모리를 고속으로 관리하기 위한 커스텀 메모리 풀 시스템입니다.  
+윈도우의 SLIST(싱글 연결 리스트)를 기반으로 lock-free 방식으로 구현되어 있습니다.
+
+## 구조
+- `MemoryManager`는 n개의 `MemoryPool`을 관리합니다.
+- 각 `MemoryPool`은 특정 크기의 메모리 블록을 할당/해제합니다.
+- 메모리 블록 앞에는 `MemoryHeader`가 붙어 SLIST_ENTRY로 연결됩니다.
+- 요청된 크기를 인덱스로 사용합니다.
+- 메모리 크기는 일정 
+
+## 클래스 설명
+
+### MemoryManager
+- 역할: 크기별 `MemoryPool` 배열을 관리
+- 메서드: 
+  - `Allocate(size_t size)`: 요청된 크기에 맞는 풀에서 메모리 반환
+  - `Deallocate(void* ptr)`: 포인터 앞단의 헤더를 통해 다시 풀에 반환
+
+### MemoryPool
+- 역할: 특정 블록 크기의 메모리 풀
+- 구성: 
+  - `_header` : SLIST_HEADER
+  - `_blockSize` : size_t
+- 메서드:
+  - `Pop()` : MemoryHeader*
+  - `Push(entry)` : void
+
+### MemoryHeader
+- SLIST_ENTRY를 상속
+- 데이터 블록 앞단에 위치하며, 리스트 연결에 사용
+- 필요 시 디버그 정보, 블록 크기 등의 메타 정보 포함 가능
+
+## 장점
+- lock-free 구조로 멀티스레드에서도 경합 없이 빠르게 동작
+- 반복적인 소규모 메모리 할당 시 성능 향상
+
+## 사용 목적
+- 게임 서버, 네트워크 IO, ECS 시스템 등에서의 고빈도 메모리 할당 최적화

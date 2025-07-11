@@ -11,7 +11,6 @@ using namespace std::chrono_literals;
 
 
 #pragma comment(lib, "ws2_32.lib")
-
 char sendData[] = "Hello world!";
 
 class ServerSession : public PacketSession {
@@ -24,7 +23,8 @@ public:
 	{
 		// 인증 서버에 로그인 과정을 거쳐야하지만 스킵
 		Protocol::C_LOGIN pkt;
-		pkt.set_account("DanGyeol");
+		static int gen = 0;
+		pkt.set_account("DanGyeol" + gen++);
 		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
 		Send(sendBuffer);
 	}

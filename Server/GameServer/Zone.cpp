@@ -15,7 +15,7 @@ Zone::~Zone()
 
 void Zone::AddZoneInstance()
 {
-	const uint64 instanceId = _instances[_key].size();
+	const uint64 instanceId = _instances.size();
 	const Vector2<int> zoneIndex = ZoneUtils::GetZoneIndex(_key);
 	const Rect2D zoneArea = Rect2D(
 		zoneIndex.x * _mapCms.zoneWidth,
@@ -28,15 +28,13 @@ void Zone::AddZoneInstance()
 	//std::cout << "x : " << zoneArea.x << ", endX : " << zoneArea.endX << ", y : " << zoneArea.y  << ", endY : " << zoneArea.endY << std::endl;
 	ZoneInstanceRef instance = ObjectPool<ZoneInstance>::MakeShared(instanceId, zoneIndex, zoneArea,  _mapCms);
 	instance->Init();
-	_instances[_key].push_back(instance);
+	_instances.push_back(instance);
 }
 
 void Zone::EnqueueUpdates()
 {
-	for (auto& [_, instanceList] : _instances) {
-		for (auto& zoneInstance : instanceList) {
-			zoneInstance->Enqueue(&ZoneInstance::Update);
-		}
+	for (auto& instance : _instances) {
+		instance->Enqueue(&ZoneInstance::Update);
 	}
 }
 

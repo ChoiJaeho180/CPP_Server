@@ -20,8 +20,6 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 
-
-
 void DoNetworkJob(ServerServiceRef& service) {
 	while (true) {
 		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
@@ -44,9 +42,11 @@ int main() {
 	ASSERT_CRASH(dbServer->Start());
 	DBConnection* dbConn = GDBConnectionPool->Pop();
 	DBSynchronizer dbSync(*dbConn);
+	dbSync.Synchronize(L"GameDB.xml");
 	GDBConnectionPool->Push(dbConn);
-	
-; 
+
+
+
 	for (uint16 i = 0; i < DBConst::DB_WORKER_COUNT; i++) {
 		const uint16 shardIndex = i;
 		GThreadManager->Launch([shardIndex]() {

@@ -1,8 +1,8 @@
 @startuml
 actor Client
 
-Client -> MemoryManager : Allocate(dataSize)
-MemoryManager -> MemoryManager : allocSize = header + dataSize
+Client -> MemoryManager : Allocate(size)
+MemoryManager -> MemoryManager : allocSize = size + header
 MemoryManager -> MemoryManager : is allocSize > MAX_ALLOC_SIZE?
 
 alt Large alloc

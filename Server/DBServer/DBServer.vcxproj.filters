@@ -49,6 +49,9 @@
     <ClCompile Include="DBToProtoMapper.cpp">
       <Filter>Protocol</Filter>
     </ClCompile>
+    <ClCompile Include="DbTLS.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="DBToProtoMapper.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="DbTLS.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
