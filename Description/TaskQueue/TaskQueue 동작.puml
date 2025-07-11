@@ -1,0 +1,31 @@
+@startuml
+actor GameWorkerThread as Worker
+participant ZoneInstance
+participant TaskQueue
+participant Task
+participant GGlobalQueue
+
+== Task 등록 ==
+
+Worker -> ZoneInstance : PushTask(task)
+ZoneInstance -> TaskQueue : Push(task)
+
+alt prevCount == 0 and LCurrentTaskQueue == null
+    TaskQueue -> TaskQueue : Execute()
+else prevCount == 0 but already executing
+    TaskQueue -> GGlobalQueue : Push(self)
+end
+
+== TaskQueue 실행 ==
+
+loop while not timeout and task remain
+    TaskQueue -> Task : Execute()
+end
+
+alt time exceeded
+    TaskQueue -> GGlobalQueue : Push(self)
+end
+
+TaskQueue -> Worker : 작업 완료
+
+@enduml

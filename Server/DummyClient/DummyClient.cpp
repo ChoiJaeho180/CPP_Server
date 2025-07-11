@@ -24,7 +24,7 @@ public:
 		// 인증 서버에 로그인 과정을 거쳐야하지만 스킵
 		Protocol::C_LOGIN pkt;
 		static int gen = 0;
-		pkt.set_account("DanGyeol" + gen++);
+		pkt.set_account("DanGyeol" + to_string(gen++));
 		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
 		Send(sendBuffer);
 	}
@@ -56,7 +56,7 @@ int main()
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
 		MakeShared<ServerSession>,
-		2);
+		500);
 
 	ASSERT_CRASH(service->Start());
 

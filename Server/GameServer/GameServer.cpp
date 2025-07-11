@@ -38,8 +38,6 @@ void DoGameWorkerJob(ServerServiceRef& service) {
 		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
 		service->GetIocpCore()->Dispatch(10);
 
-
-
 		// zone의 업데이트 요청 실제 작업을 하진 않음. 
 		// -> 하나의 thread가 다 처리하지 않도록 분산
 		ZoneManager::GetInstance().EnqueueUpdates();
@@ -63,9 +61,6 @@ void DoGameWorkerJob(ServerServiceRef& service) {
 int main()
 {
 
-	/*GRoom->DoTimer(1000, []() {cout << "1000!!!!" << endl; });
-	GRoom->DoTimer(2000, []() {cout << "2000!!!!" << endl; });
-	GRoom->DoTimer(3000, []() {cout << "3000!!!" << endl; });*/
 	CoreGlobal::Init();
 	GameGlobal::Init();
 

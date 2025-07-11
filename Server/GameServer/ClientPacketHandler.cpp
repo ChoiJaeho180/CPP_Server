@@ -73,14 +73,9 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	const Protocol::LobbyPlayerInfo& info = clientSession->GetLobbyPlayer(playerId);
 	PlayerRef curPlayer = ObjectUtils::CreatePlayer(info);
 	clientSession->SetCurPlayer(curPlayer);
-	Protocol::ObjectInfo& objectInfo = curPlayer->GetObjectInfo();
-	cout << objectInfo.id() << endl;
-	////g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
-	//PlayerRef player = MakeShared<Player>(clientSession);
-	//clientSession->AddPlayer(player);
 
-	//player->SetOwnerSession(clientSession);
-	//player->SetObjectInfo(result.info());
+	////g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
+
 	return true;
 }
 
@@ -129,7 +124,7 @@ bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)
 	chatPkt.set_msg(pkt.msg());
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
-	cout << "pkt : " << pkt.msg() << endl;
+	//cout << "pkt : " << pkt.msg() << endl;
 	return false;
 }
 

@@ -116,8 +116,8 @@ void Room::ProcessMove(Protocol::C_MOVE pkt)
 		{
 			Protocol::LocationYaw* sendLoc = movePkt.mutable_locationyaw();
 			sendLoc->CopyFrom(newLocationYaw);
-			cout << "id : " << id << endl;
-			cout << " locationYaw X : " << sendLoc->x() << ", Y : " << sendLoc->y() << ", Z : " << endl;
+		/*	cout << "id : " << id << endl;
+			cout << " locationYaw X : " << sendLoc->x() << ", Y : " << sendLoc->y() << ", Z : " << endl;*/
 		}
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(movePkt);

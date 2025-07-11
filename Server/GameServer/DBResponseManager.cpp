@@ -22,8 +22,8 @@ DBResponseManager::~DBResponseManager()
 CallbackContext DBResponseManager::Take(const uint64 targetId, const uint64 requestId)
 {
 	const uint16 shardId = GetShardId(targetId);
-	cout << "DBResponseManager::Take targetId : " << targetId << endl;
-	cout << "DBResponseManager::Take shardId : " << shardId << endl;
+	/*cout << "DBResponseManager::Take targetId : " << targetId << endl;
+	cout << "DBResponseManager::Take shardId : " << shardId << endl;*/
 	return _pendingCallbacks[shardId]->Take(requestId);
 }
 
@@ -39,9 +39,7 @@ void DBResponseManager::EnqueuePacket(DBPacketRef packet)
 
 void DBResponseManager::ProcessPackets()
 {
-
 	// todo. 멀티 스레드 환경에서 병목을 더 해소할 수 있는지 확인 필요..
-
 	auto PopBatch = [&](int32 count, OUT Vector<DBPacketRef>& out)
 		{
 			WRITE_LOCK;
@@ -53,28 +51,28 @@ void DBResponseManager::ProcessPackets()
 		};
 
 	while (LEndTickCount > ::GetTickCount64()) {
+		// todo. 처리 속도에 따라 10이 아니라 변동되도록
 		Vector<DBPacketRef> local;
 		PopBatch(10, OUT local);
 
 		if (local.empty()) {
 			break;
 		}
-		cout << "ProcessPackets ThreadId : " << LThreadId << ", local size : " << local.size() << endl;
+		//cout << "ProcessPackets ThreadId : " << LThreadId << ", local size : " << local.size() << endl;
 		for (int i = 0; i < local.size(); i++) {
 			const DBPacketRef& pkt = local[i];
 			const uint64 id = pkt->header.targetId;
 
-
-			TaskRef task = ObjectPool<Task>::MakeShared([pkt]() {
-					auto ctx = GDBServerCallbackMgr->Take(pkt->header.targetId, pkt->header.requestId);
-					if (ctx.onComplete) {
-						ctx.onComplete(pkt->data.get());
-					}
-				});
-
 			PlayerRef player = PlayerManager::GetInstance().GetPlayer(id);
 			if (player) {
 				if (auto zoneInstnace = player->OwnerZoneInstance().lock()) {
+					TaskRef task = ObjectPool<Task>::MakeShared([pkt]() {
+						auto ctx = GDBServerCallbackMgr->Take(pkt->header.targetId, pkt->header.requestId);
+						if (ctx.onComplete) {
+							ctx.onComplete(pkt->data.get());
+						}
+					});
+
 					zoneInstnace->Push(task);
 				}
 			}

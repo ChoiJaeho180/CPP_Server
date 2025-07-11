@@ -11,7 +11,7 @@ DBWorker::DBWorker(int shardId)
 void DBWorker::AddTask(SendBufferRef task)
 {
 	_tasks.Push(std::move(task));
-	cout << "AddTask :" << endl;
+	//cout << "AddTask :" << endl;
 }
 
 void DBWorker::Tick(ClientServiceRef& service)
@@ -35,7 +35,7 @@ void DBWorker::Tick(ClientServiceRef& service)
 		for (int i = 0; i < sendBuffers.size(); i++) {
 
 			DBServerSession::GetInstance()->Send(sendBuffers[i]);
-			cout << "handle SendBuffer  shardId : " << _shardId << endl;
+			//cout << "handle SendBuffer  shardId : " << _shardId << endl;
 		}
 
 	}
