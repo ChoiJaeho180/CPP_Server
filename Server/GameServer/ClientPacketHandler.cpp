@@ -13,6 +13,7 @@
 #include "DBStruct.pb.h"
 #include "DBHelper.h"
 #include "ClientSessionManager.h"
+#include "ZoneManager.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -73,6 +74,9 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	const Protocol::LobbyPlayerInfo& info = clientSession->GetLobbyPlayer(playerId);
 	PlayerRef curPlayer = ObjectUtils::CreatePlayer(info);
 	clientSession->SetCurPlayer(curPlayer);
+
+	// todo. field Player 객체 추가하도록 수정.
+	ZoneManager::GetInstance().EnterPlayer(curPlayer);
 
 	////g_Room->DoAsync(&Room::ProcessEnter, curPlayer);
 

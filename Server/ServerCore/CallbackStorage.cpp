@@ -4,9 +4,9 @@
 uint64 CallbackStorage::Add(uint64 id, std::function<void(void*)> callback)
 {
 	const uint64 requestId = _idGenerator.fetch_add(1);
-	CallbackContext ctx;
-	ctx.id = id;
-	ctx.onComplete = std::move(callback);
+	CallbackContextRef ctx = ObjectPool<CallbackContext>::MakeShared();
+	ctx->id = id;
+	ctx->onComplete = std::move(callback);
 
 	{
 		WRITE_LOCK;
@@ -18,18 +18,21 @@ uint64 CallbackStorage::Add(uint64 id, std::function<void(void*)> callback)
 	return requestId;
 }
 
-
-CallbackContext CallbackStorage::Take(uint64 requestId)
+void CallbackStorage::TakeBatch(Vector<uint64>& requestIds,  OUT HashMap<uint64, CallbackContextRef>& results)
 {
+	results.reserve(requestIds.size());
+
 	WRITE_LOCK;
 
-	cout << "CallbackStorage::Add requestId : " << requestId << endl;
+	for (int i = 0; i < requestIds.size(); i++) {
+		const uint64& requestId = requestIds[i];
 
-	auto it = _contexts.find(requestId);
-	ASSERT_CRASH(it != _contexts.end());
+		cout << "CallbackStorage::Add requestId : " << requestId << endl;
 
-	CallbackContext ctx = std::move(it->second);
-	_contexts.erase(it);
+		auto it = _contexts.find(requestId);
+		ASSERT_CRASH(it != _contexts.end());
 
-	return ctx;
+		results[requestId] = std::move(it->second);
+		_contexts.erase(it);
+	}
 }

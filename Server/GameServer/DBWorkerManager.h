@@ -4,16 +4,19 @@
 class DBWorkerManager
 {
 public:
+	DBWorkerManager();
+	~DBWorkerManager();
+
 	static DBWorkerManager& GetInstance() {
 		static DBWorkerManager instance;
 		return instance;
 	}
-	void AddWorker(const uint64 id, DBWorkerRef& worker);
-	void AddDBTask(const uint64 id, SendBufferRef sendBuffer);
+	void									AddWorker(const uint64 shardId, DBWorkerRef& worker);
+	void									AddDBTask(const uint64 id, SendBufferRef sendBuffer);
 
-	int GetShardId(const uint64 id);
+	int										GetShardId(const uint64 id);
 
 private:
-	unordered_map<int, DBWorkerRef> _workers;
+	HashMap<int, DBWorkerRef>				_workers;
 };
 

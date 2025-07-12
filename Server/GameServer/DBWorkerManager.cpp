@@ -2,9 +2,17 @@
 #include "DBWorkerManager.h"
 #include "GameConst.h"
 
-void DBWorkerManager::AddWorker(const uint64 id, DBWorkerRef& worker)
+DBWorkerManager::DBWorkerManager()
 {
-	const int shardId = GetShardId(id);
+}
+
+DBWorkerManager::~DBWorkerManager()
+{
+	_workers.clear();
+}
+
+void DBWorkerManager::AddWorker(const uint64 shardId, DBWorkerRef& worker)
+{
 	_workers[shardId] = worker;
 }
 

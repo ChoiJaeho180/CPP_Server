@@ -6,6 +6,7 @@
 #include "../ServerCore/AtomicScopeGuard.h"
 #include "MapDesc.h"
 #include "ZoneUtils.h"
+#include "Player.h"
 
 #define UPDATE_INTERVER 100
 
@@ -27,8 +28,9 @@ void ZoneManager::Init()
 	}
 }
 
-void ZoneManager::EnterPlayer(const Protocol::LocationYaw& pos, int mapCmsId)
+void ZoneManager::EnterPlayer(PlayerRef curPlayer)
 {
+	ZoneManager::GetInstance().GetOrCreateZoneInstance(*curPlayer->GetLocationYaw(), curPlayer->GetObjectInfo().mapcmsid());
 }
 
 void ZoneManager::EnqueueUpdates()

@@ -15,7 +15,7 @@ public:
 	}
 
 	void							Init();
-	void							EnterPlayer(const Protocol::LocationYaw& pos, int mapCmsId);
+	void							EnterPlayer(PlayerRef curPlayer);
 	ZoneInstanceRef					GetOrCreateZoneInstance(const Protocol::LocationYaw& pos, int mapCmsId);
 public:
 	void							EnqueueUpdates();

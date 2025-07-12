@@ -30,7 +30,7 @@ enum {
 	WORKER_TICK = 64
 };
 
-void DoGameWorkerJob(ServerServiceRef& service) {
+void DoGameWorkerJob(ServerServiceRef& service, int shardId) {
 	while (true) {
 		const uint64 startTick = GetTickCount64();
 		LEndTickCount = startTick + WORKER_TICK;
@@ -49,7 +49,7 @@ void DoGameWorkerJob(ServerServiceRef& service) {
 		ThreadManager::ProcessGlobalQueue();
 
 		// DB response 
-		GDBServerCallbackMgr->ProcessPackets();
+		GDBServerCallbackMgr->ProcessPackets(shardId);
 
 		const uint64 elapsed = GetTickCount64() - startTick;
 		if (elapsed > WORKER_TICK) {
@@ -81,9 +81,9 @@ int main()
 	ASSERT_CRASH(gameServer->Start());
 	//unsigned int MAX_WORKER_THREADS = std::thread::hardware_concurrency(); 
 	for (int i = 0; i < GameConst::GAME_WORKER_COUNT; i++) {
-		GThreadManager->Launch([&gameServer]() {
-			DoGameWorkerJob(gameServer);
-			});
+		GThreadManager->Launch([=, &gameServer]() {
+			DoGameWorkerJob(gameServer, i);
+		});
 	}
 
 	ClientServiceRef dbClient = MakeShared<ClientService>(
@@ -96,10 +96,9 @@ int main()
 	ASSERT_CRASH(dbClient->Start());
 
 	for (int i = 0; i < GameConst::DB_WORKER_COUNT; i++) {
-		int shardId = i;
-		GThreadManager->Launch([&dbClient, shardId]() {
-			DBWorkerRef worker = MakeShared<DBWorker>(shardId);
-			DBWorkerManager::GetInstance().AddWorker(shardId, worker);
+		GThreadManager->Launch([=, &dbClient]() {
+			DBWorkerRef worker = MakeShared<DBWorker>(i);
+			DBWorkerManager::GetInstance().AddWorker(i, worker);
 
 			worker->Tick(dbClient);
 		});

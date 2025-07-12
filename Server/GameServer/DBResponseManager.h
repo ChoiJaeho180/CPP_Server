@@ -10,23 +10,32 @@ public:
 	DBResponseManager();
 	~DBResponseManager();
 
-	CallbackContext							Take(const uint64 targetId, const uint64 requestId);
-	uint16									GetShardId(const uint64 id);
-	void									EnqueuePacket(DBPacketRef packet);
-	void									ProcessPackets();
+	
+	uint16									GetShardIdByPendingCallbacks(const uint64 id);
+	uint16									GetShardIdByCompletePackets(const uint64 id);
 public:
+	/* DbWorkerThread  전용 함수*/
+	void									EnqueuePacket(DBPacketRef packet);
+
+public:
+	/* GameWorkerThread 전용 함수*/
+	void									ProcessPackets(const int& gameShardId);
+	static void								ExecuteCallback(CallbackContextRef ctx, const DBPacketRef& pkt);
 
 	template<typename T>
 	uint64 Add(uint64 id, std::function<void(const T&)> callback) {
-		return _pendingCallbacks[GetShardId(id)]->Add(id, [=](void* ptr) {
-				callback(*static_cast<T*>(ptr));
+		return _pendingCallbacks[GetShardIdByPendingCallbacks(id)]->Add(id, [=](void* ptr) {
+			callback(*static_cast<T*>(ptr));
 			});
 	}
+	
 private:
+	// 샤드 playerId % GameConst::DB_WORKER_COUNT
 	Vector<shared_ptr<CallbackStorage>>		_pendingCallbacks;
 
 private:
-	USE_LOCK;
-	Queue<DBPacketRef>						_readyCallbacks;
+	// 샤드 playerId % GameConst::GAME_WORKER_COUNT
+	USE_MANY_LOCKS(GameConst::GAME_WORKER_COUNT);
+	Vector<Queue<DBPacketRef>>				_completedPackets;
 };
 
