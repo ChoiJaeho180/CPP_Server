@@ -11,8 +11,7 @@ public:
 	~DBResponseManager();
 
 	
-	uint16									GetShardIdByPendingCallbacks(const uint64 id);
-	uint16									GetShardIdByCompletePackets(const uint64 id);
+	uint16									GetShardId(const uint64 id);
 public:
 	/* DbWorkerThread  전용 함수*/
 	void									EnqueuePacket(DBPacketRef packet);
@@ -24,7 +23,7 @@ public:
 
 	template<typename T>
 	uint64 Add(uint64 id, std::function<void(const T&)> callback) {
-		return _pendingCallbacks[GetShardIdByPendingCallbacks(id)]->Add(id, [=](void* ptr) {
+		return _pendingCallbacks[GetShardId(id)]->Add(id, [=](void* ptr) {
 			callback(*static_cast<T*>(ptr));
 			});
 	}

@@ -120,9 +120,6 @@
     <ClCompile Include="DBWorkerManager.cpp">
       <Filter>DB</Filter>
     </ClCompile>
-    <ClCompile Include="DBServerPacketHandler.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="DBProtocol.pb.cc">
       <Filter>Protocol</Filter>
     </ClCompile>
@@ -135,8 +132,11 @@
     <ClCompile Include="GameGlobal.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="DBServerPacketHandler.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
     <ClCompile Include="DBResponseManager.cpp">
-      <Filter>Main</Filter>
+      <Filter>DB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -249,9 +249,6 @@
     <ClInclude Include="DBWorkerManager.h">
       <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="DBServerPacketHandler.h">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="DBProtocol.pb.h">
       <Filter>Protocol</Filter>
     </ClInclude>
@@ -265,7 +262,10 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="DBResponseManager.h">
-      <Filter>Main</Filter>
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DBServerPacketHandler.h">
+      <Filter>DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

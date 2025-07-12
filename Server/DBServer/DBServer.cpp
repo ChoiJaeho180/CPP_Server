@@ -45,8 +45,6 @@ int main() {
 	dbSync.Synchronize(L"GameDB.xml");
 	GDBConnectionPool->Push(dbConn);
 
-
-
 	for (uint16 i = 0; i < DBConst::DB_WORKER_COUNT; i++) {
 		const uint16 shardIndex = i;
 		GThreadManager->Launch([shardIndex]() {

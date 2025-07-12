@@ -9,8 +9,8 @@
 
 DBResponseManager::DBResponseManager()
 {
-	_pendingCallbacks.reserve(GameConst::DB_JOB_SHARD_COUNT);
-	for (int i = 0; i < GameConst::DB_JOB_SHARD_COUNT; i++) {
+	_pendingCallbacks.reserve(GameConst::GAME_WORKER_COUNT);
+	for (int i = 0; i < GameConst::GAME_WORKER_COUNT; i++) {
 		_pendingCallbacks.push_back(MakeShared<CallbackStorage>());
 	}
 
@@ -25,18 +25,14 @@ DBResponseManager::~DBResponseManager()
 
 }
 
-uint16 DBResponseManager::GetShardIdByPendingCallbacks(const uint64 id) {
-	return static_cast<uint16>(id % GameConst::DB_JOB_SHARD_COUNT);
-}
-
-uint16 DBResponseManager::GetShardIdByCompletePackets(const uint64 id)
+uint16 DBResponseManager::GetShardId(const uint64 id)
 {
 	return static_cast<uint16>(id % GameConst::GAME_WORKER_COUNT);
 }
 
 void DBResponseManager::EnqueuePacket(DBPacketRef packet)
 {
-	const int shardId = GetShardIdByCompletePackets(packet->header.targetId);
+	const int shardId = GetShardId(packet->header.targetId);
 
 	WRITE_LOCK;
 	_completedPackets[shardId].push(packet);
@@ -44,7 +40,6 @@ void DBResponseManager::EnqueuePacket(DBPacketRef packet)
 
 void DBResponseManager::ProcessPackets(const int& gameShardId)
 {
-
 	// todo. 멀티 스레드 환경에서 병목을 더 해소할 수 있는지 확인 필요..
 	auto PopBatch = [&](int32 count, OUT Vector<DBPacketRef>& out)
 		{
@@ -68,16 +63,17 @@ void DBResponseManager::ProcessPackets(const int& gameShardId)
 
 		// 1. 샤드별로 requestId 분리
 		//   requestId는 각 CallbackStorage 내부에서만 고유함
-		Vector<Vector<uint64>> shardToRequestIds(GameConst::DB_JOB_SHARD_COUNT);
+		Vector<Vector<uint64>> shardToRequestIds(GameConst::GAME_WORKER_COUNT);
 		for (const auto& pkt : packets)
 		{
 			uint64 targetId = pkt->header.targetId;
-			uint16 shardId = GDBServerCallbackMgr->GetShardIdByPendingCallbacks(targetId);
+			uint16 shardId = GetShardId(targetId);
+			
 			shardToRequestIds[shardId].push_back(pkt->header.requestId);
 		}
 
 		// 2. 모든 콜백 모아오기
-		Vector<HashMap<uint64, CallbackContextRef>> shardedCallbacks(GameConst::DB_JOB_SHARD_COUNT);
+		Vector<HashMap<uint64, CallbackContextRef>> shardedCallbacks(GameConst::GAME_WORKER_COUNT);
 		for (int shardId = 0; shardId < shardToRequestIds.size(); shardId++) {
 			if (shardToRequestIds[shardId].empty()) {
 				continue;
@@ -85,14 +81,13 @@ void DBResponseManager::ProcessPackets(const int& gameShardId)
 
 			_pendingCallbacks[shardId]->TakeBatch(shardToRequestIds[shardId], OUT shardedCallbacks[shardId]);
 		}
-	
 			
 		// 3. TaskQueue에 Push 및 Execute
 		for (int i = 0; i < packets.size(); i++) {
 			const DBPacketRef& pkt = packets[i];
 
 			const uint64 id = pkt->header.targetId;
-			const uint16 shardId = GetShardIdByPendingCallbacks(id);
+			const uint16 shardId = GetShardId(id);
 			const uint64 requestId = pkt->header.requestId;
 
 			auto it = shardedCallbacks[shardId].find(requestId);

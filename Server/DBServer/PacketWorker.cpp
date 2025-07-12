@@ -29,38 +29,30 @@ void PacketWorker::Tick()
 			std::unique_lock<std::mutex> lock(_cvMutex);
 			_cv.wait(lock, [&]() {
 					READ_LOCK;
-					return !_packetsByTargetId.empty();
+					return !_packets.empty();
 				});
 		}
 
-		HashMap<uint64, Queue<DBServerPacketRef>> copyData;
+		Queue<DBServerPacketRef> copyData;
 		{
 			// 3. 실제 처리 전에 패킷 큐를 복사
 			// 최소한의 시간만 exclusive 락을 잡기 위함 (락 범위 최소화)
 			// 이후 복사된 데이터만으로 처리하므로 처리 중에도 Enqueue 가능
 			WRITE_LOCK;
 
-			if (_packetsByTargetId.empty())
+			if (_packets.empty())
 				continue;
 
-			std::swap(copyData, _packetsByTargetId);
+			std::swap(copyData, _packets);
 		}
 
 		// 4. 복사본 패킷 처리 (락 없음)
-		for (auto& [playerId, queue] : copyData)
-		{
-			while (queue.empty() == false)
-			{
-				
-				DBServerPacketRef pkt = queue.front();
-				queue.pop();
+		while (copyData.empty() == false) {
+			DBServerPacketRef pkt = copyData.front();
+			copyData.pop();
 
-				cout << "Thread Id : " << LThreadId << ", pkt Id : " << pkt->header.id << endl;
-				DBClientPacketHandler::HandlePacket(GameServerSession::GetInstance(), pkt);
-				//DBClientPacketHandler::HandlePacket()
-				// 처리
-				// ...
-			}
+			cout << "Thread Id : " << LThreadId << ", pkt Id : " << pkt->header.id << endl;
+			DBClientPacketHandler::HandlePacket(GameServerSession::GetInstance(), pkt);
 		}
 	}
 }
@@ -69,7 +61,7 @@ void PacketWorker::EnqueuePacket(DBServerPacketRef pkt)
 {
 	{
 		WRITE_LOCK;
-		_packetsByTargetId[pkt->header.targetId].push(pkt);
+		_packets.push(pkt);
 	}
 
 	_cv.notify_one(); // 대기 중인 스레드 깨움

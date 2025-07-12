@@ -61,6 +61,5 @@ bool Handle_C_LOAD_LOBBY_PLAYERS_INFO(PacketSessionRef& session, ServerPacketHea
 	SendBufferRef sendBuffer = DBClientPacketHandler::MakeSendBuffer(result, header.targetId, header.requestId);
 	session->Send(sendBuffer);
 
-
 	return true;
 }

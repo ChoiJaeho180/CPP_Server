@@ -1,0 +1,31 @@
+@startuml
+actor Client
+
+box "GameServer 프로세스" #LightBlue
+participant GameServer
+participant DBResponseManager
+participant CallbackStorage_N
+participant DBWorkerManager
+participant DBWorkerThread_N
+end box
+
+box "DBServer 프로세스" #LightYellow
+participant DBServer
+end box
+
+Client -> GameServer : 유저 요청 (ex. 강화 등)
+
+GameServer -> DBResponseManager : RegisterCallback(playerId, callback)
+
+note right of DBResponseManager
+playerId로 샤드된 CallbackStorage 선택
+→ requestId 발급 및 callback 등록
+end note
+DBResponseManager -> CallbackStorage_N : Add(requestId → callback)
+
+GameServer -> DBWorkerManager : 요청 위임 (pkt, playerId, requestId)
+
+DBWorkerManager -> DBWorkerThread_N : Enqueue(DBWorkItem)
+
+DBWorkerThread_N -> DBServer : 네트워크로 DB 요청 전송
+@enduml

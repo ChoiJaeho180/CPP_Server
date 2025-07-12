@@ -12,7 +12,8 @@ public:
 	void										NotifyReady();
 private:
 	USE_LOCK;
-	HashMap<uint64, Queue<DBServerPacketRef>>	_packetsByTargetId;
+	Queue<DBServerPacketRef>					_packets;
+
 	bool										_isReady = false;
 	std::condition_variable						_cv;
 	std::mutex									_cvMutex; // condition_variable Àü¿ë

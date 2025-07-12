@@ -32,8 +32,8 @@ void DBWorker::Tick(ClientServiceRef& service)
 			continue;
 		}
 
+		// todo. 하나로 Send할 수 있도록 개선 여지가 있음.
 		for (int i = 0; i < sendBuffers.size(); i++) {
-
 			DBServerSession::GetInstance()->Send(sendBuffers[i]);
 			//cout << "handle SendBuffer  shardId : " << _shardId << endl;
 		}
