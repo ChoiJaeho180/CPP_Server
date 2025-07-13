@@ -22,7 +22,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="PacketShardManager.cpp">
+    <ClCompile Include="PacketWorkerManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="PacketWorker.cpp">
@@ -52,12 +52,18 @@
     <ClCompile Include="DbTLS.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="NetWorker.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="NetWorkerManager.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PacketShardManager.h">
+    <ClInclude Include="PacketWorkerManager.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="PacketWorker.h">
@@ -78,9 +84,6 @@
     <ClInclude Include="GenProcedures.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="DBConst.h">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="DBServerPacket.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -94,6 +97,15 @@
       <Filter>Protocol</Filter>
     </ClInclude>
     <ClInclude Include="DbTLS.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="NetWorker.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConst.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="NetWorkerManager.h">
       <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>

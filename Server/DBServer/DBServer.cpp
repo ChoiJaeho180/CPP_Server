@@ -10,22 +10,15 @@
 #include "XmlParser.h"
 #include "DBSynchronizer.h"
 #include "CoreGlobal.h"
-#include "PacketShardManager.h"
+#include "PacketWorkerManager.h"
 #include "PacketWorker.h"
 #include "GameServerSession.h"
 #include "DBClientPacketHandler.h"
 #include "GenProcedures.h"
 #include "DBConst.h"
+#include "NetWorkerManager.h"
 
 #pragma comment(lib, "Ws2_32.lib")
-
-
-void DoNetworkJob(ServerServiceRef& service) {
-	while (true) {
-		// 네트워크 입 출력 처리 -> 인게임 로직 처리 (패킷 핸들러에 의해)
-		service->GetIocpCore()->Dispatch(10);
-	}
-}
 
 int main() {
 	CoreGlobal::Init();
@@ -49,14 +42,17 @@ int main() {
 		const uint16 shardIndex = i;
 		GThreadManager->Launch([shardIndex]() {
 			PacketWorkerRef worker = MakeShared<PacketWorker>();
-			PacketShardManager::GetInstance().AddPacketWorker(shardIndex, worker);
-			worker->Tick();
+			PacketWorkerManager::GetInstance().AddWorker(shardIndex, worker);
+			worker->Run();
 		});
 	}
 
-	for (int i = 0; i < DBConst::NETWORK_WORKER_COUNT; i++) {
-		GThreadManager->Launch([&dbServer]() {
-			DoNetworkJob(dbServer);
+	for (uint16 i = 0; i < DBConst::NETWORK_WORKER_COUNT; i++) {
+		const uint16 shardIndex = i;
+		GThreadManager->Launch([shardIndex, &dbServer]() {
+			NetWorkerRef worker = MakeShared<NetWorker>();
+			NetWorkerManager::GetInstance().AddWorker(shardIndex, worker);
+			worker->Run(dbServer);
 		});
 	}
 

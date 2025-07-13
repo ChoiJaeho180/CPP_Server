@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameServerSession.h"
 #include "DBClientPacketHandler.h"
-#include "PacketShardManager.h"
+#include "PacketWorkerManager.h"
 
 
 GameServerSessionRef GameServerSession::_instance = nullptr;
@@ -9,7 +9,7 @@ GameServerSessionRef GameServerSession::_instance = nullptr;
 void GameServerSession::OnConnected() {
 	GameServerSession::SetInstance(static_pointer_cast<GameServerSession>(shared_from_this()));
 
-	for (auto& worker : PacketShardManager::GetInstance().GetAllWorkers()) {
+	for (auto& worker : PacketWorkerManager::GetInstance().GetAllWorkers()) {
 		worker.second->NotifyReady();
 	}
 }
@@ -26,7 +26,7 @@ void GameServerSession::OnRecvPacket(BYTE* buffer, int32 len) {
 		return;
 	}
 	
-	PacketShardManager::GetInstance().EnqueuePacket(packet.value());
+	PacketWorkerManager::GetInstance().EnqueuePacket(packet.value());
 }
 
 void GameServerSession::OnSend(int32 len) {

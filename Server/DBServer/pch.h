@@ -15,7 +15,7 @@
 #include "DbTLS.h"
 
 using PacketWorkerRef				= shared_ptr<class PacketWorker>;
-using GameServerSessionRef			= shared_ptr<class GameServerSession>;
+
 
 #define REGISTER_DB_HANDLER(PKT_ID, TYPE, FUNC)												\
 	GDBPacketHandler[PKT_ID] = [](PacketSessionRef& session, DBServerPacketRef& pkt) {		\

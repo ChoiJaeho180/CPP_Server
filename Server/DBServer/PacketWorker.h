@@ -7,7 +7,7 @@ class PacketWorker
 public:
 	PacketWorker();
 	~PacketWorker();
-	void										Tick();
+	void										Run();
 	void										EnqueuePacket(DBServerPacketRef pkt);
 	void										NotifyReady();
 private:

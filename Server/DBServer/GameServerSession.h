@@ -1,6 +1,8 @@
 #pragma once
 #include "Session.h"
 
+using GameServerSessionRef = shared_ptr<class GameServerSession>;
+
 class GameServerSession : public PacketSession
 {
 public:
@@ -20,3 +22,4 @@ public:
 private:
 	static GameServerSessionRef _instance;
 };
+

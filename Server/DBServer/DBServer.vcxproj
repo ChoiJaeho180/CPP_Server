@@ -138,7 +138,9 @@
     <ClCompile Include="DBToProtoMapper.cpp" />
     <ClCompile Include="Enum.pb.cc" />
     <ClCompile Include="GameServerSession.cpp" />
-    <ClCompile Include="PacketShardManager.cpp" />
+    <ClCompile Include="NetWorker.cpp" />
+    <ClCompile Include="NetWorkerManager.cpp" />
+    <ClCompile Include="PacketWorkerManager.cpp" />
     <ClCompile Include="PacketWorker.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Struct.pb.cc" />
@@ -154,7 +156,9 @@
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameServerSession.h" />
     <ClInclude Include="GenProcedures.h" />
-    <ClInclude Include="PacketShardManager.h" />
+    <ClInclude Include="NetWorker.h" />
+    <ClInclude Include="NetWorkerManager.h" />
+    <ClInclude Include="PacketWorkerManager.h" />
     <ClInclude Include="PacketWorker.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Struct.pb.h" />

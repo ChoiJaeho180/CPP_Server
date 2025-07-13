@@ -6,6 +6,7 @@
 #include "DBProtocol.pb.h"
 #include "Struct.pb.h"
 #include "DBToProtoMapper.h"
+#include "NetWorkerManager.h"
 
 DBPacketHandlerFunc GDBPacketHandler[UINT16_MAX];
 PacketFactoryFunc GPacketFactory[UINT16_MAX];
@@ -59,7 +60,7 @@ bool Handle_C_LOAD_LOBBY_PLAYERS_INFO(PacketSessionRef& session, ServerPacketHea
 	}
 
 	SendBufferRef sendBuffer = DBClientPacketHandler::MakeSendBuffer(result, header.targetId, header.requestId);
-	session->Send(sendBuffer);
+	NetWorkerManager::GetInstance().EnqueuePacket(header.targetId,sendBuffer);
 
 	return true;
 }

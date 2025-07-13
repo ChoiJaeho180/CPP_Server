@@ -14,7 +14,7 @@ PacketWorker::~PacketWorker()
 	LDbConnection = nullptr;
 }
 
-void PacketWorker::Tick()
+void PacketWorker::Run()
 {
 	{
 		// 1. Session이 연결될 때 까지 대기.

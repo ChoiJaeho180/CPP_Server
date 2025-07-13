@@ -6,19 +6,19 @@ class PacketWorker;
 class SendBuffer;
 struct DBServerPacket;
 
-class PacketShardManager
+class PacketWorkerManager
 {
 public:
-	static PacketShardManager& GetInstance() {
-		static PacketShardManager instance;
+	static PacketWorkerManager& GetInstance() {
+		static PacketWorkerManager instance;
 		return instance;
 	}
 
-	PacketShardManager();
-	~PacketShardManager();
+	PacketWorkerManager();
+	~PacketWorkerManager();
 
 	void EnqueuePacket(DBServerPacketRef pkt);
-	void AddPacketWorker(int key, PacketWorkerRef worker);
+	void AddWorker(int key, PacketWorkerRef worker);
 	HashMap<uint16, PacketWorkerRef>& GetAllWorkers() { return _workers; }
 
 private:
