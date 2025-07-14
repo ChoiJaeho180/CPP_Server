@@ -29,7 +29,7 @@ public:
 	}
 	
 private:
-	// »þµå playerId % GameConst::DB_WORKER_COUNT
+	// »þµå playerId % GameConst::GAME_WORKER_COUNT
 	Vector<shared_ptr<CallbackStorage>>		_pendingCallbacks;
 
 private:

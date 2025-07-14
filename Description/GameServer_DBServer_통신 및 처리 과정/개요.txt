@@ -1,0 +1,41 @@
+개요
+GameServer에서 발생하는 DB I/O 작업을 별도의 DBServer 프로세스로 분리함으로써,
+DB I/O 병목을 제거하고 부하와 책임을 분산하여 게임서버의 실시간 응답성과 유지 보수에 용이한 구조로 설계하였습니다.
+
+
+주요 목표.
+1. GameServer와 DBServer 간 비동기 송/수신 구조 구현
+2. 샤딩 기반 구조로 락 경합 최소화 및 부하 분산
+3. 동일 player의 처리 순서 보장
+
+
+GameServer 요소
+1. DBResponseManager.h
+    -> GameServer-DBServer 간 비동기 콜백 실행 관리자
+    -> CallbackStorage, DBServer 응답 패킷을 샤드 별로 관리 및 라우팅
+2. CallbackStorage.h
+    -> DBServer 응답 시 호출자 정보 및 콜백 함수(requestId-> CallbackContext) 저장 
+3. DBWorkerManager.h
+    -> DBWorker 인스턴스를 샤드 별로 관리 
+    -> DBServer에 송신할 패킷을 DBWorker에게 라우팅
+4. DBWorker.h
+    -> DBServer에 송/수신을 담당하는 thread
+    -> 수신한 패킷을 DBResponseManager에게 전달
+5. DBServerSession.h
+    -> DBServer와 네트워크 통신 담당
+
+DBServer 요소
+1. NetWorkerManager.h
+    -> NetWorker 인스턴스를 샤드 별로 관리 
+    -> PacketWorker로부터 받은 송신할 패킷을 NetWorker에게 라우팅
+2. NetWorker.h
+    -> GameServer와 송/수신을 담당하는 thread
+    -> 수신받은 패킷을 PacketWorker에게 전달
+3. PacketWorkerManager.h
+    -> PacketWorker 인스턴스를 샤드 별로 관리 
+    -> NetWorker로부터 받은 수신 패킷을 PacketWorker에게 라우팅
+4. PacketWorker.h
+    -> DB 쿼리 실행 요청을 담당하는 thread
+    -> 완료된 쿼리를 NetWorker에게 전달
+5. GameServerSession.h
+    -> GameServer와 네트워크 통신 담당

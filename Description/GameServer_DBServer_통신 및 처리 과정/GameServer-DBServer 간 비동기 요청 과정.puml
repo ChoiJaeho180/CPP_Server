@@ -1,0 +1,94 @@
+@startuml
+actor Client
+
+box "GameServer 프로세스" #LightGray
+participant GameWorker
+participant DBResponseManager
+participant CallbackStorage
+participant DBWorkerManager
+participant DBWorker
+end box
+box "DBServer 프로세스" #LightYellow
+participant DBServer
+end box
+
+Client -> GameWorker : 유저 요청 (ex. 강화 등)
+
+GameWorker -> DBResponseManager : 콜백 등록 요청
+note right of DBResponseManager
+playerId % GAME_WORKER_COUNT 기준으로  
+샤딩된 CallbackStorage에 콜백 저장  
+end note
+DBResponseManager -> CallbackStorage : requestId 발급 및 CallbackContext 저장
+
+GameWorker -> DBWorkerManager : DBServer 송신 요청
+note right of DBWorkerManager
+playerId % DB_JOB_SHARD_COUNT 기준으로  
+샤딩된 DBWorker 선택
+end note
+DBWorkerManager -> DBWorker : Enqueue
+DBWorker -> DBServer : [Tick] 패킷 송신
+
+@enduml
+
+@startuml
+actor Client
+
+box "GameServer 프로세스" #LightGray
+participant GameWorker
+participant DBResponseManager
+participant CallbackStorage
+participant DBWorker
+end box
+box "DBServer 프로세스" #LightYellow
+participant DBServer
+end box
+
+DBServer -> DBWorker : [Tick] 패킷 수신
+note right of DBResponseManager
+playerId % GAME_WORKER_COUNT 기준으로 샤딩된
+_completedPacket에 추가
+(GameWorker와 1:1 대응되는 영역)
+end note
+DBWorker -> DBResponseManager : _completedPackets에 응답 패킷 저장
+
+GameWorker -> DBResponseManager : [Tick] 자신이 담당하는 _completedPackets 처리 
+DBResponseManager -> CallbackStorage : CallbackContext 조회 (requestId)
+DBResponseManager -> GameWorker : 콜백 Task 생성 및 TaskQueue에 등록
+GameWorker -> Client : 유저에게 결과 응답
+@enduml
+
+@startuml
+actor GameServer
+
+box "DBServer 프로세스" #LightYellow
+participant NetWorker
+participant PacketWorker
+end box
+
+database "GameDB" as DB
+
+== 요청 수신 루프 ==
+GameServer -> NetWorker : DB 요청 패킷 수신
+
+note right of NetWorker
+playerId % DB_JOB_SHARD_COUNT 기준으로  
+샤딩된 내부 큐에 등록  
+(M개의 워커 스레드가 병렬 처리)
+end note
+NetWorker -> PacketWorker : Push(DBPacket)
+
+
+== DB 처리 루프 ==
+PacketWorker -> DB : Execute Query / Update
+note right of NetWorker
+playerId % NETWORK_WORKER_COUNT 기준으로  
+샤딩된 내부 큐에 등록  
+(M개의 워커 스레드가 병렬 처리)
+end note
+PacketWorker -> NetWorker : Push(ResponsePacket)
+
+== 응답 송신 루프 ==
+NetWorker -> GameServer : Send(ResponsePacket)
+
+@enduml
