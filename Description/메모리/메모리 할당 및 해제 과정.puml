@@ -3,35 +3,35 @@ actor Client
 
 Client -> MemoryManager : Allocate(size)
 MemoryManager -> MemoryManager : allocSize = size + header
-MemoryManager -> MemoryManager : is allocSize > MAX_ALLOC_SIZE?
+MemoryManager -> MemoryManager : allocSize가 MAX_ALLOC_SIZE보다 큰가?
 
-alt Large alloc
-    MemoryManager -> OS : _aligned_malloc(allocSize, alignment)
-    OS --> MemoryManager : ptr
-else Pool alloc
-    MemoryManager -> MemoryPool : Pop()
-    MemoryPool -> SLIST : InterlockedPopEntrySList
-    alt empty
-        MemoryPool -> OS : _aligned_malloc()
-        OS --> MemoryPool : ptr
+alt 큰 할당 (Large alloc)
+    MemoryManager -> OS : _aligned_malloc 호출
+    OS --> MemoryManager : 메모리 주소 반환
+else 풀 할당 (Pool alloc)
+    MemoryManager -> MemoryPool : Pop() 호출
+    MemoryPool -> SLIST : InterlockedPopEntrySList 실행
+    alt SLIST가 비어있음
+        MemoryPool -> OS : _aligned_malloc 호출
+        OS --> MemoryPool : 새 메모리 반환
     else
-        SLIST --> MemoryPool : reused memory
+        SLIST --> MemoryPool : 재사용 메모리 반환
     end
-    MemoryPool --> MemoryManager : memory
+    MemoryPool --> MemoryManager : 메모리 반환
 end
-MemoryManager --> Client : usable memory
+MemoryManager --> Client : 사용 가능한 메모리 반환
 
-== Later ==
+== 해제 시점 ==
 
 Client -> MemoryManager : Release(ptr)
-MemoryManager -> MemoryManager : DetachHeader(ptr)
-MemoryManager -> MemoryManager : is allocSize > MAX_ALLOC_SIZE?
+MemoryManager -> MemoryManager : 헤더 분리 (DetachHeader)
+MemoryManager -> MemoryManager : allocSize가 MAX_ALLOC_SIZE보다 큰가?
 
-alt Large free
-    MemoryManager -> OS : _aligned_free(header)
-else Pool free
+alt 큰 메모리 해제
+    MemoryManager -> OS : _aligned_free 호출
+else 풀 메모리 해제
     MemoryManager -> MemoryPool : Push(header)
-    MemoryPool -> SLIST : InterlockedPushEntrySList
+    MemoryPool -> SLIST : InterlockedPushEntrySList 실행
 end
 
 @enduml
