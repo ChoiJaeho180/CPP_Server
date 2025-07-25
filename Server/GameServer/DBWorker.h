@@ -9,7 +9,7 @@ public:
 
 public:
 	void						AddTask(SendBufferRef task);
-	void						Tick(ClientServiceRef& service);
+	void						Run(ClientServiceRef& service);
 private:
 	int							_shardId;
 	LockQueue<SendBufferRef>	_tasks;

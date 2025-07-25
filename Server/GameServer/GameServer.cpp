@@ -96,11 +96,11 @@ int main()
 	ASSERT_CRASH(dbClient->Start());
 
 	for (int i = 0; i < GameConst::DB_WORKER_COUNT; i++) {
-		GThreadManager->Launch([=, &dbClient]() {
-			DBWorkerRef worker = MakeShared<DBWorker>(i);
-			DBWorkerManager::GetInstance().AddWorker(i, worker);
+		DBWorkerRef worker = MakeShared<DBWorker>(i);
+		DBWorkerManager::GetInstance().AddWorker(i, worker);
 
-			worker->Tick(dbClient);
+		GThreadManager->Launch([worker, &dbClient]() {
+			worker->Run(dbClient);
 		});
 	}
 	

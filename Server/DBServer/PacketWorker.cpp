@@ -5,13 +5,17 @@
 
 PacketWorker::PacketWorker()
 {
-	LDbConnection = GDBConnectionPool->Pop();
+	
 }
 
 PacketWorker::~PacketWorker()
 {
 	GDBConnectionPool->Push(LDbConnection);
 	LDbConnection = nullptr;
+}
+
+void PacketWorker::Init() {
+	LDbConnection = GDBConnectionPool->Pop();
 }
 
 void PacketWorker::Run()

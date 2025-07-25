@@ -11,7 +11,7 @@ DBWorkerManager::~DBWorkerManager()
 	_workers.clear();
 }
 
-void DBWorkerManager::AddWorker(const uint64 shardId, DBWorkerRef& worker)
+void DBWorkerManager::AddWorker(const uint64 shardId, DBWorkerRef worker)
 {
 	_workers[shardId] = worker;
 }
@@ -19,6 +19,9 @@ void DBWorkerManager::AddWorker(const uint64 shardId, DBWorkerRef& worker)
 void DBWorkerManager::AddDBTask(const uint64 id, SendBufferRef sendBuffer)
 {
 	const int shardId = GetShardId(id);
+
+	cout << "DBWorkerManager::AddDbTask id : " << id << ", shardId : " << shardId << endl;
+
 	_workers[shardId]->AddTask(sendBuffer);
 }
 

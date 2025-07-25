@@ -11,7 +11,7 @@ public:
 		static DBWorkerManager instance;
 		return instance;
 	}
-	void									AddWorker(const uint64 shardId, DBWorkerRef& worker);
+	void									AddWorker(const uint64 shardId, DBWorkerRef worker);
 	void									AddDBTask(const uint64 id, SendBufferRef sendBuffer);
 
 	int										GetShardId(const uint64 id);

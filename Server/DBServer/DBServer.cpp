@@ -39,19 +39,20 @@ int main() {
 	GDBConnectionPool->Push(dbConn);
 
 	for (uint16 i = 0; i < DBConst::DB_WORKER_COUNT; i++) {
-		const uint16 shardIndex = i;
-		GThreadManager->Launch([shardIndex]() {
-			PacketWorkerRef worker = MakeShared<PacketWorker>();
-			PacketWorkerManager::GetInstance().AddWorker(shardIndex, worker);
+		PacketWorkerRef worker = MakeShared<PacketWorker>();
+		PacketWorkerManager::GetInstance().AddWorker(i, worker);
+
+		GThreadManager->Launch([worker]() {
+			worker->Init();
 			worker->Run();
 		});
 	}
 
 	for (uint16 i = 0; i < DBConst::NETWORK_WORKER_COUNT; i++) {
-		const uint16 shardIndex = i;
-		GThreadManager->Launch([shardIndex, &dbServer]() {
-			NetWorkerRef worker = MakeShared<NetWorker>();
-			NetWorkerManager::GetInstance().AddWorker(shardIndex, worker);
+		NetWorkerRef worker = MakeShared<NetWorker>();
+		NetWorkerManager::GetInstance().AddWorker(i, worker);
+
+		GThreadManager->Launch([&dbServer,worker]() {
 			worker->Run(dbServer);
 		});
 	}

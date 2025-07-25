@@ -19,7 +19,7 @@ void NetWorkerManager::AddWorker(int key, NetWorkerRef worker)
 void NetWorkerManager::EnqueuePacket(const uint64 targetId, SendBufferRef pkt)
 {
 	const uint16 shardId = targetId % DBConst::NETWORK_WORKER_COUNT;
-	cout << "EnqueuePacket shardId : " << shardId << ", " << "targetId : " << targetId << endl;
+	cout << "NetWorkerManager::EnqueuePacket : " << shardId << ", " << "targetId : " << targetId << endl;
 	_workers[shardId]->EnqueuePacket(pkt);
 }
 
